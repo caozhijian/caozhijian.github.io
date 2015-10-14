@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ruby环境搭建 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="欢迎来到Linux的世界
+概述来到公司的第一天，就接到领导指示，让我按照公司内网中的资料搭建Ruby与redmine环境，虽然参考文档写的很详尽，但是在搭建过程中仍然出现了好多莫名其妙的报错信息，整个环境大概搭建了4天左右，搭建成功那一刻的心情是十分美妙的，后来回想整个过程，发现主要是软件版本没有选择正确，下面将重现整个环境的搭建过程。
+## 安装RVM环境 ##
+ 1. 安装依赖包
+1yum -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby环境搭建">
+<meta property="og:url" content="http://yoursite.com/2015/08/08/Ruby环境搭建/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="欢迎来到Linux的世界
+概述来到公司的第一天，就接到领导指示，让我按照公司内网中的资料搭建Ruby与redmine环境，虽然参考文档写的很详尽，但是在搭建过程中仍然出现了好多莫名其妙的报错信息，整个环境大概搭建了4天左右，搭建成功那一刻的心情是十分美妙的，后来回想整个过程，发现主要是软件版本没有选择正确，下面将重现整个环境的搭建过程。
+## 安装RVM环境 ##
+ 1. 安装依赖包
+1yum -">
+<meta property="og:image" content="http://s3.51cto.com/wyfs02/M02/6F/90/wKioL1WgwHnxRx04AAHsGmtJw0E449.jpg">
+<meta property="og:updated_time" content="2015-10-14T06:23:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ruby环境搭建">
+<meta name="twitter:description" content="欢迎来到Linux的世界
+概述来到公司的第一天，就接到领导指示，让我按照公司内网中的资料搭建Ruby与redmine环境，虽然参考文档写的很详尽，但是在搭建过程中仍然出现了好多莫名其妙的报错信息，整个环境大概搭建了4天左右，搭建成功那一刻的心情是十分美妙的，后来回想整个过程，发现主要是软件版本没有选择正确，下面将重现整个环境的搭建过程。
+## 安装RVM环境 ##
+ 1. 安装依赖包
+1yum -">
+  
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Ruby环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/08/Ruby环境搭建/" class="article-date">
+  <time datetime="2015-08-07T18:53:43.000Z" itemprop="datePublished">2015-08-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ruby环境搭建
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>欢迎来到Linux的世界<br><img src="http://s3.51cto.com/wyfs02/M02/6F/90/wKioL1WgwHnxRx04AAHsGmtJw0E449.jpg" alt="test"></p>
+<h2 id="概述">概述</h2><p>来到公司的第一天，就接到领导指示，让我按照公司内网中的资料搭建Ruby与redmine环境，虽然参考文档写的很详尽，但是在搭建过程中仍然出现了好多莫名其妙的报错信息，整个环境大概搭建了4天左右，搭建成功那一刻的心情是十分美妙的，后来回想整个过程，发现主要是软件版本没有选择正确，下面将重现整个环境的搭建过程。</p>
+<pre><code><span class="preprocessor">## 安装RVM环境 ##</span>
+</code></pre><p> <strong>1. 安装依赖包</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="operator"><span class="keyword">install</span> zlib-devel openssl-devel perl cpio expat-devel gettext-devel curl git readline-devel gcc gcc-<span class="keyword">c</span>++</span></span><br></pre></td></tr></table></figure>
+<p> <strong>2. 查看/etc/ld.so.conf</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="regexp">/usr/</span>local<span class="regexp">/lib &gt;&gt; /</span>etc/ld.so.conf</span><br><span class="line"><span class="regexp">/sbin/</span>ldconfig    &lt;-----为git-http-push做准备</span><br></pre></td></tr></table></figure>
+<p> <strong>3.安装RVM环境配置</strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\curl -sSL http<span class="variable">s:</span>//<span class="built_in">get</span>.rvm.io | bash</span><br><span class="line"><span class="keyword">source</span> /etc/<span class="keyword">profile</span>.<span class="keyword">d</span>/rvm.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p> <strong>4.测试RVM环境</strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">useradd <span class="keyword">abc</span></span><br><span class="line">passwd <span class="keyword">abc</span></span><br><span class="line">su - <span class="keyword">abc</span></span><br><span class="line"><span class="built_in">type</span> rvm | head -n1</span><br><span class="line">rvm <span class="keyword">is</span> <span class="keyword">a</span> <span class="function"><span class="keyword">function</span>      &lt;- 显示此信息表示正确</span></span><br></pre></td></tr></table></figure>
+<p>至此RVM环境搭建成功</p>
+<h2 id="安装RedMine环境">安装RedMine环境</h2><p><strong>1.下载安装Ruby1.8.7</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget ftp:<span class="comment">//ftp.ruby-lang.org//pub/ruby/1.8/ruby-1.8.7.tar.gz</span></span><br><span class="line">tar zxvf ruby-<span class="number">1.8</span><span class="number">.7</span>.tar.gz</span><br><span class="line">cd ruby-<span class="number">1.8</span><span class="number">.7</span></span><br><span class="line">./configure --prefix=/usr/local/ruby</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p><strong>2.配置全局变量</strong> </p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="string">"export PATH=/usr/local/ruby/bin:/$PATH"</span> &gt;&gt; /etc/<span class="keyword">profile</span></span><br><span class="line">ource /etc/<span class="keyword">profile</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/08/Ruby环境搭建/" data-id="cifqewxyn0003fk9yyvjmrhkn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/09/05/Ruby环境搭建/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/10/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/05/Ruby环境搭建/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/08/Ruby环境搭建/">Ruby环境搭建</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
