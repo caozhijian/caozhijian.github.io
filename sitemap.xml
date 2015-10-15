@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://freeandyblogs.com/about/index.html</loc>
+    <lastmod>2015-10-15T03:27:45.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://freeandyblogs.com/tags/index.html</loc>
     <lastmod>2015-10-15T01:43:49.000Z</lastmod>
   </url>
@@ -24,11 +29,6 @@
   <url>
     <loc>http://freeandyblogs.com/2015/10/13/hello-world/</loc>
     <lastmod>2015-10-13T09:56:18.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://freeandyblogs.com/about/index.html</loc>
-    <lastmod>2015-08-07T19:03:12.000Z</lastmod>
   </url>
   
 </urlset>
