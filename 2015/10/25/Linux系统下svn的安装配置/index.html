@@ -28,7 +28,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="Linux,svn," />
 
 
 
@@ -37,15 +37,19 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="曹芷健的技术博客">
-<meta property="og:url" content="http://freeandyblogs.com/index.html">
+<meta name="description" content="简介svn是一个跨平台的版本控制系统，它管理着随时间改变的各种数据，这些数据都是保存在中央资料档案库中的；svn会备份并记录每个文件的修改更新变动，这样就可以很方便地将文件恢复到任一时间点的版本。
+安装配置Svn服务准备操作系统并查看系统环境123456➜  ~  cat /etc/redhat-release CentOS release 5.10 (Final)➜  ~  uname -mx8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系统下svn的安装配置">
+<meta property="og:url" content="http://freeandyblogs.com/2015/10/25/Linux系统下svn的安装配置/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
-<meta property="og:description">
+<meta property="og:description" content="简介svn是一个跨平台的版本控制系统，它管理着随时间改变的各种数据，这些数据都是保存在中央资料档案库中的；svn会备份并记录每个文件的修改更新变动，这样就可以很方便地将文件恢复到任一时间点的版本。
+安装配置Svn服务准备操作系统并查看系统环境123456➜  ~  cat /etc/redhat-release CentOS release 5.10 (Final)➜  ~  uname -mx8">
+<meta property="og:updated_time" content="2015-10-25T05:37:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="曹芷健的技术博客">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Linux系统下svn的安装配置">
+<meta name="twitter:description" content="简介svn是一个跨平台的版本控制系统，它管理着随时间改变的各种数据，这些数据都是保存在中央资料档案库中的；svn会备份并记录每个文件的修改更新变动，这样就可以很方便地将文件恢复到任一时间点的版本。
+安装配置Svn服务准备操作系统并查看系统环境123456➜  ~  cat /etc/redhat-release CentOS release 5.10 (Final)➜  ~  uname -mx8">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -55,7 +59,7 @@
   };
 </script>
 
-  <title> 曹芷健的技术博客 </title>
+  <title> Linux系统下svn的安装配置 | 曹芷健的技术博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -83,9 +87,7 @@
 
 
 
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -198,9 +200,9 @@
     <main id="main" class="main">
       <div class="main-inner">
         <div id="content" class="content"> 
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
@@ -211,9 +213,7 @@
           
           
             
-              <a class="post-title-link" href="/2015/10/25/Linux系统下svn的安装配置/" itemprop="url">
-                Linux系统下svn的安装配置
-              </a>
+              Linux系统下svn的安装配置
             
           
         </h1>
@@ -256,6 +256,10 @@
         
 
     
+    <span>&nbsp; | &nbsp;
+    <span id="busuanzi_value_page_pv" ></span>次阅读
+    </span>    
+    
       </div>
     </header>
 
@@ -265,8 +269,7 @@
       
 
       
-        
-          <span itemprop="articleBody"><h1 id="简介">简介</h1><p>svn是一个跨平台的版本控制系统，它管理着随时间改变的各种数据，这些数据都是保存在中央资料档案库中的；svn会备份并记录每个文件的修改更新变动，这样就可以很方便地将文件恢复到任一时间点的版本。</p>
+        <span itemprop="articleBody"><h1 id="简介">简介</h1><p>svn是一个跨平台的版本控制系统，它管理着随时间改变的各种数据，这些数据都是保存在中央资料档案库中的；svn会备份并记录每个文件的修改更新变动，这样就可以很方便地将文件恢复到任一时间点的版本。</p>
 <h1 id="安装配置Svn服务">安装配置Svn服务</h1><h2 id="准备操作系统并查看系统环境">准备操作系统并查看系统环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">5.10</span> (Final)</span><br><span class="line">➜  ~  uname -m</span><br><span class="line">x86_64</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span>.<span class="number">18</span>-<span class="number">371.11</span>.<span class="number">1</span>.el5</span><br></pre></td></tr></table></figure>
 <h2 id="安装svn">安装svn</h2><h3 id="首先检查svn是否已安装：">首先检查svn是否已安装：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  rpm -qa subversion</span><br><span class="line">subversion-<span class="number">1.6</span>.<span class="number">11</span>-<span class="number">12</span>.el5_10</span><br><span class="line">subversion-<span class="number">1.6</span>.<span class="number">11</span>-<span class="number">12</span>.el5_10</span><br></pre></td></tr></table></figure>
 <h3 id="若未安装则执行以下命令：">若未安装则执行以下命令：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  yum -y install subversion</span><br></pre></td></tr></table></figure>
@@ -294,118 +297,58 @@
 <p>格式说明：<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[groups]</span><br><span class="line"><span class="comment"># harry_and_sally = harry,sally</span></span><br><span class="line"><span class="comment"># harry_sally_and_joe = harry,sally,&amp;joe</span></span><br><span class="line"></span><br><span class="line">一个用户组可以包含一个或多个用户，用户间以逗号分隔。</span><br><span class="line"></span><br><span class="line"><span class="comment"># [repository:/baz/fuz]</span></span><br><span class="line"><span class="comment"># @harry_and_sally = rw</span></span><br><span class="line"><span class="comment"># * = r</span></span><br><span class="line">[sadoc:/]</span><br><span class="line">andy = rw</span><br><span class="line"></span><br><span class="line">[<span class="variable">&lt;版本库&gt;</span>：/项目/目录]</span><br><span class="line"><span class="comment">@&lt;用户组名&gt;=&lt;权限&gt;</span></span><br><span class="line"><span class="variable">&lt;用户名&gt;</span>=<span class="variable">&lt;权限&gt;</span></span><br><span class="line">其中方框内部可以有多种写法：</span><br><span class="line">[/]表示根目录及以下，根目录是svnserve启动时指定的，我们指定为/application/svndata，[/]就是表示对全部版本库设置权限</span><br><span class="line">[repos:/]表示对版本库repos设置权限</span><br><span class="line">[repos:/sadoc]表示对版本库repos中的sadoc项目设置权限</span><br><span class="line">[repos:/sadoc/andy]表示对版本库repos中的sadoc项目的andy目录设置权限</span><br><span class="line">权限主体可以是用户组、用户或<span class="keyword">*</span>，用户组在前面加<span class="comment">@，*表示全部用户</span></span><br><span class="line">权限可以是w、r、wr和空，空表示无任何权限</span><br><span class="line">authz中每个参数都要顶格写，开头不能有空格</span><br></pre></td></tr></table></figure></p>
 <h4 id="重启svn">重启svn</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  svnpasswd  pkill svnserve</span><br><span class="line">➜  svnpasswd  svnserve <span class="operator">-d</span> -r /application/svndata</span><br></pre></td></tr></table></figure>
 </span>
-        
       
     </div>
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/svn/" rel="tag">#svn</a>
+          
+        </div>
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/25/Linux系统文件删除原理/" rel="next">Linux系统文件删除原理</a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </article>
 
 
-    
-      
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/25/Linux系统文件删除原理/" itemprop="url">
-                Linux系统文件删除原理
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-25T12:29:36+08:00" content="2015-10-25">
-            2015-10-25
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/10/25/Linux系统文件删除原理/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/25/Linux系统文件删除原理/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-
-    
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>原理如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/del01.png" alt="文件删除原理"></p>
-<p>Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。<br>i_link是文件的硬链接数（磁盘引用计数器）<br>i_count是文件被进程调用数（内存引用计数）<br>只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。</p>
-</span>
-        
+    <div class="post-spread">
       
     </div>
+  </div>
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
  </div>
 
         
 
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/10/25/Linux系统下svn的安装配置/"
+                   data-title="Linux系统下svn的安装配置" data-url="http://freeandyblogs.com/2015/10/25/Linux系统下svn的安装配置/">
+              </div>
+            
+          </div>
         
       </div>
 
@@ -422,6 +365,15 @@
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <section class="site-overview">
@@ -489,6 +441,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装配置Svn服务"><span class="nav-number">2.</span> <span class="nav-text">安装配置Svn服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备操作系统并查看系统环境"><span class="nav-number">2.1.</span> <span class="nav-text">准备操作系统并查看系统环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装svn"><span class="nav-number">2.2.</span> <span class="nav-text">安装svn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先检查svn是否已安装："><span class="nav-number">2.2.1.</span> <span class="nav-text">首先检查svn是否已安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#若未安装则执行以下命令："><span class="nav-number">2.2.2.</span> <span class="nav-text">若未安装则执行以下命令：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置并启动svn"><span class="nav-number">2.3.</span> <span class="nav-text">配置并启动svn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立svn数据存储根目录（svndata）及用户、密码、权限目录（svnpasswd）"><span class="nav-number">2.3.1.</span> <span class="nav-text">建立svn数据存储根目录（svndata）及用户、密码、权限目录（svnpasswd）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动svn"><span class="nav-number">2.3.2.</span> <span class="nav-text">启动svn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看svn是否启动"><span class="nav-number">2.3.3.</span> <span class="nav-text">查看svn是否启动</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#svn相关操作"><span class="nav-number">3.</span> <span class="nav-text">svn相关操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立项目版本库"><span class="nav-number">3.1.</span> <span class="nav-text">建立项目版本库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调整svn配置文件及权限文件"><span class="nav-number">3.2.</span> <span class="nav-text">调整svn配置文件及权限文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置允许用户andy读写访问"><span class="nav-number">3.2.1.</span> <span class="nav-text">配置允许用户andy读写访问</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改如下内容："><span class="nav-number">3.2.1.1.</span> <span class="nav-text">修改如下内容：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看修改的内容："><span class="nav-number">3.2.1.2.</span> <span class="nav-text">查看修改的内容：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将密码认证文件模板拷贝到svnpasswd目录下"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">将密码认证文件模板拷贝到svnpasswd目录下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改文件权限："><span class="nav-number">3.2.1.4.</span> <span class="nav-text">修改文件权限：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编辑配置passwd文件,在[users]下添加相关信息："><span class="nav-number">3.2.1.5.</span> <span class="nav-text">编辑配置passwd文件,在[users]下添加相关信息：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编辑配置authz文件,在[groups]下添加相关信息："><span class="nav-number">3.2.1.6.</span> <span class="nav-text">编辑配置authz文件,在[groups]下添加相关信息：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重启svn"><span class="nav-number">3.2.1.7.</span> <span class="nav-text">重启svn</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
       
 
     </div>
@@ -581,6 +544,165 @@
   <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
   
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
 
   <script type="text/javascript">
     $(document).ready(function () {
