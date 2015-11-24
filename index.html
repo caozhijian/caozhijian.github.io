@@ -211,106 +211,6 @@
           
           
             
-              <a class="post-title-link" href="/2015/11/24/Centos下安装nginx/" itemprop="url">
-                Centos下安装nginx
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-11-24T17:31:52+08:00" content="2015-11-24">
-            2015-11-24
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/11/24/Centos下安装nginx/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/24/Centos下安装nginx/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-
-    
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>查看系统相关信息<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">6.7</span> (Final)</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span><span class="number">.32</span>-<span class="number">573.7</span><span class="number">.1</span>.el6.x86_64</span><br></pre></td></tr></table></figure></p>
-<p>安装pcre<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line">➜  ~  <span class="tag">yum</span> <span class="tag">-y</span> <span class="tag">install</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"></span><br><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span>     </span><br><span class="line"><span class="tag">pcre-devel-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br></pre></td></tr></table></figure></p>
-<p>安装openssl<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  yum -y <span class="keyword">install</span> openssl-devel</span><br></pre></td></tr></table></figure></p>
-<p>安装nginx<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  useradd nginx -s /sbin/nologin -M</span><br><span class="line">➜  ~  id nginx</span><br><span class="line">uid=<span class="number">501</span>(nginx) gid=<span class="number">501</span>(nginx) groups=<span class="number">501</span>(nginx)</span><br><span class="line"></span><br><span class="line">➜  ~  mkdir -pv /home/andy/tools</span><br><span class="line">➜  ~  cd /home/andy/tools </span><br><span class="line">➜  tools  wget -q http:<span class="comment">//nginx.org/download/nginx-1.6.3.tar.gz</span></span><br><span class="line">➜  tools  tar xf nginx-<span class="number">1.6</span><span class="number">.3</span>.tar.gz</span><br><span class="line">➜  tools  cd nginx-<span class="number">1.6</span><span class="number">.3</span>/</span><br><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  ./configure --prefix=/application/nginx-<span class="number">1.6</span><span class="number">.3</span> --user=nginx --group=nginx --with-http_ssl_module --with-http_stub_status_module </span><br><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
-<p>在执行./configure时出现错误<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">checking for OS</span><br><span class="line"> + Linux 2.6.32-573.7.1.el6.x86_64 x86_64</span><br><span class="line">checking for C compiler ... not found</span><br><span class="line"></span><br><span class="line">./configure: error: C compiler cc <span class="keyword">is</span> not found</span><br></pre></td></tr></table></figure></p>
-<p>安装开发组件后问题解决<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  yum -y groupinstall <span class="string">"Development tools"</span></span><br></pre></td></tr></table></figure></p>
-<p>创建软链接<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  cd ..</span><br><span class="line">➜  tools  ln -s /application/nginx-<span class="number">1.6</span><span class="number">.3</span> /application/nginx</span><br></pre></td></tr></table></figure></p>
-<p>启动nginx<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  /application/nginx/sbin/nginx</span><br><span class="line"></span><br><span class="line">➜  tools  ps -ef|grep nginx|grep -v grep</span><br><span class="line">root      <span class="number">1320</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">08</span>:<span class="number">43</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> nginx: master process /application/nginx/sbin/nginx</span><br><span class="line">nginx     <span class="number">1323</span>  <span class="number">1320</span>  <span class="number">0</span> <span class="number">08</span>:<span class="number">43</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> nginx: worker process   </span><br><span class="line"></span><br><span class="line">➜  tools  ss -lntup|grep nginx</span><br><span class="line">tcp    LISTEN     <span class="number">0</span>      <span class="number">128</span>                    *:<span class="number">80</span>                    *:*      users:((<span class="string">"nginx"</span>,<span class="number">1320</span>,<span class="number">6</span>),(<span class="string">"nginx"</span>,<span class="number">1323</span>,<span class="number">6</span>))</span><br></pre></td></tr></table></figure></p>
-<p>检查是否能够正常访问<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  curl 127.0.0.1</span><br><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">title</span>&gt;</span>Welcome to nginx!<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css"></span><br><span class="line">    <span class="tag">body</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">35em</span></span></span>;</span><br><span class="line">        <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">0</span> auto</span></span>;</span><br><span class="line">        <span class="rule"><span class="attribute">font-family</span>:<span class="value"> Tahoma, Verdana, Arial, sans-serif</span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line"></span><span class="tag">&lt;/<span class="title">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">h1</span>&gt;</span>Welcome to nginx!<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">p</span>&gt;</span>If you see this page, the nginx web server is successfully installed and</span><br><span class="line">working. Further configuration is required.<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">p</span>&gt;</span>For online documentation and support please refer to</span><br><span class="line"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://nginx.org/"</span>&gt;</span>nginx.org<span class="tag">&lt;/<span class="title">a</span>&gt;</span>.<span class="tag">&lt;<span class="title">br</span>/&gt;</span></span><br><span class="line">Commercial support is available at</span><br><span class="line"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://nginx.com/"</span>&gt;</span>nginx.com<span class="tag">&lt;/<span class="title">a</span>&gt;</span>.<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">em</span>&gt;</span>Thank you for using nginx.<span class="tag">&lt;/<span class="title">em</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>尝试使用浏览器访问，我这里使用的是AWS，需要做一些配置才可以正常访问</p>
-<ol>
-<li>选择实例，进入它的安全组<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/AWS1.png" alt="AWS1"></li>
-<li>选择入站，按照图示添加相应规则<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/AWS2.png" alt="AWS2"></li>
-<li>再次访问页面，可以正常显示<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/nginx.png" alt="nginx"></li>
-</ol>
-</span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2015/10/25/Linux系统下svn的安装/" itemprop="url">
                 Linux系统下svn的安装
               </a>
@@ -533,7 +433,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -547,7 +447,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
