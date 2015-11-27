@@ -28,7 +28,7 @@
 
 
 
-  <meta name="keywords" content="Linux,文件删除," />
+  <meta name="keywords" content="Linux,nginx," />
 
 
 
@@ -37,20 +37,28 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
+<meta name="description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程
+搭建基于域名的虚拟机主机1234➜  conf  pwd/application/nginx/conf➜  conf  egrep -v &quot;#|^$&quot; nginx.conf.default &amp;gt; nginx.conf➜">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux系统文件删除原理">
-<meta property="og:url" content="http://freeandyblogs.com/2015/10/25/Linux系统文件删除原理/index.html">
+<meta property="og:title" content="nginx中虚拟主机的配置">
+<meta property="og:url" content="http://freeandyblogs.com/2015/11/27/nginx中虚拟主机的配置/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
-<meta property="og:description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
-<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/del01.png">
-<meta property="og:updated_time" content="2015-10-25T05:16:37.000Z">
+<meta property="og:description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程
+搭建基于域名的虚拟机主机1234➜  conf  pwd/application/nginx/conf➜  conf  egrep -v &quot;#|^$&quot; nginx.conf.default &amp;gt; nginx.conf➜">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx11.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/win1.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/win2.jpg">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/win3.jpg">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/win4.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/www.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/bbs.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx12.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx13.png">
+<meta property="og:updated_time" content="2015-11-27T09:32:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux系统文件删除原理">
-<meta name="twitter:description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
+<meta name="twitter:title" content="nginx中虚拟主机的配置">
+<meta name="twitter:description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程
+搭建基于域名的虚拟机主机1234➜  conf  pwd/application/nginx/conf➜  conf  egrep -v &quot;#|^$&quot; nginx.conf.default &amp;gt; nginx.conf➜">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -60,7 +68,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
   };
 </script>
 
-  <title> Linux系统文件删除原理 | 曹芷健的技术博客 </title>
+  <title> nginx中虚拟主机的配置 | 曹芷健的技术博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +222,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           
           
             
-              Linux系统文件删除原理
+              nginx中虚拟主机的配置
             
           
         </h1>
@@ -223,8 +231,8 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-10-25T12:29:36+08:00" content="2015-10-25">
-            2015-10-25
+          <time itemprop="dateCreated" datetime="2015-11-27T17:26:58+08:00" content="2015-11-27">
+            2015-11-27
           </time>
         </span>
 
@@ -249,8 +257,8 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/10/25/Linux系统文件删除原理/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/25/Linux系统文件删除原理/" itemprop="commentsCount"></span>
+              <a href="/2015/11/27/nginx中虚拟主机的配置/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/27/nginx中虚拟主机的配置/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -270,8 +278,23 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
       
 
       
-        <span itemprop="articleBody"><p>原理如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/del01.png" alt="文件删除原理"></p>
-<p>Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。<br>i_link是文件的硬链接数（磁盘引用计数器）<br>i_count是文件被进程调用数（内存引用计数）<br>只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。</p>
+        <span itemprop="articleBody"><p>在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程</p>
+<h2 id="搭建基于域名的虚拟机主机">搭建基于域名的虚拟机主机</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">pwd</span></span><br><span class="line">/application/nginx/<span class="keyword">conf</span></span><br><span class="line">➜  <span class="keyword">conf</span>  egrep -<span class="keyword">v</span> <span class="string">"#|^$"</span> nginx.<span class="keyword">conf</span>.default &gt; nginx.<span class="keyword">conf</span></span><br><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">vim</span> nginx.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+<p>修改后内容如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/nginx11.png" alt=""></p>
+<p>创建站点目录及页面文件<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">mkdir</span> -p ../html/&#123;www,bbs&#125;</span><br><span class="line">➜  <span class="keyword">conf</span>  tree ../html</span><br><span class="line">../html</span><br><span class="line">├── 50x.html</span><br><span class="line">├── bbs</span><br><span class="line">├── index.html</span><br><span class="line">└── www</span><br><span class="line">➜  <span class="keyword">conf</span>  echo "www.magedu.org &gt; ../html/www/index.html</span><br><span class="line">➜  <span class="keyword">conf</span>  echo <span class="string">"bbs.magedu.org"</span> &gt; ../html/bbs/index.html</span><br><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">cat</span> ../html/&#123;www,bbs&#125;/index.html      </span><br><span class="line">www.magedu.com</span><br><span class="line">bbs.magedu.com</span><br></pre></td></tr></table></figure></p>
+<p>重启nginx，使配置生效：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  <span class="regexp">/application/</span>nginx<span class="regexp">/sbin/</span>nginx -t    --&gt;检查语法</span><br><span class="line">nginx: the configuration <span class="keyword">file</span> <span class="regexp">/application/</span>nginx-<span class="number">1.6</span>.<span class="number">3</span><span class="regexp">/conf/</span>nginx.conf syntax is ok</span><br><span class="line">nginx: configuration <span class="keyword">file</span> <span class="regexp">/application/</span>nginx-<span class="number">1.6</span>.<span class="number">3</span><span class="regexp">/conf/</span>nginx.conf test is successful</span><br><span class="line">➜  conf  <span class="regexp">/application/</span>nginx<span class="regexp">/sbin/</span>nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<p>编辑host文件<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  cat /etc/hosts</span><br><span class="line"><span class="number">127.0</span>.<span class="number">0.1</span>   localhost localhost<span class="class">.localdomain</span> localhost4 localhost4<span class="class">.localdomain4</span></span><br><span class="line">::<span class="number">1</span>         localhost localhost<span class="class">.localdomain</span> localhost6 localhost6<span class="class">.localdomain6</span></span><br><span class="line"><span class="number">54.186</span>.<span class="number">180.32</span> www<span class="class">.magedu</span><span class="class">.org</span> bbs<span class="class">.magedu</span><span class="class">.org</span></span><br></pre></td></tr></table></figure></p>
+<p>尝试访问站点<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  curl www<span class="class">.magedu</span><span class="class">.com</span></span><br><span class="line">www<span class="class">.magedu</span><span class="class">.org</span></span><br><span class="line">➜  conf  curl bbs<span class="class">.magedu</span><span class="class">.com</span></span><br><span class="line">bbs<span class="class">.magedu</span><span class="class">.org</span></span><br></pre></td></tr></table></figure></p>
+<p>成功</p>
+<p>在windows上修改host文件，如下图所示<br>使用快捷键调出运行命令窗口<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/win1.png" alt=""><br>在弹出窗口中找到etc文件夹<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/win2.jpg" alt=""><br>找到host文件<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/win3.jpg" alt=""><br>编辑host文件，保存退出<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/win4.png" alt=""></p>
+<p>使用浏览器访问站点，测试可以成功显示页面，如下图<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/www.png" alt=""><br><img src="http://7xnir6.com1.z0.glb.clouddn.com/bbs.png" alt=""></p>
+<h2 id="搭建基于端口的虚拟机主机">搭建基于端口的虚拟机主机</h2><p>基于端口的虚拟主机在生产环境中并不多见，但偶尔也会用到，一般是为公司内部人员提供访问的，如OA系统，网站程序的后台、 CMS发布后台、MySql的Web客户端PHPmyadmin等，使用特殊端口是从安全上考虑的。相关配置过程如下<br>修改监听端口<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">cp</span> nginx.<span class="keyword">conf</span> nginx.<span class="keyword">conf</span>.base_name</span><br><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">cat</span> nginx.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/nginx12.png" alt=""></p>
+<p>重启nginx<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  ../sbin/nginx -t</span><br><span class="line">nginx: the configuration file /application/nginx-<span class="number">1.6</span><span class="number">.3</span>/conf/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /application/nginx-<span class="number">1.6</span><span class="number">.3</span>/conf/nginx.conf test is successful</span><br><span class="line">➜  conf  ../sbin/nginx -s reload</span><br><span class="line"></span><br><span class="line">➜  conf  netstat -lntup|grep nginx</span><br><span class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8001</span>                <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:*                   LISTEN      <span class="number">1320</span>/nginx          </span><br><span class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8002</span>                <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:*                   LISTEN      <span class="number">1320</span>/nginx          </span><br><span class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8003</span>                <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:*                   LISTEN      <span class="number">1320</span>/nginx</span><br></pre></td></tr></table></figure></p>
+<p>验证：<br>在使用crul命令验证时，第一次没有成功，按照上一篇博文中的方法在EC2的控制台中新增‘所有TCP规则’即可。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  curl www<span class="class">.magedu</span><span class="class">.org</span>:<span class="number">8001</span> </span><br><span class="line">www<span class="class">.magedu</span><span class="class">.org</span></span><br><span class="line">➜  conf  curl www<span class="class">.magedu</span><span class="class">.org</span>:<span class="number">8001</span></span><br><span class="line">www<span class="class">.magedu</span><span class="class">.org</span></span><br><span class="line">➜  conf  curl bbs<span class="class">.magedu</span><span class="class">.org</span>:<span class="number">8002</span></span><br><span class="line">bbs<span class="class">.magedu</span><span class="class">.org</span></span><br><span class="line">➜  conf  curl blog<span class="class">.magedu</span><span class="class">.org</span>:<span class="number">8003</span></span><br><span class="line">blog<span class="class">.magedu</span><span class="class">.org</span></span><br></pre></td></tr></table></figure></p>
+<p>下面将域名都改为www.magedu.org,再次测试,可以成功显示<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">cat</span> nginx.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/nginx13.png" alt=""><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  <span class="regexp">/application/</span>nginx<span class="regexp">/sbin/</span>nginx -t</span><br><span class="line"><span class="string">nginx:</span> the configuration file <span class="regexp">/application/</span>nginx-<span class="number">1.6</span><span class="number">.3</span><span class="regexp">/conf/</span>nginx.conf syntax is ok</span><br><span class="line"><span class="string">nginx:</span> configuration file <span class="regexp">/application/</span>nginx-<span class="number">1.6</span><span class="number">.3</span><span class="regexp">/conf/</span>nginx.conf test is successful</span><br><span class="line">➜  conf   <span class="regexp">/application/</span>nginx<span class="regexp">/sbin/</span>nginx -s reload</span><br><span class="line">➜  conf  curl <span class="string">http:</span><span class="comment">//www.magedu.org:8001 </span></span><br><span class="line">www.magedu.org</span><br><span class="line">➜  conf  curl <span class="string">http:</span><span class="comment">//www.magedu.org:8002 </span></span><br><span class="line">bbs.magedu.org</span><br><span class="line">➜  conf  curl <span class="string">http:</span><span class="comment">//www.magedu.org:8003</span></span><br><span class="line">blog.magedu.org</span><br></pre></td></tr></table></figure></p>
+<p>以前都是用的是虚拟机，现在第一次用AWS做实验，难免会遇到许多坑，但是我们现在遇到的问题早就有人遇到过，我们踩过的坑里都是前人的脚印，只要遇到问题多思考，多上Google，多与身边的朋友交流就可以了。</p>
 </span>
       
     </div>
@@ -282,7 +305,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           
             <a href="/tags/Linux/" rel="tag">#Linux</a>
           
-            <a href="/tags/文件删除/" rel="tag">#文件删除</a>
+            <a href="/tags/nginx/" rel="tag">#nginx</a>
           
         </div>
       
@@ -291,11 +314,11 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/25/Linux系统下svn的安装/" rel="prev">Linux系统下svn的安装</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/24/Centos下nginx的安装/" rel="next">Centos下nginx的安装</a>
             
           </div>
         </div>
@@ -320,8 +343,8 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/10/25/Linux系统文件删除原理/"
-                   data-title="Linux系统文件删除原理" data-url="http://freeandyblogs.com/2015/10/25/Linux系统文件删除原理/">
+              <div class="ds-thread" data-thread-key="2015/11/27/nginx中虚拟主机的配置/"
+                   data-title="nginx中虚拟主机的配置" data-url="http://freeandyblogs.com/2015/11/27/nginx中虚拟主机的配置/">
               </div>
             
           </div>
@@ -423,7 +446,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建基于域名的虚拟机主机"><span class="nav-number">1.</span> <span class="nav-text">搭建基于域名的虚拟机主机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建基于端口的虚拟机主机"><span class="nav-number">2.</span> <span class="nav-text">搭建基于端口的虚拟机主机</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
