@@ -435,7 +435,7 @@
           
           
             
-              <a class="post-title-link" href="/2015/11/24/Centos下nginx的安装/" itemprop="url">
+              <a class="post-title-link" href="/2015/11/24/nginx的特性及安装/" itemprop="url">
                 Centos下nginx的安装
               </a>
             
@@ -472,8 +472,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/11/24/Centos下nginx的安装/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/24/Centos下nginx的安装/" itemprop="commentsCount"></span>
+              <a href="/2015/11/24/nginx的特性及安装/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/24/nginx的特性及安装/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -490,7 +490,32 @@
 
       
         
-          <span itemprop="articleBody"><p>nginx的安装<br>查看系统相关信息<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">6.7</span> (Final)</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span><span class="number">.32</span>-<span class="number">573.7</span><span class="number">.1</span>.el6.x86_64</span><br></pre></td></tr></table></figure></p>
+          <span itemprop="articleBody"><h2 id="nginx的特性">nginx的特性</h2><ul>
+<li>模块化设计，有较好的扩展性，方便开发人员为其设计第三方模块，对功能进行扩展；nginx早期的版本不支持模块动态装卸载（编译时只能静态编译进nginx，而且随nginx的启动而启动），但是淘宝研发的Tengine是支持模块动态装卸载机制的；</li>
+<li>高可靠性，它有一个主控进程（master），主控进程主要负责解析配置文件并启动多个子进程（worker），而worker进程才是真正响应用户请求的进程；</li>
+<li>低内存消耗，因为它是由一个线程响应n个请求，所以其内存消耗非常低；</li>
+<li>支持热部署，指的是不停机更新配置文件、日志文件的滚动或者升级程序版本。</li>
+</ul>
+<p>nginx支持事件驱动机制、支持异步IO（AIO）、支持内存映射机制（mmap）。</p>
+<h2 id="nginx的基本功能">nginx的基本功能</h2><ul>
+<li>它是一个静态资源的web服务器，能缓存打开的文件描述符；</li>
+<li>它支持http、smtp、pop3协议的反向代理服务器；</li>
+<li>它支持缓存加速和负载均衡机制；</li>
+<li>它支持FastCGI、uWSGI等；</li>
+<li>它支持非DSO机制的模块化，支持过滤器，支持SSI机制及图像的大小调整；</li>
+<li>支持SSL；</li>
+</ul>
+<h2 id="nginx的扩展功能">nginx的扩展功能</h2><ul>
+<li>支持基于域名、端口与IP的虚拟主机；</li>
+<li>支持keepalive；</li>
+<li>支持平滑升级；</li>
+<li>支持定制访问日志，支持使用日志缓冲区提供日志存储性能；</li>
+<li>支持url rewrite；</li>
+<li>支持路径别名；</li>
+<li>支持基于IP及用户的访问控制；</li>
+<li>支持速率限制与并发数限制。</li>
+</ul>
+<h2 id="nginx的安装">nginx的安装</h2><p>查看系统相关信息<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">6.7</span> (Final)</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span><span class="number">.32</span>-<span class="number">573.7</span><span class="number">.1</span>.el6.x86_64</span><br></pre></td></tr></table></figure></p>
 <p>安装pcre<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line">➜  ~  <span class="tag">yum</span> <span class="tag">-y</span> <span class="tag">install</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"></span><br><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span>     </span><br><span class="line"><span class="tag">pcre-devel-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br></pre></td></tr></table></figure></p>
 <p>安装openssl<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  yum -y <span class="keyword">install</span> openssl-devel</span><br></pre></td></tr></table></figure></p>
 <p>安装nginx<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  useradd nginx -s /sbin/nologin -M</span><br><span class="line">➜  ~  id nginx</span><br><span class="line">uid=<span class="number">501</span>(nginx) gid=<span class="number">501</span>(nginx) groups=<span class="number">501</span>(nginx)</span><br><span class="line"></span><br><span class="line">➜  ~  mkdir -pv /home/andy/tools</span><br><span class="line">➜  ~  cd /home/andy/tools </span><br><span class="line">➜  tools  wget -q http:<span class="comment">//nginx.org/download/nginx-1.6.3.tar.gz</span></span><br><span class="line">➜  tools  tar xf nginx-<span class="number">1.6</span><span class="number">.3</span>.tar.gz</span><br><span class="line">➜  tools  cd nginx-<span class="number">1.6</span><span class="number">.3</span>/</span><br><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  ./configure --prefix=/application/nginx-<span class="number">1.6</span><span class="number">.3</span> --user=nginx --group=nginx --with-http_ssl_module --with-http_stub_status_module </span><br><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
