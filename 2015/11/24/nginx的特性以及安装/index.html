@@ -41,8 +41,8 @@
 模块化设计，有较好的扩展性，方便开发人员为其设计第三方模块，对功能进行扩展；nginx早期的版本不支持模块动态装卸载（编译时只能静态编译进nginx，而且随nginx的启动而启动），但是淘宝研发的Tengine是支持模块动态装卸载机制的；
 高可靠性，它有一个主控进程（master），主控进程主要负责解析配置文件并启动多个子进程（worker），而worker进程才是真正响应用户请">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Centos下nginx的安装">
-<meta property="og:url" content="http://freeandyblogs.com/2015/11/24/nginx的特性及安装/index.html">
+<meta property="og:title" content="nginx的特性以及安装">
+<meta property="og:url" content="http://freeandyblogs.com/2015/11/24/nginx的特性以及安装/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
 <meta property="og:description" content="nginx的特性
 模块化设计，有较好的扩展性，方便开发人员为其设计第三方模块，对功能进行扩展；nginx早期的版本不支持模块动态装卸载（编译时只能静态编译进nginx，而且随nginx的启动而启动），但是淘宝研发的Tengine是支持模块动态装卸载机制的；
@@ -50,9 +50,9 @@
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/AWS1.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/AWS2.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx.png">
-<meta property="og:updated_time" content="2015-11-30T09:46:53.000Z">
+<meta property="og:updated_time" content="2015-11-30T10:05:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Centos下nginx的安装">
+<meta name="twitter:title" content="nginx的特性以及安装">
 <meta name="twitter:description" content="nginx的特性
 模块化设计，有较好的扩展性，方便开发人员为其设计第三方模块，对功能进行扩展；nginx早期的版本不支持模块动态装卸载（编译时只能静态编译进nginx，而且随nginx的启动而启动），但是淘宝研发的Tengine是支持模块动态装卸载机制的；
 高可靠性，它有一个主控进程（master），主控进程主要负责解析配置文件并启动多个子进程（worker），而worker进程才是真正响应用户请">
@@ -65,7 +65,7 @@
   };
 </script>
 
-  <title> Centos下nginx的安装 | 曹芷健的技术博客 </title>
+  <title> nginx的特性以及安装 | 曹芷健的技术博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -219,7 +219,7 @@
           
           
             
-              Centos下nginx的安装
+              nginx的特性以及安装
             
           
         </h1>
@@ -254,8 +254,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/11/24/nginx的特性及安装/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/24/nginx的特性及安装/" itemprop="commentsCount"></span>
+              <a href="/2015/11/24/nginx的特性以及安装/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/24/nginx的特性以及安装/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -299,6 +299,14 @@
 <li>支持路径别名；</li>
 <li>支持基于IP及用户的访问控制；</li>
 <li>支持速率限制与并发数限制。</li>
+</ul>
+<h2 id="nginx的工作模式">nginx的工作模式</h2><p>基于非阻塞与事件驱动机制，由一个master进程生成多个worker线程，每个worker响应n个请求。</p>
+<h2 id="nginx的模块类型">nginx的模块类型</h2><ul>
+<li>核心模块</li>
+<li>标准http模块（Standard HTTP modules）</li>
+<li>可选的http模块（Optional HTTP modules）</li>
+<li>邮件模块（Mail modules）</li>
+<li>第三方模块（3rd party modules）</li>
 </ul>
 <h2 id="nginx的安装">nginx的安装</h2><p>查看系统相关信息<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">6.7</span> (Final)</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span><span class="number">.32</span>-<span class="number">573.7</span><span class="number">.1</span>.el6.x86_64</span><br></pre></td></tr></table></figure></p>
 <p>安装pcre<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line">➜  ~  <span class="tag">yum</span> <span class="tag">-y</span> <span class="tag">install</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"></span><br><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span>     </span><br><span class="line"><span class="tag">pcre-devel-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br></pre></td></tr></table></figure></p>
@@ -367,8 +375,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/11/24/nginx的特性及安装/"
-                   data-title="Centos下nginx的安装" data-url="http://freeandyblogs.com/2015/11/24/nginx的特性及安装/">
+              <div class="ds-thread" data-thread-key="2015/11/24/nginx的特性以及安装/"
+                   data-title="nginx的特性以及安装" data-url="http://freeandyblogs.com/2015/11/24/nginx的特性以及安装/">
               </div>
             
           </div>
@@ -470,7 +478,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的特性"><span class="nav-number">1.</span> <span class="nav-text">nginx的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的基本功能"><span class="nav-number">2.</span> <span class="nav-text">nginx的基本功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的扩展功能"><span class="nav-number">3.</span> <span class="nav-text">nginx的扩展功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的安装"><span class="nav-number">4.</span> <span class="nav-text">nginx的安装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的特性"><span class="nav-number">1.</span> <span class="nav-text">nginx的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的基本功能"><span class="nav-number">2.</span> <span class="nav-text">nginx的基本功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的扩展功能"><span class="nav-number">3.</span> <span class="nav-text">nginx的扩展功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的工作模式"><span class="nav-number">4.</span> <span class="nav-text">nginx的工作模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的模块类型"><span class="nav-number">5.</span> <span class="nav-text">nginx的模块类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx的安装"><span class="nav-number">6.</span> <span class="nav-text">nginx的安装</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

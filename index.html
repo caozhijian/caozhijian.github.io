@@ -435,8 +435,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/11/24/nginx的特性及安装/" itemprop="url">
-                Centos下nginx的安装
+              <a class="post-title-link" href="/2015/11/24/nginx的特性以及安装/" itemprop="url">
+                nginx的特性以及安装
               </a>
             
           
@@ -472,8 +472,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/11/24/nginx的特性及安装/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/24/nginx的特性及安装/" itemprop="commentsCount"></span>
+              <a href="/2015/11/24/nginx的特性以及安装/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/24/nginx的特性以及安装/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -514,6 +514,14 @@
 <li>支持路径别名；</li>
 <li>支持基于IP及用户的访问控制；</li>
 <li>支持速率限制与并发数限制。</li>
+</ul>
+<h2 id="nginx的工作模式">nginx的工作模式</h2><p>基于非阻塞与事件驱动机制，由一个master进程生成多个worker线程，每个worker响应n个请求。</p>
+<h2 id="nginx的模块类型">nginx的模块类型</h2><ul>
+<li>核心模块</li>
+<li>标准http模块（Standard HTTP modules）</li>
+<li>可选的http模块（Optional HTTP modules）</li>
+<li>邮件模块（Mail modules）</li>
+<li>第三方模块（3rd party modules）</li>
 </ul>
 <h2 id="nginx的安装">nginx的安装</h2><p>查看系统相关信息<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">6.7</span> (Final)</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span><span class="number">.32</span>-<span class="number">573.7</span><span class="number">.1</span>.el6.x86_64</span><br></pre></td></tr></table></figure></p>
 <p>安装pcre<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line">➜  ~  <span class="tag">yum</span> <span class="tag">-y</span> <span class="tag">install</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"></span><br><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span>     </span><br><span class="line"><span class="tag">pcre-devel-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br></pre></td></tr></table></figure></p>
