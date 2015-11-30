@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://freeandyblogs.com/2015/11/24/Centos%E4%B8%8Bnginx%E7%9A%84%E5%AE%89%E8%A3%85/</loc>
+    <lastmod>2015-11-30T08:39:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>Centos下nginx的安装</title>
+        <pubTime>2015-11-24T10:31:02.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://freeandyblogs.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://freeandyblogs.com/2015/11/30/nginx%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD%E7%9A%84%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2015-11-30T07:54:08.000Z</lastmod>
     <data>
@@ -32,28 +54,6 @@
         <display>
         <title>nginx中虚拟主机的配置</title>
         <pubTime>2015-11-27T09:26:58.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>nginx</tag>
-         
-         
-           
-             
-              <breadCrumb title="学习" url="http://freeandyblogs.com/categories/%E5%AD%A6%E4%B9%A0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://freeandyblogs.com/2015/11/24/Centos%E4%B8%8Bnginx%E7%9A%84%E5%AE%89%E8%A3%85/</loc>
-    <lastmod>2015-11-24T10:34:17.000Z</lastmod>
-    <data>
-        <display>
-        <title>Centos下nginx的安装</title>
-        <pubTime>2015-11-24T10:31:02.000Z</pubTime>
         
         <tag>Linux</tag>
          
