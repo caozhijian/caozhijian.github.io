@@ -1,0 +1,768 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="LNMP,Linux,博客搭建," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="LNMP环境搭建安装nginx查看系统相关信息1234➜  ~  cat /etc/redhat-release CentOS release 6.7 (Final)➜  ~  uname -r2.6.32-573.7.1.el6.x86_64
+安装pcre1234567➜  ~  rpm -qa pcre pcre-develpcre-7.8-7.el6.x86_64➜  ~  yum -y i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LNMP环境搭建及WorkPress的安装">
+<meta property="og:url" content="http://freeandyblogs.com/2015/12/02/LNMP环境搭建及WorkPress的安装/index.html">
+<meta property="og:site_name" content="曹芷健的技术博客">
+<meta property="og:description" content="LNMP环境搭建安装nginx查看系统相关信息1234➜  ~  cat /etc/redhat-release CentOS release 6.7 (Final)➜  ~  uname -r2.6.32-573.7.1.el6.x86_64
+安装pcre1234567➜  ~  rpm -qa pcre pcre-develpcre-7.8-7.el6.x86_64➜  ~  yum -y i">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/blog11.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/phpinfo.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/testmysql.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP1.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP2.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP3.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP4.jpg">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP5.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP6.jpg">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP7.jpg">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP8.png">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/WP9.png">
+<meta property="og:updated_time" content="2015-12-02T07:41:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LNMP环境搭建及WorkPress的安装">
+<meta name="twitter:description" content="LNMP环境搭建安装nginx查看系统相关信息1234➜  ~  cat /etc/redhat-release CentOS release 6.7 (Final)➜  ~  uname -r2.6.32-573.7.1.el6.x86_64
+安装pcre1234567➜  ~  rpm -qa pcre pcre-develpcre-7.8-7.el6.x86_64➜  ~  yum -y i">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> LNMP环境搭建及WorkPress的安装 | 曹芷健的技术博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">曹芷健的技术博客</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tools">
+          <a href="/tools" rel="section">
+            <i class="menu-item-icon icon-next-tools"></i> <br />
+            工具
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'n5rGUMer12GgpqkeHHwz','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              LNMP环境搭建及WorkPress的安装
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-12-02T15:34:20+08:00" content="2015-12-02">
+            2015-12-02
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习/" itemprop="url" rel="index">
+                  <span itemprop="name">学习</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/12/02/LNMP环境搭建及WorkPress的安装/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/02/LNMP环境搭建及WorkPress的安装/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+    <span>&nbsp; | &nbsp;
+    <span id="busuanzi_value_page_pv" ></span>次阅读
+    </span>    
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="LNMP环境搭建">LNMP环境搭建</h2><h3 id="安装nginx">安装nginx</h3><h4 id="查看系统相关信息">查看系统相关信息</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">6.7</span> (Final)</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span><span class="number">.32</span>-<span class="number">573.7</span><span class="number">.1</span>.el6.x86_64</span><br></pre></td></tr></table></figure>
+<h4 id="安装pcre">安装pcre</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line">➜  ~  <span class="tag">yum</span> <span class="tag">-y</span> <span class="tag">install</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span></span><br><span class="line"></span><br><span class="line">➜  ~  <span class="tag">rpm</span> <span class="tag">-qa</span> <span class="tag">pcre</span> <span class="tag">pcre-devel</span>     </span><br><span class="line"><span class="tag">pcre-devel-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br><span class="line"><span class="tag">pcre-7</span><span class="class">.8-7</span><span class="class">.el6</span><span class="class">.x86_64</span></span><br></pre></td></tr></table></figure>
+<h4 id="安装openssl">安装openssl</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  yum -y <span class="keyword">install</span> openssl-devel</span><br></pre></td></tr></table></figure>
+<h4 id="安装nginx-1">安装nginx</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  useradd nginx -s /sbin/nologin -M</span><br><span class="line">➜  ~  id nginx</span><br><span class="line">uid=<span class="number">501</span>(nginx) gid=<span class="number">501</span>(nginx) groups=<span class="number">501</span>(nginx)</span><br><span class="line"></span><br><span class="line">➜  ~  mkdir -pv /home/andy/tools</span><br><span class="line">➜  ~  cd /home/andy/tools </span><br><span class="line">➜  tools  wget -q http:<span class="comment">//nginx.org/download/nginx-1.6.3.tar.gz</span></span><br><span class="line">➜  tools  tar xf nginx-<span class="number">1.6</span><span class="number">.3</span>.tar.gz</span><br><span class="line">➜  tools  cd nginx-<span class="number">1.6</span><span class="number">.3</span>/</span><br><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  ./configure --prefix=/application/nginx-<span class="number">1.6</span><span class="number">.3</span> --user=nginx --group=nginx --with-http_ssl_module --with-http_stub_status_module </span><br><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h4 id="创建软链接">创建软链接</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  nginx-<span class="number">1.6</span><span class="number">.3</span>  cd ..</span><br><span class="line">➜  tools  ln -s /application/nginx-<span class="number">1.6</span><span class="number">.3</span> /application/nginx</span><br></pre></td></tr></table></figure>
+<h4 id="启动nginx">启动nginx</h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  <span class="regexp">/application/</span>nginx<span class="regexp">/sbin/</span>nginx</span><br><span class="line">➜  tools  ps -ef|<span class="keyword">grep</span> nginx|<span class="keyword">grep</span> -v <span class="keyword">grep</span></span><br><span class="line">➜  tools  ss -lntup|<span class="keyword">grep</span> nginx</span><br></pre></td></tr></table></figure>
+<h3 id="安装mysql">安装mysql</h3><h4 id="安装相关包">安装相关包</h4><h5 id="cmake软件">cmake软件</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cd tools</span><br><span class="line">➜  tools  wget http:<span class="comment">//7xoagk.com1.z0.glb.clouddn.com/cmake-2.8.8.tar.gz</span></span><br><span class="line">➜  tools  tar xf cmake-<span class="number">2.8</span><span class="number">.8</span>.tar.gz                                     </span><br><span class="line">➜  tools  cd cmake-<span class="number">2.8</span><span class="number">.8</span> </span><br><span class="line">➜  cmake-<span class="number">2.8</span><span class="number">.8</span>  ./configure</span><br><span class="line">➜  cmake-<span class="number">2.8</span><span class="number">.8</span>  gmake</span><br><span class="line">➜  cmake-<span class="number">2.8</span><span class="number">.8</span>  gmake install</span><br><span class="line">➜  cmake-<span class="number">2.8</span><span class="number">.8</span>  cd ..</span><br></pre></td></tr></table></figure>
+<h5 id="安装依赖包">安装依赖包</h5><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  yum -y <span class="keyword">install</span> ncurses-devel libaio-devel</span><br></pre></td></tr></table></figure>
+<h4 id="安装mysql-1">安装mysql</h4><h5 id="创建用户和组">创建用户和组</h5><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  groupadd mysql</span><br><span class="line">➜  tools  useradd mysql -s /sbin/nologin -<span class="keyword">M</span> -<span class="keyword">g</span> mysql</span><br></pre></td></tr></table></figure>
+<h5 id="编译安装">编译安装</h5><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  wget http://7xoagk.com1.z0.glb.clouddn.com/mysql-5.5.32.tar.gz</span><br><span class="line">➜  tools  tar xf mysql-5.5.32.tar.gz</span><br><span class="line">➜  tools  cd mysql-5.5.32</span><br><span class="line">➜  mysql-5.5.32  cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.5.32 \</span><br><span class="line"> -<span class="ruby"><span class="constant">DMYSQL_DATADIR</span>=<span class="regexp">/application/mysql</span>-<span class="number">5.5</span>.<span class="number">32</span>/data \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DMYSQL_UNIX_ADDR</span>=<span class="regexp">/application/mysql</span>-<span class="number">5.5</span>.<span class="number">32</span>/tmp/mysql.sock \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DEXTRA_CHARSETS</span>=gbk,gb2312,utf8,ascii \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DENABLED_LOCAL_INFILE</span>=<span class="constant">ON</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_INNOBASE_STORAGE_ENGINE</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_FEDERATED_STORAGE_ENGINE</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_BLACKHOLE_STORAGE_ENGINE</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITHOUT_EXAMPLE_STORAGE_ENGINE</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITHOUT_PARTITION_STORAGE_ENGINE</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_FAST_MUTEXES</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_ZLIB</span>=bundled \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DENABLED_LOCAL_INFILE</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_READLINE</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_EMBEDDED_SERVER</span>=<span class="number">1</span> \</span><br><span class="line"></span> -<span class="ruby"><span class="constant">DWITH_DEBUG</span>=<span class="number">0</span></span><br><span class="line"></span>➜  mysql-5.5.32  make &amp;&amp; make install</span><br><span class="line">➜  mysql-5.5.32  ln -s /application/mysql-5.5.32 /application/mysql</span><br></pre></td></tr></table></figure>
+<h5 id="初始化配置mysql">初始化配置mysql</h5><h6 id="查看默认模板配置文件">查看默认模板配置文件</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  ll support-files/my*cnf</span><br><span class="line">-rw-r--r-- <span class="number">1</span> root root  <span class="number">4759</span> Nov <span class="number">13</span> <span class="number">16</span>:<span class="number">30</span> support-files/my-huge.cnf</span><br><span class="line">-rw-r--r-- <span class="number">1</span> root root <span class="number">19809</span> Nov <span class="number">13</span> <span class="number">16</span>:<span class="number">30</span> support-files/my-innodb-heavy-<span class="number">4</span>G.cnf</span><br><span class="line">-rw-r--r-- <span class="number">1</span> root root  <span class="number">4733</span> Nov <span class="number">13</span> <span class="number">16</span>:<span class="number">30</span> support-files/my-large.cnf</span><br><span class="line">-rw-r--r-- <span class="number">1</span> root root  <span class="number">4744</span> Nov <span class="number">13</span> <span class="number">16</span>:<span class="number">30</span> support-files/my-medium.cnf</span><br><span class="line">-rw-r--r-- <span class="number">1</span> root root  <span class="number">2908</span> Nov <span class="number">13</span> <span class="number">16</span>:<span class="number">30</span> support-files/my-small.cnf</span><br></pre></td></tr></table></figure>
+<h6 id="选择配置文件">选择配置文件</h6><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  mysql-<span class="number">5.5</span>.<span class="number">32</span>  <span class="keyword">cd</span> ..</span><br><span class="line">➜  tools  <span class="keyword">cp</span> mysql-<span class="number">5.5</span>.<span class="number">32</span>/support-<span class="keyword">files</span>/my-small.<span class="keyword">cnf</span> /etc/my.<span class="keyword">cnf</span></span><br></pre></td></tr></table></figure>
+<p>测试环境选小的，生产环境可以根据硬件选择，例如：support-files/my-innodb-heavy-4G.cnf</p>
+<h6 id="配置环境变量">配置环境变量</h6><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  echo <span class="string">'export PATH=/application/mysql/bin:$PATH'</span> &gt;&gt; <span class="regexp">/etc/</span>profile</span><br><span class="line">➜  tools  tail -<span class="number">1</span> <span class="regexp">/etc/</span>profile</span><br><span class="line">export PATH=<span class="regexp">/application/</span>mysql/<span class="string">bin:</span>$PATH</span><br><span class="line">➜  tools  source <span class="regexp">/etc/</span>profile</span><br></pre></td></tr></table></figure>
+<h6 id="授权">授权</h6><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  tools ll /application/mysql/data </span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 13 16:42 test</span><br><span class="line">➜  tools  chown -R mysql.mysql /application/mysql/data</span><br><span class="line">➜  tools  chmod -R 1777 /tmp/</span><br></pre></td></tr></table></figure>
+<h6 id="启动mysql">启动mysql</h6><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  cd <span class="regexp">/application/</span>mysql/scripts </span><br><span class="line">➜  scripts  .<span class="regexp">/mysql_install_db --basedir=/</span>application<span class="regexp">/mysql --datadir=/</span>application<span class="regexp">/mysql/</span>data --user=mysql</span><br><span class="line">➜  mysql  cd <span class="regexp">/root/</span>tools/mysql-<span class="number">5.5</span><span class="number">.32</span> </span><br><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  <span class="regexp">/bin/</span>cp support-files<span class="regexp">/mysql.server /</span>etc<span class="regexp">/init.d/</span>mysqld</span><br><span class="line">➜  tools  sed -i <span class="string">'s#/usr/local/mysql#/application/mysql#g'</span> <span class="regexp">/etc/</span>init.d/mysqld</span><br><span class="line">➜  tools  chmod +x <span class="regexp">/etc/</span>init.d/mysqld</span><br><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  chmod +x <span class="regexp">/etc/</span>init.d/mysqld </span><br><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  <span class="regexp">/etc/</span>init.d/mysqld start</span><br><span class="line">Starting MySQL..                                           [  OK  ]</span><br></pre></td></tr></table></figure>
+<h6 id="查看3306端口是否开启">查看3306端口是否开启</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  lsof -i :<span class="number">3306</span></span><br><span class="line">COMMAND   PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</span><br><span class="line">mysqld  <span class="number">24312</span> mysql   <span class="number">10u</span>  IPv4 <span class="number">444650</span>      <span class="number">0</span>t0  TCP *:mysql (LISTEN)</span><br></pre></td></tr></table></figure>
+<h6 id="为mysql增加密码">为mysql增加密码</h6><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  mysql-<span class="number">5.5</span>.<span class="number">32</span>  <span class="regexp">/application/my</span>sql<span class="regexp">/bin/my</span>sqladmin -u root password <span class="string">'111111'</span></span><br></pre></td></tr></table></figure>
+<h6 id="登陆mysql">登陆mysql</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  mysql -uroot -p111111</span><br></pre></td></tr></table></figure>
+<h5 id="设置开机自启动">设置开机自启动</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  chkconfig mysqld on</span><br><span class="line">➜  mysql-<span class="number">5.5</span><span class="number">.32</span>  chkconfig --<span class="built_in">list</span> mysqld</span><br><span class="line">mysqld         	<span class="number">0</span>:off	<span class="number">1</span>:off	<span class="number">2</span>:on	<span class="number">3</span>:on	<span class="number">4</span>:on	<span class="number">5</span>:on	<span class="number">6</span>:off</span><br></pre></td></tr></table></figure>
+<h5 id="mysql的基本优化">mysql的基本优化</h5><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="header">mysql&gt; SELECT user,host FROM mysql.user;</span><br><span class="line">+------+--------------+</span></span><br><span class="line"><span class="header">| user | host         |</span><br><span class="line">+------+--------------+</span></span><br><span class="line">| root | 127.0.0.1    |</span><br><span class="line">| root | ::1          |</span><br><span class="line">|      | iZ288oaj8txZ |</span><br><span class="line">| root | iZ288oaj8txZ |</span><br><span class="line">|      | localhost    |</span><br><span class="line"><span class="header">| root | localhost    |</span><br><span class="line">+------+--------------+</span></span><br><span class="line">6 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; DELETE FROM mysql.user WHERE user='<span class="emphasis">';</span><br><span class="line">Query OK, 2 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"></span>mysql&gt; DELETE FROM mysql.user WHERE host=<span class="emphasis">'www'</span>;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line"><span class="header">mysql&gt; SELECT user,host FROM mysql.user;</span><br><span class="line">+------+--------------+</span></span><br><span class="line"><span class="header">| user | host         |</span><br><span class="line">+------+--------------+</span></span><br><span class="line">| root | 127.0.0.1    |</span><br><span class="line">| root | ::1          |</span><br><span class="line">| root | iZ288oaj8txZ |</span><br><span class="line"><span class="header">| root | localhost    |</span><br><span class="line">+------+--------------+</span></span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; DELETE FROM mysql.user WHERE host=<span class="emphasis">'::1'</span>;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="header">mysql&gt; SELECT user,host FROM mysql.user;</span><br><span class="line">+------+--------------+</span></span><br><span class="line"><span class="header">| user | host         |</span><br><span class="line">+------+--------------+</span></span><br><span class="line">| root | 127.0.0.1    |</span><br><span class="line">| root | iZ288oaj8txZ |</span><br><span class="line"><span class="header">| root | localhost    |</span><br><span class="line">+------+--------------+</span></span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; DROP DATABASE test;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line"><span class="header">mysql&gt; SHOW DATABASES;</span><br><span class="line">+--------------------+</span></span><br><span class="line"><span class="header">| Database           |</span><br><span class="line">+--------------------+</span></span><br><span class="line">| information<span class="emphasis">_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_</span>schema |</span><br><span class="line"><span class="code">+--------------------+</span></span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="安装php">安装php</h3><h4 id="安装PHP所需lib库">安装PHP所需lib库</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  yum -y <span class="keyword">install</span> zlib-devel libxml2-devel libjpeg-devel libiconv-devel </span><br><span class="line">➜  tools  yum -y <span class="keyword">install</span> freetype-devel libpng-devel gd-devel curl-devel libxslt-devel</span><br></pre></td></tr></table></figure>
+<h4 id="安装libiconv-devel">安装libiconv-devel</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  wget http:<span class="comment">//ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz</span></span><br><span class="line">➜  tools  tar zxf libiconv-<span class="number">1.14</span>.tar.gz</span><br><span class="line">➜  tools  cd libiconv-<span class="number">1.14</span></span><br><span class="line">➜  libiconv-<span class="number">1.14</span>  ./configure --prefix=/usr/local/libiconv</span><br><span class="line">➜  libiconv-<span class="number">1.14</span>  make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h4 id="安装mhash加密扩展库与mcrypt">安装mhash加密扩展库与mcrypt</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  wget -O /etc/yum<span class="class">.repos</span><span class="class">.d</span>/epel<span class="class">.repo</span> http:<span class="comment">//mirrors.aliyun.com/repo/epel-6.repo</span></span><br><span class="line">➜  tools  yum -y install mhash mhash-devel mcrypt</span><br></pre></td></tr></table></figure>
+<h4 id="下载安装php">下载安装php</h4><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">➜  tools  wget http://7xoagk.com1.z0.glb.clouddn.com/php-5.3.27.tar.gz</span><br><span class="line">➜  tools  tar xf php-5.3.27.tar.gz</span><br><span class="line">➜  tools  cd php-5.3.27</span><br><span class="line">➜  php-5.3.27  ./configure \</span><br><span class="line">-<span class="ruby">-prefix=<span class="regexp">/application/php</span>5.<span class="number">3.27</span> \</span><br><span class="line"></span>-<span class="ruby">-with-mysql=<span class="regexp">/application/mysql</span> \</span><br><span class="line"></span>-<span class="ruby">-with-iconv-dir=<span class="regexp">/usr/local</span><span class="regexp">/libiconv \</span><br><span class="line"></span></span>-<span class="ruby"><span class="regexp">-with-freetype-dir \</span><br><span class="line"></span></span>-<span class="ruby"><span class="regexp">-with-jpeg-dir \</span><br><span class="line"></span></span>-<span class="ruby"><span class="regexp">-with-png-dir \</span><br><span class="line"></span></span>-<span class="ruby"><span class="regexp">-with-zlib \</span><br><span class="line"></span></span>-<span class="ruby"><span class="regexp">-with-libxml-dir=/usr</span> \</span><br><span class="line"></span>-<span class="ruby">-enable-xml \</span><br><span class="line"></span>-<span class="ruby">-disable-rpath \</span><br><span class="line"></span>-<span class="ruby">-enable-safe-mode \</span><br><span class="line"></span>-<span class="ruby">-enable-bcmath \</span><br><span class="line"></span>-<span class="ruby">-enable-shmop \</span><br><span class="line"></span>-<span class="ruby">-enable-sysvsem \</span><br><span class="line"></span>-<span class="ruby">-enable-inline-optimization \</span><br><span class="line"></span>-<span class="ruby">-with-curl \</span><br><span class="line"></span>-<span class="ruby">-with-curlwrappers \</span><br><span class="line"></span>-<span class="ruby">-enable-mbregex \</span><br><span class="line"></span>-<span class="ruby">-enable-fpm \</span><br><span class="line"></span>-<span class="ruby">-enable-mbstring \</span><br><span class="line"></span>-<span class="ruby">-with-mcrypt \</span><br><span class="line"></span>-<span class="ruby">-with-gd \</span><br><span class="line"></span>-<span class="ruby">-enable-gd-native-ttf \</span><br><span class="line"></span>-<span class="ruby">-with-openssl \</span><br><span class="line"></span>-<span class="ruby">-with-mhash \</span><br><span class="line"></span>-<span class="ruby">-enable-pcntl \</span><br><span class="line"></span>-<span class="ruby">-enable-sockets \</span><br><span class="line"></span>-<span class="ruby">-with-xmlrpc \</span><br><span class="line"></span>-<span class="ruby">-enable-zip \</span><br><span class="line"></span>-<span class="ruby">-enable-soap \</span><br><span class="line"></span>-<span class="ruby">-enable-short-tags \</span><br><span class="line"></span>-<span class="ruby">-enable-zend-multibyte \</span><br><span class="line"></span>-<span class="ruby">-enable-static \</span><br><span class="line"></span>-<span class="ruby">-with-xsl \</span><br><span class="line"></span>-<span class="ruby">-with-fpm-user=nginx \</span><br><span class="line"></span>-<span class="ruby">-with-fpm-group=nginx \</span><br><span class="line"></span>-<span class="ruby">-enable-ftp</span><br><span class="line"></span>➜  php-5.3.27  ln -s /application/mysql/lib/libmysqlclient.so.18  /usr/lib64/</span><br><span class="line">➜  php-5.3.27  touch ext/phar/phar.phar</span><br><span class="line">➜  php-5.3.27  make &amp;&amp; make install</span><br><span class="line">➜  php-5.3.27  ln -s /application/php5.3.27/ /application/php</span><br></pre></td></tr></table></figure>
+<h4 id="配置php引擎配置文件php-ini">配置php引擎配置文件php.ini</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  php-<span class="number">5.3</span><span class="number">.27</span>  cp php.ini-production /application/php/lib/php.ini</span><br></pre></td></tr></table></figure>
+<h4 id="配置php服务（fastcgi模式）配置文件php-fpm-conf">配置php服务（fastcgi模式）配置文件php-fpm.conf</h4><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  <span class="keyword">cd</span> /application/php/etc</span><br><span class="line">➜  etc  wget http:<span class="comment">//7xoagk.com1.z0.glb.clouddn.com/php-fpm.conf</span></span><br><span class="line">➜  etc  <span class="keyword">mkdir</span> -pv /<span class="keyword">app</span>/logs</span><br><span class="line">➜  etc  cp /application/php5.3.27/<span class="keyword">var</span>/<span class="keyword">log</span>/php-fpm.<span class="keyword">log</span> /<span class="keyword">app</span>/logs</span><br></pre></td></tr></table></figure>
+<h4 id="启动php服务">启动php服务</h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  etc  <span class="regexp">/application/</span>php<span class="regexp">/sbin/</span>php-fpm</span><br></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  etc  <span class="keyword">cd</span> /application/nginx/<span class="keyword">conf</span>/extra</span><br><span class="line">➜  extra  vim blog.<span class="keyword">conf</span></span><br><span class="line">添加如下内容：</span><br><span class="line">location ~ .*\.(php|php5)?$ &#123;</span><br><span class="line">            fastcgi_pass  127.0.0.1:9000;</span><br><span class="line">            fastcgi_index index.php;</span><br><span class="line">            <span class="keyword">include</span> fastcgi.<span class="keyword">conf</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>修改后，内容如下图所示<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/blog11.png" alt=""><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  extra  ..<span class="regexp">/../</span>sbin/nginx -t</span><br><span class="line">➜  extra  ..<span class="regexp">/../</span>sbin/nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<p>创建测试文件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  extra  cd /application/nginx/html/blog</span><br><span class="line">➜  blog  cat phpinfo.php </span><br><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>输入网址blog.magedu.org/phpinfo.php查看相应模块是否有安装<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/phpinfo.png" alt=""><br>经过验证nginx与php通信是没有问题的，下面测试php与mysql的连通情况<br>编写测试脚本<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  blog  cat test_mysql.php</span><br><span class="line">&lt;?php</span><br><span class="line">	<span class="variable">$link</span>_id=mysql_connect(<span class="string">'localhost'</span>,<span class="string">'root'</span>,<span class="string">'111111'</span>) or mysql_error();</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$link</span>_id)&#123;</span><br><span class="line">		echo <span class="string">"mysql successful !"</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		echo mysql_error();</span><br><span class="line">	&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>输入网址blog.magedu.org/test_mysql.php，出现如下图所示内容，表示php与mysql连接没有问题<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/testmysql.png" alt=""><br>删除测试文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  blog  rm <span class="operator">-f</span> phpinfo.php <span class="built_in">test</span>_mysql.php</span><br></pre></td></tr></table></figure></p>
+<p>至此LNMP环境已经搭建成功</p>
+<hr>
+<h2 id="安装wordpress">安装wordpress</h2><h3 id="下载软件及权限设置">下载软件及权限设置</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">➜  blog  <span class="keyword">pwd</span></span><br><span class="line">/application/nginx/html/blog</span><br><span class="line">➜  blog  wget http<span class="variable">s:</span>//<span class="keyword">cn</span>.wordpress.org/wordpress-<span class="number">4.3</span>.<span class="number">1</span>-zh_CN.tar.gz</span><br><span class="line">➜  blog  tar xf wordpress-<span class="number">4.3</span>.<span class="number">1</span>-zh_CN.tar.gz</span><br><span class="line">➜  blog  rm -<span class="keyword">f</span> wordpress-<span class="number">4.3</span>.<span class="number">1</span>-zh_CN.tar.gz</span><br><span class="line">➜  blog  mv wordpress/* .</span><br><span class="line">➜  blog  rm -rf wordpress/</span><br><span class="line">➜  blog  <span class="keyword">cd</span> ..</span><br><span class="line">➜  html  chown -R root.root blog/                                   </span><br><span class="line">➜  html  <span class="keyword">find</span> ./blog/ -<span class="built_in">type</span> <span class="keyword">f</span> |xargs chmod <span class="number">644</span>         </span><br><span class="line">➜  html  <span class="keyword">find</span> ./blog/ -<span class="built_in">type</span> <span class="keyword">d</span> |xargs chmod <span class="number">755</span></span><br><span class="line">➜  html  <span class="built_in">mkdir</span> blog/<span class="keyword">wp</span>-content/uploads</span><br><span class="line">➜  html  chown -R nginx.nginx blog/<span class="keyword">wp</span>-content/uploads</span><br></pre></td></tr></table></figure>
+<h3 id="为博客创建数据库">为博客创建数据库</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  blog  mysql <span class="attribute">-uroot</span> <span class="attribute">-p111111</span></span><br><span class="line">mysql&gt; CREATE DATABASE wordpress;</span><br><span class="line">mysql&gt; GRANT <span class="literal">ALL</span> <span class="keyword">ON</span> wordpress<span class="built_in">.</span>* <span class="keyword">TO</span> wordpress@<span class="string">"localhost"</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">"111111"</span>;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<p>在浏览器中输入网址blog.magedu.com,出现以下页面<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP1.png" alt=""></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP2.png" alt=""></p>
+<p>按照提示创建wp-config.php文件，并将文本内容写入文件中<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="keyword">blog </span> pwd</span><br><span class="line">/application/nginx/html/<span class="keyword">blog</span><br><span class="line"></span>➜  <span class="keyword">blog </span> vim wp-config.php</span><br></pre></td></tr></table></figure></p>
+<h3 id="对WordPress进行设置">对WordPress进行设置</h3><p><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP3.png" alt=""></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP4.jpg" alt=""></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP5.png" alt=""></p>
+<p>进入了博客后台，在里面就可以写文章了<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP6.jpg" alt=""></p>
+<p>看一下我们的博客首页长什么样子<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP7.jpg" alt=""></p>
+<h3 id="设置伪静态">设置伪静态</h3><p>在WordPress后台-设置-固定链接-自定义结构，输入下面的代码，最后保存更改即可。<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/archives/<span class="preprocessor">%</span>post_id<span class="preprocessor">%</span>.html</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP8.png" alt=""><br><img src="http://7xnir6.com1.z0.glb.clouddn.com/WP9.png" alt=""><br>编辑nginx配置文件，修改后内容如下<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">➜  extra  cat blog.conf             </span><br><span class="line">   server &#123;</span><br><span class="line">        listen       <span class="number">80</span>;</span><br><span class="line">        server_name  blog.magedu.org;</span><br><span class="line">        root   html/blog;</span><br><span class="line">        location / &#123;</span><br><span class="line">            index  index.php index.html index.htm;</span><br><span class="line">            try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.php?<span class="variable">$args</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ .*\.(php|php5)?$ &#123;</span><br><span class="line">            fastcgi_pass  <span class="number">127.0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">9000</span>;</span><br><span class="line">            fastcgi_index index.php;</span><br><span class="line">            include fastcgi.conf;</span><br><span class="line">        &#125;</span><br><span class="line">        access_log logs/access_blog.log main;</span><br><span class="line">    &#125;</span><br><span class="line">➜  extra  ../../sbin/nginx -t</span><br><span class="line">➜  extra  ../../sbin/nginx -s reload</span><br></pre></td></tr></table></figure></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LNMP/" rel="tag">#LNMP</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/博客搭建/" rel="tag">#博客搭建</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/30/nginx常用功能的配置/" rel="next">nginx常用功能的配置</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/12/02/LNMP环境搭建及WorkPress的安装/"
+                   data-title="LNMP环境搭建及WorkPress的安装" data-url="http://freeandyblogs.com/2015/12/02/LNMP环境搭建及WorkPress的安装/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://7xnir6.com1.z0.glb.clouddn.com/QQ图片20151015110324.jpg" alt="曹芷健" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">曹芷健</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/caozhijian" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://segmentfault.com/u/caozhijian" target="_blank">SegmentFault</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3309846405/profile?topnav=1&wvr=6" target="_blank">Weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LNMP环境搭建"><span class="nav-number">1.</span> <span class="nav-text">LNMP环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装nginx"><span class="nav-number">1.1.</span> <span class="nav-text">安装nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看系统相关信息"><span class="nav-number">1.1.1.</span> <span class="nav-text">查看系统相关信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装pcre"><span class="nav-number">1.1.2.</span> <span class="nav-text">安装pcre</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装openssl"><span class="nav-number">1.1.3.</span> <span class="nav-text">安装openssl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装nginx-1"><span class="nav-number">1.1.4.</span> <span class="nav-text">安装nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建软链接"><span class="nav-number">1.1.5.</span> <span class="nav-text">创建软链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动nginx"><span class="nav-number">1.1.6.</span> <span class="nav-text">启动nginx</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装mysql"><span class="nav-number">1.2.</span> <span class="nav-text">安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装相关包"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装相关包</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cmake软件"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">cmake软件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安装依赖包"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">安装依赖包</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装mysql-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建用户和组"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">创建用户和组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编译安装"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">编译安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化配置mysql"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">初始化配置mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#查看默认模板配置文件"><span class="nav-number">1.2.2.3.1.</span> <span class="nav-text">查看默认模板配置文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#选择配置文件"><span class="nav-number">1.2.2.3.2.</span> <span class="nav-text">选择配置文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#配置环境变量"><span class="nav-number">1.2.2.3.3.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#授权"><span class="nav-number">1.2.2.3.4.</span> <span class="nav-text">授权</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#启动mysql"><span class="nav-number">1.2.2.3.5.</span> <span class="nav-text">启动mysql</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#查看3306端口是否开启"><span class="nav-number">1.2.2.3.6.</span> <span class="nav-text">查看3306端口是否开启</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#为mysql增加密码"><span class="nav-number">1.2.2.3.7.</span> <span class="nav-text">为mysql增加密码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#登陆mysql"><span class="nav-number">1.2.2.3.8.</span> <span class="nav-text">登陆mysql</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设置开机自启动"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">设置开机自启动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql的基本优化"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">mysql的基本优化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装php"><span class="nav-number">1.3.</span> <span class="nav-text">安装php</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装PHP所需lib库"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装PHP所需lib库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装libiconv-devel"><span class="nav-number">1.3.2.</span> <span class="nav-text">安装libiconv-devel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装mhash加密扩展库与mcrypt"><span class="nav-number">1.3.3.</span> <span class="nav-text">安装mhash加密扩展库与mcrypt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载安装php"><span class="nav-number">1.3.4.</span> <span class="nav-text">下载安装php</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置php引擎配置文件php-ini"><span class="nav-number">1.3.5.</span> <span class="nav-text">配置php引擎配置文件php.ini</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置php服务（fastcgi模式）配置文件php-fpm-conf"><span class="nav-number">1.3.6.</span> <span class="nav-text">配置php服务（fastcgi模式）配置文件php-fpm.conf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动php服务"><span class="nav-number">1.3.7.</span> <span class="nav-text">启动php服务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装wordpress"><span class="nav-number">2.</span> <span class="nav-text">安装wordpress</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载软件及权限设置"><span class="nav-number">2.1.</span> <span class="nav-text">下载软件及权限设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为博客创建数据库"><span class="nav-number">2.2.</span> <span class="nav-text">为博客创建数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对WordPress进行设置"><span class="nav-number">2.3.</span> <span class="nav-text">对WordPress进行设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置伪静态"><span class="nav-number">2.4.</span> <span class="nav-text">设置伪静态</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">曹芷健</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"freeandy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
