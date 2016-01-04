@@ -211,6 +211,136 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/04/lvs的类型以及调度方法/" itemprop="url">
+                lvs的类型以及调度方法
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-04T15:59:50+08:00" content="2016-01-04">
+            2016-01-04
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/01/04/lvs的类型以及调度方法/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/lvs的类型以及调度方法/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h2 id="基本术语解释">基本术语解释</h2><p>  客户端IP：CIP<br>  调度器中面向客户端的IP叫做VIP<br>  调度器直接与后端服务器通信的IP叫做DIP<br>  后端提供服务的主机地址叫做RIP<br>  后端提供服务的主机即Real Server简称RS</p>
+<h2 id="LVS的类型">LVS的类型</h2><h3 id="lvs-nat">lvs-nat</h3><p>  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发</p>
+<h4 id="架构特性">架构特性</h4><ol>
+<li>RS应该使用私有地址，即RIP应该为私有地址；各RS的网关必须指向DIP</li>
+<li>请求报文和响应报文均经由Director转发，高负载场景中Director易于成为系统瓶颈</li>
+<li>支持端口映射</li>
+<li>RS可以使用任意类型的OS</li>
+<li>RS的RIP必须与Director的DIP在同一网络</li>
+</ol>
+<h3 id="lvs-dr">lvs-dr</h3><p>Director在实现转发时不修改请求报文的IP首部，而是通过修改直接封装帧首部完成转发，即目标MAC是Director根据调度方法挑选出的某RS的MAC地址；拓扑结构有别于NAT类型</p>
+<h4 id="架构特性-1">架构特性</h4><ol>
+<li>保证前端路由器将将目标地址为VIP的请求报文通过ARP地址解析后送往Director（解决方案：静态绑定（在前端路由直接将VIP对应的目标MAC静态配置为Director的MAC地址），arptables（在各RS上，通过arptables规则拒绝其响应对VIP的ARP广播请求）与修改内核参数（在各RS上修改内核参数并结合地址的配置方式实现拒绝响应对VIP的ARP广播请求））</li>
+<li>RS的RIP可以使用私有地址；但也可以使用公网地址，此时可通过互联网上的主机直接对此RS发起管理操作</li>
+<li>请求报文必须经由Director调度，但响应报文一定不能通过Director</li>
+<li>各RIP与DIP必须在同一个物理网络中</li>
+<li>不支持端口映射</li>
+<li>RS可以使用大多数OS</li>
+<li>RS的网关一定不能指向Director</li>
+</ol>
+<h3 id="lvs-tun">lvs-tun</h3><p>不修改请求报文的IP首部，而是通过IP隧道机制在原有的IP报文之外再封装一个IP首部，经由互联网把请求报文交给选定的RS</p>
+<h4 id="架构特性-2">架构特性</h4><ol>
+<li>RIP，DIP，VIP都是公网地址</li>
+<li>RS的网关不能也不可能指向DIP</li>
+<li>请求报文由Director分发，但响应报文直接由RS响应给客户端</li>
+<li>不支持端口映射</li>
+<li>RS的OS必须得支持IP隧道</li>
+</ol>
+<h3 id="lvs-fullnat">lvs-fullnat</h3><p>通过请求报文的源地址为DIP，目标为RIP来实现转发；对于响应报文而言，修改源地址为VIP，目标地址为CIP来实现转发</p>
+<h4 id="架构特性-3">架构特性</h4><ol>
+<li>RIP，DIP可以使用私有地址</li>
+<li>RIP和DIP可以不在同一个网络中，且RIP的网关未必需要指向DIP</li>
+<li>支持端口映射</li>
+<li>RS的OS可以使用任意类型</li>
+<li>请求报文和响应报文均经由Director</li>
+</ol>
+<h2 id="LVS的调度方法">LVS的调度方法</h2><h3 id="静态方法（仅根据算法本身进行调度）">静态方法（仅根据算法本身进行调度）</h3><h4 id="RR（轮询）">RR（轮询）</h4><p>，该方法不考虑别的因素，单纯以轮询的方式依次请求RS，因此处理会被均等地分发给所有服务器</p>
+<h4 id="WRR（加权轮询）">WRR（加权轮询）</h4><p>与RR方法类似，但该方法引用了一个加权值来控制分发的比率。加权值越大，服务器被选择的概率就越高，因此为了让处理性能较高的服务器承受更多请求，只需增大其加权值即可</p>
+<h4 id="SH（源地址哈希）">SH（源地址哈希）</h4><p>把来自于同一个地址的请求，通通定向至此前选定的RS</p>
+<h4 id="DH（目标地址哈希）">DH（目标地址哈希）</h4><p>把访问同一个目标地址的请求，通通定向至此前选定的某RS</p>
+<h3 id="动态方法（根据算法及后端RS当前的负载状况实现调度）">动态方法（根据算法及后端RS当前的负载状况实现调度）</h3><h4 id="LC（最小连接）">LC（最小连接）</h4><p>该方法是将新的连接请求分发到当前连接数最少的服务器<br>Overhead=Active*256+Inactive;其中Active为活动连接数，Inactive为非活动连接数</p>
+<h4 id="WLC（加权最小连接）">WLC（加权最小连接）</h4><p>与lc方法有些类似，不过引入了加权值;如果不考虑session，WLC方法是首选<br>Overhead=Active*256+Inactive/weight</p>
+<h4 id="SED（最短期望延迟）">SED（最短期望延迟）</h4><p>该方法会选择响应速度最快的的那台服务器;Overhead=（Active+1）*256/weight</p>
+<h4 id="NQ（永不排队）">NQ（永不排队）</h4><p>该方法会优先选择活动连接数为0的服务器</p>
+<h4 id="LBLC（基于本地的最小连接）">LBLC（基于本地的最小连接）</h4><p>它是DH方法的动态版本，在连接数没有超过加权值指定的值时，将选择同一台服务器，若是超过了加权值指定的值则选择其它服务器；当所有服务器的连接数都超过加权值指定的值时，将选择最终所选的那台服务器</p>
+<h4 id="LBLCR（带复制的基于本地的最小连接）">LBLCR（带复制的基于本地的最小连接）</h4><p>当所有服务器的连接数都超过加权值指定的值时，将选择连接数最少的那台服务器</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/12/02/LNMP环境搭建及WorkPress的安装/" itemprop="url">
                 LNMP环境搭建及WorkPress的安装
               </a>
@@ -232,8 +362,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
                 </a>
               </span>
 
@@ -364,8 +494,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
                 </a>
               </span>
 
@@ -486,8 +616,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
                 </a>
               </span>
 
@@ -588,8 +718,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
                 </a>
               </span>
 
@@ -723,8 +853,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
                 </a>
               </span>
 
@@ -835,8 +965,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习/" itemprop="url" rel="index">
-                  <span itemprop="name">学习</span>
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
                 </a>
               </span>
 
@@ -924,7 +1054,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -938,7 +1068,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -991,8 +1121,8 @@
     <footer id="footer" class="footer">
       <div class="footer-inner"> <div class="copyright" >
   
-  &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  &copy; &nbsp;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>

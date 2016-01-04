@@ -28,7 +28,7 @@
 
 
 
-  <meta name="keywords" content="Linux,文件删除," />
+  <meta name="keywords" content="Linux,lvs," />
 
 
 
@@ -37,20 +37,25 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
+<meta name="description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS
+LVS的类型lvs-nat  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发
+架构特性
+RS应该使用私有地址，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux系统文件删除原理">
-<meta property="og:url" content="http://freeandyblogs.com/2015/10/25/Linux系统文件删除原理/index.html">
+<meta property="og:title" content="lvs的类型以及调度方法">
+<meta property="og:url" content="http://freeandyblogs.com/2016/01/04/lvs的类型以及调度方法/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
-<meta property="og:description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
-<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/del01.png">
-<meta property="og:updated_time" content="2016-01-04T08:19:33.000Z">
+<meta property="og:description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS
+LVS的类型lvs-nat  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发
+架构特性
+RS应该使用私有地址，">
+<meta property="og:updated_time" content="2016-01-04T08:18:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux系统文件删除原理">
-<meta name="twitter:description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
+<meta name="twitter:title" content="lvs的类型以及调度方法">
+<meta name="twitter:description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS
+LVS的类型lvs-nat  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发
+架构特性
+RS应该使用私有地址，">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -60,7 +65,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
   };
 </script>
 
-  <title> Linux系统文件删除原理 | 曹芷健的技术博客 </title>
+  <title> lvs的类型以及调度方法 | 曹芷健的技术博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +219,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           
           
             
-              Linux系统文件删除原理
+              lvs的类型以及调度方法
             
           
         </h1>
@@ -223,8 +228,8 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-10-25T12:29:36+08:00" content="2015-10-25">
-            2015-10-25
+          <time itemprop="dateCreated" datetime="2016-01-04T15:59:50+08:00" content="2016-01-04">
+            2016-01-04
           </time>
         </span>
 
@@ -249,8 +254,8 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/10/25/Linux系统文件删除原理/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/25/Linux系统文件删除原理/" itemprop="commentsCount"></span>
+              <a href="/2016/01/04/lvs的类型以及调度方法/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/lvs的类型以及调度方法/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -270,8 +275,51 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
       
 
       
-        <span itemprop="articleBody"><p>原理如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/del01.png" alt="文件删除原理"></p>
-<p>Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。<br>i_link是文件的硬链接数（磁盘引用计数器）<br>i_count是文件被进程调用数（内存引用计数）<br>只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。</p>
+        <span itemprop="articleBody"><h2 id="基本术语解释">基本术语解释</h2><p>  客户端IP：CIP<br>  调度器中面向客户端的IP叫做VIP<br>  调度器直接与后端服务器通信的IP叫做DIP<br>  后端提供服务的主机地址叫做RIP<br>  后端提供服务的主机即Real Server简称RS</p>
+<h2 id="LVS的类型">LVS的类型</h2><h3 id="lvs-nat">lvs-nat</h3><p>  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发</p>
+<h4 id="架构特性">架构特性</h4><ol>
+<li>RS应该使用私有地址，即RIP应该为私有地址；各RS的网关必须指向DIP</li>
+<li>请求报文和响应报文均经由Director转发，高负载场景中Director易于成为系统瓶颈</li>
+<li>支持端口映射</li>
+<li>RS可以使用任意类型的OS</li>
+<li>RS的RIP必须与Director的DIP在同一网络</li>
+</ol>
+<h3 id="lvs-dr">lvs-dr</h3><p>Director在实现转发时不修改请求报文的IP首部，而是通过修改直接封装帧首部完成转发，即目标MAC是Director根据调度方法挑选出的某RS的MAC地址；拓扑结构有别于NAT类型</p>
+<h4 id="架构特性-1">架构特性</h4><ol>
+<li>保证前端路由器将将目标地址为VIP的请求报文通过ARP地址解析后送往Director（解决方案：静态绑定（在前端路由直接将VIP对应的目标MAC静态配置为Director的MAC地址），arptables（在各RS上，通过arptables规则拒绝其响应对VIP的ARP广播请求）与修改内核参数（在各RS上修改内核参数并结合地址的配置方式实现拒绝响应对VIP的ARP广播请求））</li>
+<li>RS的RIP可以使用私有地址；但也可以使用公网地址，此时可通过互联网上的主机直接对此RS发起管理操作</li>
+<li>请求报文必须经由Director调度，但响应报文一定不能通过Director</li>
+<li>各RIP与DIP必须在同一个物理网络中</li>
+<li>不支持端口映射</li>
+<li>RS可以使用大多数OS</li>
+<li>RS的网关一定不能指向Director</li>
+</ol>
+<h3 id="lvs-tun">lvs-tun</h3><p>不修改请求报文的IP首部，而是通过IP隧道机制在原有的IP报文之外再封装一个IP首部，经由互联网把请求报文交给选定的RS</p>
+<h4 id="架构特性-2">架构特性</h4><ol>
+<li>RIP，DIP，VIP都是公网地址</li>
+<li>RS的网关不能也不可能指向DIP</li>
+<li>请求报文由Director分发，但响应报文直接由RS响应给客户端</li>
+<li>不支持端口映射</li>
+<li>RS的OS必须得支持IP隧道</li>
+</ol>
+<h3 id="lvs-fullnat">lvs-fullnat</h3><p>通过请求报文的源地址为DIP，目标为RIP来实现转发；对于响应报文而言，修改源地址为VIP，目标地址为CIP来实现转发</p>
+<h4 id="架构特性-3">架构特性</h4><ol>
+<li>RIP，DIP可以使用私有地址</li>
+<li>RIP和DIP可以不在同一个网络中，且RIP的网关未必需要指向DIP</li>
+<li>支持端口映射</li>
+<li>RS的OS可以使用任意类型</li>
+<li>请求报文和响应报文均经由Director</li>
+</ol>
+<h2 id="LVS的调度方法">LVS的调度方法</h2><h3 id="静态方法（仅根据算法本身进行调度）">静态方法（仅根据算法本身进行调度）</h3><h4 id="RR（轮询）">RR（轮询）</h4><p>，该方法不考虑别的因素，单纯以轮询的方式依次请求RS，因此处理会被均等地分发给所有服务器</p>
+<h4 id="WRR（加权轮询）">WRR（加权轮询）</h4><p>与RR方法类似，但该方法引用了一个加权值来控制分发的比率。加权值越大，服务器被选择的概率就越高，因此为了让处理性能较高的服务器承受更多请求，只需增大其加权值即可</p>
+<h4 id="SH（源地址哈希）">SH（源地址哈希）</h4><p>把来自于同一个地址的请求，通通定向至此前选定的RS</p>
+<h4 id="DH（目标地址哈希）">DH（目标地址哈希）</h4><p>把访问同一个目标地址的请求，通通定向至此前选定的某RS</p>
+<h3 id="动态方法（根据算法及后端RS当前的负载状况实现调度）">动态方法（根据算法及后端RS当前的负载状况实现调度）</h3><h4 id="LC（最小连接）">LC（最小连接）</h4><p>该方法是将新的连接请求分发到当前连接数最少的服务器<br>Overhead=Active*256+Inactive;其中Active为活动连接数，Inactive为非活动连接数</p>
+<h4 id="WLC（加权最小连接）">WLC（加权最小连接）</h4><p>与lc方法有些类似，不过引入了加权值;如果不考虑session，WLC方法是首选<br>Overhead=Active*256+Inactive/weight</p>
+<h4 id="SED（最短期望延迟）">SED（最短期望延迟）</h4><p>该方法会选择响应速度最快的的那台服务器;Overhead=（Active+1）*256/weight</p>
+<h4 id="NQ（永不排队）">NQ（永不排队）</h4><p>该方法会优先选择活动连接数为0的服务器</p>
+<h4 id="LBLC（基于本地的最小连接）">LBLC（基于本地的最小连接）</h4><p>它是DH方法的动态版本，在连接数没有超过加权值指定的值时，将选择同一台服务器，若是超过了加权值指定的值则选择其它服务器；当所有服务器的连接数都超过加权值指定的值时，将选择最终所选的那台服务器</p>
+<h4 id="LBLCR（带复制的基于本地的最小连接）">LBLCR（带复制的基于本地的最小连接）</h4><p>当所有服务器的连接数都超过加权值指定的值时，将选择连接数最少的那台服务器</p>
 </span>
       
     </div>
@@ -282,7 +330,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           
             <a href="/tags/Linux/" rel="tag">#Linux</a>
           
-            <a href="/tags/文件删除/" rel="tag">#文件删除</a>
+            <a href="/tags/lvs/" rel="tag">#lvs</a>
           
         </div>
       
@@ -291,11 +339,11 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/25/Linux系统下svn的安装/" rel="prev">Linux系统下svn的安装</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/02/LNMP环境搭建及WorkPress的安装/" rel="next">LNMP环境搭建及WorkPress的安装</a>
             
           </div>
         </div>
@@ -320,8 +368,8 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/10/25/Linux系统文件删除原理/"
-                   data-title="Linux系统文件删除原理" data-url="http://freeandyblogs.com/2015/10/25/Linux系统文件删除原理/">
+              <div class="ds-thread" data-thread-key="2016/01/04/lvs的类型以及调度方法/"
+                   data-title="lvs的类型以及调度方法" data-url="http://freeandyblogs.com/2016/01/04/lvs的类型以及调度方法/">
               </div>
             
           </div>
@@ -423,7 +471,7 @@ Linux是通过link的数量来控制文件删除的；一般来说，每个文�
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本术语解释"><span class="nav-number">1.</span> <span class="nav-text">基本术语解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LVS的类型"><span class="nav-number">2.</span> <span class="nav-text">LVS的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lvs-nat"><span class="nav-number">2.1.</span> <span class="nav-text">lvs-nat</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#架构特性"><span class="nav-number">2.1.1.</span> <span class="nav-text">架构特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lvs-dr"><span class="nav-number">2.2.</span> <span class="nav-text">lvs-dr</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#架构特性-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">架构特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lvs-tun"><span class="nav-number">2.3.</span> <span class="nav-text">lvs-tun</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#架构特性-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">架构特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lvs-fullnat"><span class="nav-number">2.4.</span> <span class="nav-text">lvs-fullnat</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#架构特性-3"><span class="nav-number">2.4.1.</span> <span class="nav-text">架构特性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LVS的调度方法"><span class="nav-number">3.</span> <span class="nav-text">LVS的调度方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态方法（仅根据算法本身进行调度）"><span class="nav-number">3.1.</span> <span class="nav-text">静态方法（仅根据算法本身进行调度）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RR（轮询）"><span class="nav-number">3.1.1.</span> <span class="nav-text">RR（轮询）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WRR（加权轮询）"><span class="nav-number">3.1.2.</span> <span class="nav-text">WRR（加权轮询）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SH（源地址哈希）"><span class="nav-number">3.1.3.</span> <span class="nav-text">SH（源地址哈希）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DH（目标地址哈希）"><span class="nav-number">3.1.4.</span> <span class="nav-text">DH（目标地址哈希）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态方法（根据算法及后端RS当前的负载状况实现调度）"><span class="nav-number">3.2.</span> <span class="nav-text">动态方法（根据算法及后端RS当前的负载状况实现调度）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LC（最小连接）"><span class="nav-number">3.2.1.</span> <span class="nav-text">LC（最小连接）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WLC（加权最小连接）"><span class="nav-number">3.2.2.</span> <span class="nav-text">WLC（加权最小连接）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SED（最短期望延迟）"><span class="nav-number">3.2.3.</span> <span class="nav-text">SED（最短期望延迟）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NQ（永不排队）"><span class="nav-number">3.2.4.</span> <span class="nav-text">NQ（永不排队）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LBLC（基于本地的最小连接）"><span class="nav-number">3.2.5.</span> <span class="nav-text">LBLC（基于本地的最小连接）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LBLCR（带复制的基于本地的最小连接）"><span class="nav-number">3.2.6.</span> <span class="nav-text">LBLCR（带复制的基于本地的最小连接）</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
