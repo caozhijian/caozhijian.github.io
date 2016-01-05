@@ -211,6 +211,109 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/05/集群服务之lvs-nat类型的实现/" itemprop="url">
+                集群服务之lvs-nat类型的实现
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-05T16:38:16+08:00" content="2016-01-05">
+            2016-01-05
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/01/05/集群服务之lvs-nat类型的实现/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/05/集群服务之lvs-nat类型的实现/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h2 id="lvs-nat原理图">lvs-nat原理图</h2><p><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat1.gif" alt=""></p>
+<h2 id="lvs-nat实验拓扑">lvs-nat实验拓扑</h2><p><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvsnat.png" alt=""><br>如上图所示，node11作为Director，node12与node13为两台RS</p>
+<h2 id="配置步骤">配置步骤</h2><p>为node11添加一块网卡并将其类型设置为Vmnet2，这时会有两个网络接口，一个为桥接模式，一个为VMnet2；将node12与node13的网络连接方式设置为Vmnet2<br>node11<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ifconfig eth1 <span class="number">192.168</span><span class="number">.10</span><span class="number">.11</span>/<span class="number">24</span> up</span></span><br></pre></td></tr></table></figure></p>
+<p>node12<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node12 ~]<span class="preprocessor"># ifconfig eth0 <span class="number">192.168</span><span class="number">.10</span><span class="number">.12</span>/<span class="number">24</span> up</span></span><br></pre></td></tr></table></figure></p>
+<p>编辑测试页面<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node12</span> ~]<span class="preprocessor"># cat /var/www/html/index.html </span></span><br><span class="line">&lt;h1&gt;node12&lt;h1&gt;</span><br><span class="line">[root<span class="constant">@node12</span> ~]<span class="preprocessor"># service httpd start</span></span><br></pre></td></tr></table></figure></p>
+<p>设置路由<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@node12 ~]<span class="preprocessor"># route add default gw <span class="number">192.168</span><span class="number">.10</span><span class="number">.11</span></span></span><br><span class="line">[root@node12 ~]<span class="preprocessor"># route -n</span></span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.0</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">1</span>      <span class="number">0</span>        <span class="number">0</span> eth0</span><br><span class="line"><span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">192.168</span><span class="number">.10</span><span class="number">.11</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         UG    <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> eth0</span><br><span class="line"></span><br><span class="line">[root@node12 ~]<span class="preprocessor"># ping <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>   --&gt;确保能ping通</span></span><br><span class="line">PING <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span> (<span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>) <span class="number">56</span>(<span class="number">84</span>) bytes of data.</span><br><span class="line"><span class="number">64</span> bytes from <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>: icmp_seq=<span class="number">1</span> ttl=<span class="number">64</span> time=<span class="number">0.956</span> ms</span><br></pre></td></tr></table></figure></p>
+<p>node13<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node13 ~]<span class="preprocessor"># ifconfig eth0 <span class="number">192.168</span><span class="number">.10</span><span class="number">.13</span>/<span class="number">24</span> up</span></span><br></pre></td></tr></table></figure></p>
+<p>编辑测试页面<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node13</span> ~]<span class="preprocessor"># cat /var/www/html/index.html</span></span><br><span class="line">&lt;h1&gt;node13&lt;/h1&gt;</span><br><span class="line">[root<span class="constant">@node13</span> ~]<span class="preprocessor"># service httpd start</span></span><br></pre></td></tr></table></figure></p>
+<p>设置路由<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@node13 ~]<span class="preprocessor"># route add default gw <span class="number">192.168</span><span class="number">.10</span><span class="number">.11</span></span></span><br><span class="line">[root@node13 ~]<span class="preprocessor"># route -n</span></span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line"><span class="number">192.168</span><span class="number">.10</span><span class="number">.0</span>    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>   U     <span class="number">1</span>      <span class="number">0</span>        <span class="number">0</span> eth0</span><br><span class="line"><span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         <span class="number">192.168</span><span class="number">.10</span><span class="number">.11</span>   <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>         UG    <span class="number">0</span>      <span class="number">0</span>        <span class="number">0</span> eth0</span><br><span class="line"></span><br><span class="line">[root@node13 ~]<span class="preprocessor"># ping <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span> --&gt;确保能ping通</span></span><br><span class="line">PING <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span> (<span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>) <span class="number">56</span>(<span class="number">84</span>) bytes of data.</span><br><span class="line"><span class="number">64</span> bytes from <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>: icmp_seq=<span class="number">1</span> ttl=<span class="number">64</span> time=<span class="number">1.39</span> ms</span><br></pre></td></tr></table></figure></p>
+<p>node11<br>测试页面能否正常访问<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="label">node11</span> ~]<span class="title"># curl http://192</span><span class="number">.168.</span><span class="number">10.12</span></span><br><span class="line">&lt;h<span class="number">1</span>&gt;<span class="label">node12</span>&lt;h<span class="number">1</span>&gt;</span><br><span class="line">[root@<span class="label">node11</span> ~]<span class="title"># curl http://192</span><span class="number">.168.</span><span class="number">10.13</span></span><br><span class="line">&lt;h<span class="number">1</span>&gt;<span class="label">node13</span>&lt;/h<span class="number">1</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>配置ipvs规则,在配置ipvs之前确保iptables规则为空<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -s rr</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.12</span> -m -w <span class="number">1</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.13</span> -m -w <span class="number">3</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> rr</span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.12</span>:<span class="number">80</span>             Masq    <span class="number">1</span>      <span class="number">0</span>          <span class="number">0</span>         </span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.13</span>:<span class="number">80</span>             Masq    <span class="number">3</span>      <span class="number">0</span>          <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>开启核心转发功能<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># cat /proc/sys/net/ipv4/ip_forward </span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># cat /etc/sysctl.conf --&gt;将net.ipv4.ip_forward的值设置为1</span></span><br><span class="line">...</span><br><span class="line">net.ipv4.ip_forward = <span class="number">1</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># sysctl -p --&gt;让配置立即生效</span></span><br></pre></td></tr></table></figure></p>
+<p>测试<br>在浏览器中输入VIP地址，即172.20.2.175，出现如下页面<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-node13.png" alt=""></p>
+<p>刷新页面<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-node12.png" alt=""></p>
+<p>查看一下统计结果<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ipvsadm -L -n --stats</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-rr.png" alt=""><br>由图所示，结果接近1:1</p>
+<p>修改调度算法，再次进行测试<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -E -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -s wrr</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ab -n <span class="number">10000</span> -c <span class="number">100</span> http:<span class="comment">//172.20.2.175/index.html --&gt;为了效果更明显，可以多运行几次</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n --stats</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-wrr.png" alt=""><br>测试结果接近1:3</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/05/ipvsadm命令的用法/" itemprop="url">
                 ipvsadm命令的用法
               </a>
@@ -1154,7 +1257,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1168,7 +1271,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
