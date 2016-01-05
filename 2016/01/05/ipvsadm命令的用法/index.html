@@ -1,0 +1,727 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="Linux,ipvsadm,lvs," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="查看内核在编译时是否支持ipvs1[root@node11 ~]# grep -i &apos;ipvs&apos; -A 5 /boot/config-2.6.32-504.el6.x86_64
+安装ipvsadm12[root@node11 ~]# yum -y install ipvsadm[root@node11 ~]# rpm -ql ipvsadm
+管理集群服务添加或修改命令格式123456ipvsadm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ipvsadm命令的用法">
+<meta property="og:url" content="http://freeandyblogs.com/2016/01/05/ipvsadm命令的用法/index.html">
+<meta property="og:site_name" content="曹芷健的技术博客">
+<meta property="og:description" content="查看内核在编译时是否支持ipvs1[root@node11 ~]# grep -i &apos;ipvs&apos; -A 5 /boot/config-2.6.32-504.el6.x86_64
+安装ipvsadm12[root@node11 ~]# yum -y install ipvsadm[root@node11 ~]# rpm -ql ipvsadm
+管理集群服务添加或修改命令格式123456ipvsadm">
+<meta property="og:updated_time" content="2016-01-05T04:37:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ipvsadm命令的用法">
+<meta name="twitter:description" content="查看内核在编译时是否支持ipvs1[root@node11 ~]# grep -i &apos;ipvs&apos; -A 5 /boot/config-2.6.32-504.el6.x86_64
+安装ipvsadm12[root@node11 ~]# yum -y install ipvsadm[root@node11 ~]# rpm -ql ipvsadm
+管理集群服务添加或修改命令格式123456ipvsadm">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> ipvsadm命令的用法 | 曹芷健的技术博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">曹芷健的技术博客</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tools">
+          <a href="/tools" rel="section">
+            <i class="menu-item-icon icon-next-tools"></i> <br />
+            工具
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'n5rGUMer12GgpqkeHHwz','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              ipvsadm命令的用法
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-05T11:55:08+08:00" content="2016-01-05">
+            2016-01-05
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/01/05/ipvsadm命令的用法/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/05/ipvsadm命令的用法/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+    <span>&nbsp; | &nbsp;
+    <span id="busuanzi_value_page_pv" ></span>次阅读
+    </span>    
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>查看内核在编译时是否支持ipvs<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="property">@node11</span> ~]<span class="comment"># grep -i 'ipvs' -A 5 /boot/config-2.6.32-504.el6.x86_64</span></span><br></pre></td></tr></table></figure></p>
+<p>安装ipvsadm<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># yum -y install ipvsadm</span></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># rpm -ql ipvsadm</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="管理集群服务">管理集群服务</h2><h3 id="添加或修改">添加或修改</h3><p>命令格式<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -A|E -t|u|f service-address [-s scheduler] </span><br><span class="line">-<span class="ruby"><span class="constant">A</span> 添加 -<span class="constant">E</span> 修改 </span><br><span class="line"></span>-<span class="ruby">t 承载的应用层协议是基于tcp协议提供服务的协议；其service-address的格式为<span class="string">"VIP：PORT"</span>，如<span class="number">172.20</span>.<span class="number">2.175</span><span class="symbol">:</span><span class="number">80</span></span><br><span class="line"></span>-<span class="ruby">u 承载的应用层协议是基于udp协议提供服务的协议；其service-address的格式为<span class="string">"VIP：PORT"</span>，如<span class="number">172.20</span>.<span class="number">2.175</span><span class="symbol">:</span><span class="number">53</span></span><br><span class="line"></span>-<span class="ruby">f 承载的应用层协议是基于tcp或udp协议提供服务的协议，但此类报文会经由iptables/netfilter打标记，即为防火墙标记；其service-address的格式为<span class="string">"FWM"</span>，如<span class="string">"10"</span></span><br><span class="line"></span>-<span class="ruby">s 指明调度方法，默认为wlc</span></span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除">删除</h3><p>命令格式<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -D -t|<span class="string">u</span>|<span class="string">f service-address</span></span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -D -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br></pre></td></tr></table></figure></p>
+<h2 id="管理集群服务的RS">管理集群服务的RS</h2><h3 id="添加或修改-1">添加或修改</h3><p>命令格式<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -a|e -t|u|f service-address -r server-address [-g|i|m] [-w weight]</span><br><span class="line"></span><br><span class="line">-<span class="ruby">r server-address 指明<span class="constant">RS</span>，其server-address的格式一般为<span class="string">"IP[:PORT]"</span>,只有支持端口映射的lvs类型中才应该显式指定此处端口</span><br><span class="line"></span>[-g|i|m] 指明lvs类型；默认为dr类型</span><br><span class="line">  -<span class="ruby">g即gateway，意为dr类型 </span><br><span class="line"></span>  -<span class="ruby">i即ipip，意为tun类型 </span><br><span class="line"></span>  -<span class="ruby">m即masquerade，意为nat类型</span><br><span class="line"></span></span><br><span class="line">[-w weight] 当前RS的权重，仅对于支持加权调度的scheduler权重才有意义</span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span> -m -w <span class="number">2</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span> -m -w <span class="number">5</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span>:<span class="number">80</span>              Masq    <span class="number">2</span>      <span class="number">0</span>          <span class="number">0</span>         </span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span>              Masq    <span class="number">5</span>      <span class="number">0</span>          <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="删除-1">删除</h3><p>命令格式<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -d -t|<span class="string">u</span>|<span class="string">f service-address -r server-address</span></span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -d -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span>              Masq    <span class="number">5</span>      <span class="number">0</span>          <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="清空所有集群服务的定义">清空所有集群服务的定义</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ipvsadm -C</span></span><br><span class="line"></span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ipvsadm -L -n</span></span><br><span class="line"><span class="constant">IP</span> <span class="constant">Virtual</span> <span class="constant">Server</span> version <span class="number">1.2</span>.<span class="number">1</span> (size=<span class="number">4096</span>)</span><br><span class="line"><span class="constant">Prot</span> <span class="constant">LocalAddress</span><span class="symbol">:Port</span> <span class="constant">Scheduler</span> <span class="constant">Flags</span></span><br><span class="line">  -&gt; <span class="constant">RemoteAddress</span><span class="symbol">:Port</span>           <span class="constant">Forward</span> <span class="constant">Weight</span> <span class="constant">ActiveConn</span> <span class="constant">InActConn</span></span><br></pre></td></tr></table></figure>
+<h2 id="保存及恢复集群服务或RS的定义">保存及恢复集群服务或RS的定义</h2><p>三种方式<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -S &gt; <span class="regexp">/etc/</span>sysconfig/ipvsadm </span><br><span class="line">ipvsadm-save &gt; <span class="regexp">/etc/</span>sysconfig/ipvsadm </span><br><span class="line">service ipvsadm save</span><br><span class="line"></span><br><span class="line">ipvsadm -R &lt; <span class="regexp">/etc/</span>sysconfig/ipvsadm</span><br><span class="line">ipvsadm-restore &lt; <span class="regexp">/etc/</span>sysconfig/ipvsadm</span><br><span class="line">service ipvsadm restart</span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -s wrr</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span> -w <span class="number">2</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span> -w <span class="number">5</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># service ipvsadm save</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># cat /etc/sysconfig/ipvsadm</span></span><br><span class="line">-A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -s wrr</span><br><span class="line">-a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span>:<span class="number">80</span> -g -w <span class="number">2</span></span><br><span class="line">-a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span> -g -w <span class="number">5</span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -C</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -R &lt; /etc/sysconfig/ipvsadm</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wrr</span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span>:<span class="number">80</span>              Route   <span class="number">2</span>      <span class="number">0</span>          <span class="number">0</span>         </span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span>              Route   <span class="number">5</span>      <span class="number">0</span>          <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="查看规则">查看规则</h2><p>命令格式<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -L|l [options]</span><br><span class="line">options</span><br><span class="line">  -<span class="ruby">c 列出当前所有connection</span><br><span class="line"></span>  -<span class="ruby">-stats 列出统计数据</span><br><span class="line"></span>  -<span class="ruby">-rate 列出速率</span><br><span class="line"></span>  -<span class="ruby">n或--number 数字格式显示<span class="constant">IP</span>及端口</span><br><span class="line"></span>  -<span class="ruby">-exact 列出精确值</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="清空计数器">清空计数器</h2><p>命令格式<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -Z [-t|<span class="string">u</span>|<span class="string">f service-address]</span></span><br></pre></td></tr></table></figure></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/ipvsadm/" rel="tag">#ipvsadm</a>
+          
+            <a href="/tags/lvs/" rel="tag">#lvs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/04/lvs的类型以及调度方法/" rel="next">lvs的类型以及调度方法</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/01/05/ipvsadm命令的用法/"
+                   data-title="ipvsadm命令的用法" data-url="http://freeandyblogs.com/2016/01/05/ipvsadm命令的用法/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://7xnir6.com1.z0.glb.clouddn.com/QQ图片20151015110324.jpg" alt="曹芷健" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">曹芷健</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/caozhijian" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://segmentfault.com/u/caozhijian" target="_blank">SegmentFault</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3309846405/profile?topnav=1&wvr=6" target="_blank">Weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#管理集群服务"><span class="nav-number">1.</span> <span class="nav-text">管理集群服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加或修改"><span class="nav-number">1.1.</span> <span class="nav-text">添加或修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">1.2.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理集群服务的RS"><span class="nav-number">2.</span> <span class="nav-text">管理集群服务的RS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加或修改-1"><span class="nav-number">2.1.</span> <span class="nav-text">添加或修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除-1"><span class="nav-number">2.2.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清空所有集群服务的定义"><span class="nav-number">3.</span> <span class="nav-text">清空所有集群服务的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存及恢复集群服务或RS的定义"><span class="nav-number">4.</span> <span class="nav-text">保存及恢复集群服务或RS的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看规则"><span class="nav-number">5.</span> <span class="nav-text">查看规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清空计数器"><span class="nav-number">6.</span> <span class="nav-text">清空计数器</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">曹芷健</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"freeandy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

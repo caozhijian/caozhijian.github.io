@@ -211,6 +211,106 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/05/ipvsadm命令的用法/" itemprop="url">
+                ipvsadm命令的用法
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-05T11:55:08+08:00" content="2016-01-05">
+            2016-01-05
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/01/05/ipvsadm命令的用法/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/05/ipvsadm命令的用法/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>查看内核在编译时是否支持ipvs<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="property">@node11</span> ~]<span class="comment"># grep -i 'ipvs' -A 5 /boot/config-2.6.32-504.el6.x86_64</span></span><br></pre></td></tr></table></figure></p>
+<p>安装ipvsadm<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># yum -y install ipvsadm</span></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># rpm -ql ipvsadm</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="管理集群服务">管理集群服务</h2><h3 id="添加或修改">添加或修改</h3><p>命令格式<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -A|E -t|u|f service-address [-s scheduler] </span><br><span class="line">-<span class="ruby"><span class="constant">A</span> 添加 -<span class="constant">E</span> 修改 </span><br><span class="line"></span>-<span class="ruby">t 承载的应用层协议是基于tcp协议提供服务的协议；其service-address的格式为<span class="string">"VIP：PORT"</span>，如<span class="number">172.20</span>.<span class="number">2.175</span><span class="symbol">:</span><span class="number">80</span></span><br><span class="line"></span>-<span class="ruby">u 承载的应用层协议是基于udp协议提供服务的协议；其service-address的格式为<span class="string">"VIP：PORT"</span>，如<span class="number">172.20</span>.<span class="number">2.175</span><span class="symbol">:</span><span class="number">53</span></span><br><span class="line"></span>-<span class="ruby">f 承载的应用层协议是基于tcp或udp协议提供服务的协议，但此类报文会经由iptables/netfilter打标记，即为防火墙标记；其service-address的格式为<span class="string">"FWM"</span>，如<span class="string">"10"</span></span><br><span class="line"></span>-<span class="ruby">s 指明调度方法，默认为wlc</span></span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除">删除</h3><p>命令格式<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -D -t|<span class="string">u</span>|<span class="string">f service-address</span></span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -D -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br></pre></td></tr></table></figure></p>
+<h2 id="管理集群服务的RS">管理集群服务的RS</h2><h3 id="添加或修改-1">添加或修改</h3><p>命令格式<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -a|e -t|u|f service-address -r server-address [-g|i|m] [-w weight]</span><br><span class="line"></span><br><span class="line">-<span class="ruby">r server-address 指明<span class="constant">RS</span>，其server-address的格式一般为<span class="string">"IP[:PORT]"</span>,只有支持端口映射的lvs类型中才应该显式指定此处端口</span><br><span class="line"></span>[-g|i|m] 指明lvs类型；默认为dr类型</span><br><span class="line">  -<span class="ruby">g即gateway，意为dr类型 </span><br><span class="line"></span>  -<span class="ruby">i即ipip，意为tun类型 </span><br><span class="line"></span>  -<span class="ruby">m即masquerade，意为nat类型</span><br><span class="line"></span></span><br><span class="line">[-w weight] 当前RS的权重，仅对于支持加权调度的scheduler权重才有意义</span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span> -m -w <span class="number">2</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span> -m -w <span class="number">5</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span>:<span class="number">80</span>              Masq    <span class="number">2</span>      <span class="number">0</span>          <span class="number">0</span>         </span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span>              Masq    <span class="number">5</span>      <span class="number">0</span>          <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="删除-1">删除</h3><p>命令格式<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -d -t|<span class="string">u</span>|<span class="string">f service-address -r server-address</span></span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -d -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wlc</span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span>              Masq    <span class="number">5</span>      <span class="number">0</span>          <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="清空所有集群服务的定义">清空所有集群服务的定义</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ipvsadm -C</span></span><br><span class="line"></span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ipvsadm -L -n</span></span><br><span class="line"><span class="constant">IP</span> <span class="constant">Virtual</span> <span class="constant">Server</span> version <span class="number">1.2</span>.<span class="number">1</span> (size=<span class="number">4096</span>)</span><br><span class="line"><span class="constant">Prot</span> <span class="constant">LocalAddress</span><span class="symbol">:Port</span> <span class="constant">Scheduler</span> <span class="constant">Flags</span></span><br><span class="line">  -&gt; <span class="constant">RemoteAddress</span><span class="symbol">:Port</span>           <span class="constant">Forward</span> <span class="constant">Weight</span> <span class="constant">ActiveConn</span> <span class="constant">InActConn</span></span><br></pre></td></tr></table></figure>
+<h2 id="保存及恢复集群服务或RS的定义">保存及恢复集群服务或RS的定义</h2><p>三种方式<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -S &gt; <span class="regexp">/etc/</span>sysconfig/ipvsadm </span><br><span class="line">ipvsadm-save &gt; <span class="regexp">/etc/</span>sysconfig/ipvsadm </span><br><span class="line">service ipvsadm save</span><br><span class="line"></span><br><span class="line">ipvsadm -R &lt; <span class="regexp">/etc/</span>sysconfig/ipvsadm</span><br><span class="line">ipvsadm-restore &lt; <span class="regexp">/etc/</span>sysconfig/ipvsadm</span><br><span class="line">service ipvsadm restart</span><br></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -s wrr</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span> -w <span class="number">2</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span> -w <span class="number">5</span></span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># service ipvsadm save</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># cat /etc/sysconfig/ipvsadm</span></span><br><span class="line">-A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -s wrr</span><br><span class="line">-a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span>:<span class="number">80</span> -g -w <span class="number">2</span></span><br><span class="line">-a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> -r <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span> -g -w <span class="number">5</span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -C</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -R &lt; /etc/sysconfig/ipvsadm</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -L -n</span></span><br><span class="line">IP Virtual Server version <span class="number">1.2</span><span class="number">.1</span> (size=<span class="number">4096</span>)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line">  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn</span><br><span class="line">TCP  <span class="number">172.20</span><span class="number">.2</span><span class="number">.175</span>:<span class="number">80</span> wrr</span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.7</span>:<span class="number">80</span>              Route   <span class="number">2</span>      <span class="number">0</span>          <span class="number">0</span>         </span><br><span class="line">  -&gt; <span class="number">192.168</span><span class="number">.10</span><span class="number">.8</span>:<span class="number">80</span>              Route   <span class="number">5</span>      <span class="number">0</span>          <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="查看规则">查看规则</h2><p>命令格式<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -L|l [options]</span><br><span class="line">options</span><br><span class="line">  -<span class="ruby">c 列出当前所有connection</span><br><span class="line"></span>  -<span class="ruby">-stats 列出统计数据</span><br><span class="line"></span>  -<span class="ruby">-rate 列出速率</span><br><span class="line"></span>  -<span class="ruby">n或--number 数字格式显示<span class="constant">IP</span>及端口</span><br><span class="line"></span>  -<span class="ruby">-exact 列出精确值</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="清空计数器">清空计数器</h2><p>命令格式<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipvsadm -Z [-t|<span class="string">u</span>|<span class="string">f service-address]</span></span><br></pre></td></tr></table></figure></p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/04/lvs的类型以及调度方法/" itemprop="url">
                 lvs的类型以及调度方法
               </a>
@@ -1054,7 +1154,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1068,7 +1168,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
