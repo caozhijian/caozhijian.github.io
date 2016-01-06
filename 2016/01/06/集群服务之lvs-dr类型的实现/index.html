@@ -60,7 +60,7 @@ Director不会拆除或修改请求报文的IP首部，而是通过封装新的�
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node13.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node12.png">
-<meta property="og:updated_time" content="2016-01-06T07:01:02.000Z">
+<meta property="og:updated_time" content="2016-01-06T07:03:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集群服务之lvs-dr类型的实现">
 <meta name="twitter:description" content="实验拓扑图实验拓扑如下图所示
@@ -321,11 +321,15 @@ Director不会拆除或修改请求报文的IP首部，而是通过封装新的�
 </ol>
 <p>对于各RS而言</p>
 <ol>
-<li>先修改内核参数<br> echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore<br> echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore<br> echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce<br> echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</li>
-<li>VIP配置在lo的别名上<pre><code>ifconfig lo:<span class="number">0</span> <span class="variable">$vip</span> netmask <span class="number">255.255</span>.<span class="number">255.255</span> broadcast <span class="variable">$vip</span>
-</code></pre></li>
-<li>配置路由信息<pre><code>route add -host <span class="variable">$vip</span> dev lo:<span class="number">0</span>
-</code></pre></li>
+<li><p>先修改内核参数</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">1</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_ignore </span><br><span class="line">echo <span class="number">1</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_ignore </span><br><span class="line">echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_announce </span><br><span class="line">echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_announce</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>VIP配置在lo的别名上</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig lo:<span class="number">0</span> <span class="variable">$vip</span> netmask <span class="number">255.255</span>.<span class="number">255.255</span> broadcast <span class="variable">$vip</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置路由信息</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -host <span class="variable">$vip</span> dev lo:<span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <p><a href="http://kb.linuxvirtualserver.org/wiki/Using_arp_announce/arp_ignore_to_disable_ARP" target="_blank" rel="external">关于arp_announce与arp_ignore</a></p>
 </span>
