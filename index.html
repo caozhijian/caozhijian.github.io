@@ -211,6 +211,129 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/06/集群服务之lvs-dr类型的实现/" itemprop="url">
+                集群服务之lvs-dr类型的实现
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-06T14:49:06+08:00" content="2016-01-06">
+            2016-01-06
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/01/06/集群服务之lvs-dr类型的实现/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/06/集群服务之lvs-dr类型的实现/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h3 id="实验拓扑图">实验拓扑图</h3><p>实验拓扑如下图所示<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr.png" alt=""></p>
+<h3 id="要点">要点</h3><ol>
+<li>各RS要直接响应Client，因此各RS均需配置VIP；但仅能够让Director上的VIP能够与本地路由进行通信；</li>
+<li>Director不会拆除或修改请求报文的IP首部，而是通过封装新的帧首部（源MAC为Director的MAC地址，目标MAC为挑选出的RS的MAC地址）完成调度</li>
+</ol>
+<p>为了保证RS上的VIP不会对ARP广播报文进行响应可以有三种实现方式</p>
+<ol>
+<li>在前端路由器上静态指定</li>
+<li>通过arptables</li>
+<li>通过修改内核参数来限制arp通告和响应级别</li>
+</ol>
+<p>这里采用第三种方式,有关arp的相关内容可参考本文末尾给出的链接</p>
+<h3 id="配置过程">配置过程</h3><h4 id="修改内核参数">修改内核参数</h4><p>node12<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@node12 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore </span><br><span class="line">[root@node12 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore </span><br><span class="line">[root@node12 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce </span><br><span class="line">[root@node12 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce</span><br></pre></td></tr></table></figure></p>
+<p>node13<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@node13 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore </span><br><span class="line">[root@node13 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore </span><br><span class="line">[root@node13 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce </span><br><span class="line">[root@node13 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce</span><br></pre></td></tr></table></figure></p>
+<h4 id="设置VIP">设置VIP</h4><p>node11<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ifconfig eth0:<span class="number">0</span> <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> broadcast <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> up</span></span><br></pre></td></tr></table></figure></p>
+<p>node12<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node12 ~]<span class="preprocessor"># ifconfig lo:<span class="number">0</span> <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> broadcast <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> up</span></span><br></pre></td></tr></table></figure></p>
+<p>node13<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node13 ~]<span class="preprocessor"># ifconfig lo:<span class="number">0</span> <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> broadcast <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> up</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="定义集群服务">定义集群服务</h4><p>node12<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node12 ~]<span class="preprocessor"># route add -host <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> dev lo:<span class="number">0</span></span></span><br></pre></td></tr></table></figure></p>
+<p>node13<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node13 ~]<span class="preprocessor"># route add -host <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> dev lo:<span class="number">0</span></span></span><br></pre></td></tr></table></figure></p>
+<p>node11<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># route add -host <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> dev eth0:<span class="number">0</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># sysctl -a|grep ip_forward</span></span><br><span class="line">net.ipv4.ip_forward = <span class="number">1</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -C</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># iptables -F</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span>:<span class="number">80</span> -s rr</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span>:<span class="number">80</span> -r <span class="number">172.20</span><span class="number">.2</span><span class="number">.115</span> -g -w <span class="number">1</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span>:<span class="number">80</span> -r <span class="number">172.20</span><span class="number">.2</span><span class="number">.104</span> -g -w <span class="number">3</span></span></span><br></pre></td></tr></table></figure></p>
+<p>测试<br>通过物理机访问VIP地址，效果如下图所示<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node13.png" alt=""></p>
+<p>刷新以后<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node12.png" alt=""></p>
+<h4 id="配置过程总结">配置过程总结</h4><p>对于Director而言</p>
+<ol>
+<li>VIP配置在物理接口的别名上<pre><code>ifconfig INTERFACE:ALIAS <span class="variable">$vip</span> netmask <span class="number">255.255</span>.<span class="number">255.255</span> broadcast <span class="variable">$vip</span>
+</code></pre></li>
+<li>配置路由信息<pre><code>route add -host <span class="variable">$vip</span> dev INTERFACE:ALIAS
+</code></pre></li>
+</ol>
+<p>对于各RS而言</p>
+<ol>
+<li>先修改内核参数<br> echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore<br> echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore<br> echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce<br> echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</li>
+<li>VIP配置在lo的别名上<pre><code>ifconfig lo:<span class="number">0</span> <span class="variable">$vip</span> netmask <span class="number">255.255</span>.<span class="number">255.255</span> broadcast <span class="variable">$vip</span>
+</code></pre></li>
+<li>配置路由信息<pre><code>route add -host <span class="variable">$vip</span> dev lo:<span class="number">0</span>
+</code></pre></li>
+</ol>
+<p><a href="http://kb.linuxvirtualserver.org/wiki/Using_arp_announce/arp_ignore_to_disable_ARP" target="_blank" rel="external">关于arp_announce与arp_ignore</a></p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/05/集群服务之lvs-nat类型的实现/" itemprop="url">
                 集群服务之lvs-nat类型的实现
               </a>
@@ -1257,7 +1380,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
