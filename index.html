@@ -283,7 +283,7 @@
 [root@node12 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore 
 [root@node12 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce 
 [root@node12 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce 
-</code></pre><p>node13<br>    [root@node13 ~]# echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore<br>    [root@node13 ~]# echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore<br>    [root@node13 ~]# echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce<br>    [root@node13 ~]# echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce </p>
+</code></pre><p>node13<br>      [root@node13 ~]# echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore<br>      [root@node13 ~]# echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore<br>      [root@node13 ~]# echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce<br>      [root@node13 ~]# echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce </p>
 <h4 id="设置VIP">设置VIP</h4><p>node11</p>
 <pre><code>[root@node11 ~]<span class="preprocessor"># ifconfig eth0:<span class="number">0</span> <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> broadcast <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> up</span>
 </code></pre><p>node12</p>
@@ -314,9 +314,15 @@ net.ipv4.ip_forward = <span class="number">1</span>
 </ol>
 <p>对于各RS而言</p>
 <ol>
-<li>先修改内核参数<br>  echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore<br>  echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore<br>  echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce<br>  echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</li>
-<li>VIP配置在lo的别名上<br>  ifconfig lo:0 $vip netmask 255.255.255.255 broadcast $vip</li>
-<li>配置路由信息<br>  route add -host $vip dev lo:0</li>
+<li>先修改内核参数<pre><code>echo <span class="number">1</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_ignore
+echo <span class="number">1</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_ignore 
+echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_announce 
+echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_announce
+</code></pre></li>
+<li>VIP配置在lo的别名上<pre><code>ifconfig lo:<span class="number">0</span> <span class="variable">$vip</span> netmask <span class="number">255.255</span>.<span class="number">255.255</span> broadcast <span class="variable">$vip</span>
+</code></pre></li>
+<li>配置路由信息<pre><code>route add -host <span class="variable">$vip</span> dev lo:<span class="number">0</span>
+</code></pre></li>
 </ol>
 <p><a href="http://kb.linuxvirtualserver.org/wiki/Using_arp_announce/arp_ignore_to_disable_ARP" target="_blank" rel="external">关于arp_announce与arp_ignore</a></p>
 </span>
