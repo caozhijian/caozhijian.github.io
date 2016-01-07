@@ -40,7 +40,7 @@
 <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="曹芷健的技术博客">
-<meta property="og:url" content="http://freeandyblogs.com/archives/2015/index.html">
+<meta property="og:url" content="http://freeandyblogs.com/page/2/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -55,7 +55,7 @@
   };
 </script>
 
-  <title> 归档 | 曹芷健的技术博客 </title>
+  <title> 曹芷健的技术博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -83,7 +83,9 @@
 
 
 
-  <div class="container one-column  page-archive ">
+  <div class="container one-column 
+   page-home 
+">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -196,215 +198,101 @@
     <main id="main" class="main">
       <div class="main-inner">
         <div id="content" class="content"> 
-
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 11 篇日志。 继续努力。
-    </span>
-
+  <section id="posts" class="posts-expand">
     
-
-      
-      
       
 
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/12/02/LNMP环境搭建及WorkPress的安装/" itemprop="url">
-              <span itemprop="name">LNMP环境搭建及WorkPress的安装</span>
-            </a>
-        
-      </h1>
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2015/10/25/Linux系统文件删除原理/" itemprop="url">
+                Linux系统文件删除原理
+              </a>
+            
+          
+        </h1>
+      
 
       <div class="post-meta">
-        <time class="post-time" datetime="2015-12-02T07:34:20.000Z" itemprop="dateCreated" content="2015-12-02"> 12-02 </time>
-      </div>
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-25T12:29:36+08:00" content="2015-10-25">
+            2015-10-25
+          </time>
+        </span>
 
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/10/25/Linux系统文件删除原理/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/25/Linux系统文件删除原理/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+      </div>
     </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>原理如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/del01.png" alt="文件删除原理"></p>
+<p>Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。<br>i_link是文件的硬链接数（磁盘引用计数器）<br>i_count是文件被进程调用数（内存引用计数）<br>只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </article>
 
 
-
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/11/30/nginx常用功能的配置/" itemprop="url">
-              <span itemprop="name">nginx常用功能的配置</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2015-11-30T07:31:35.000Z" itemprop="dateCreated" content="2015-11-30"> 11-30 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/11/27/nginx中虚拟主机的配置/" itemprop="url">
-              <span itemprop="name">nginx中虚拟主机的配置</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2015-11-27T09:26:58.000Z" itemprop="dateCreated" content="2015-11-27"> 11-27 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/11/24/nginx的特性以及安装/" itemprop="url">
-              <span itemprop="name">nginx的特性以及安装</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2015-11-24T10:31:02.000Z" itemprop="dateCreated" content="2015-11-24"> 11-24 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/10/25/Linux系统下svn的安装/" itemprop="url">
-              <span itemprop="name">Linux系统下svn的安装</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2015-10-25T05:23:05.000Z" itemprop="dateCreated" content="2015-10-25"> 10-25 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2015/10/25/Linux系统文件删除原理/" itemprop="url">
-              <span itemprop="name">Linux系统文件删除原理</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2015-10-25T04:29:36.000Z" itemprop="dateCreated" content="2015-10-25"> 10-25 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
   </section>
 
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
  </div>
 
@@ -540,12 +428,6 @@
   
   
   
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
-  
     
 
   
@@ -591,12 +473,6 @@
   <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
-
 
   <script type="text/javascript">
     $(document).ready(function () {

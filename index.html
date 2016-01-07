@@ -211,6 +211,96 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/07/Mac通过代理远程连接主机/" itemprop="url">
+                Mac通过代理远程连接主机
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-07T14:16:40+08:00" content="2016-01-07">
+            2016-01-07
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/工作日志/" itemprop="url" rel="index">
+                  <span itemprop="name">工作日志</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/01/07/Mac通过代理远程连接主机/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/07/Mac通过代理远程连接主机/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>身为一名运维工程师，通过XSHELL等软件远程登录服务器进行操作已经成了家常便饭，当然在我的PC机上是装有XSHELL软件的，但是非常蛋疼的买了一台苹果笔记本，刚开始的时候还不知道怎样配置才能登录到代理服务器上，当时也在网上找了很多方法，但都没有成功，于是只能在移动硬盘上装了一台虚拟机；可是今天上班打开PC机，发现竟然不能上网了，移动硬盘又放在宿舍没有带来，还好我的MAC可以无线上网，于是就再次多方尝试使用笔记本连接到公司的服务器上，还好这一次总算是成功了，真可谓是一波三折啊，现在将我的配置过程分享出来，供各位朋友参考。</p>
+<p>下载corkscrew<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//www.agroman.net/corkscrew/corkscrew-2.0.tar.gz</span></span><br><span class="line">tar xfz corkscrew-<span class="number">2.0</span><span class="class">.tar</span><span class="class">.gz</span></span><br><span class="line">cd corkscrew-<span class="number">2.0</span></span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>编辑~/.ssh/config文件<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat  ~/.ssh/config</span><br><span class="line">Host app150   --&gt;别名，可以使用ssh app150进行登录</span><br><span class="line"></span><br><span class="line">HostName        	<span class="number">192.168</span><span class="number">.0</span><span class="number">.150</span>  --&gt;要登陆的服务器地址，可以有多个</span><br><span class="line">Port            	<span class="number">22</span></span><br><span class="line">User	                zhijian.cao  --&gt;用户名</span><br><span class="line">ServerAliveInterval 	<span class="number">30</span> </span><br><span class="line">TCPKeepAlive            yes</span><br><span class="line">ControlPersist          <span class="number">4</span>h</span><br><span class="line">IdentityFile            ~/.ssh/caozhijian  --&gt;这是我之前用XSHELL生成的私钥文件</span><br><span class="line">ProxyCommand    	/usr/local/bin/corkscrew IP PORT %h %p ~/.corkscrew-auth --&gt;IP与PORT分别为代理服务器地址与端口号，corkscrew-auth文件记录了代理服务器使用的用户名与密码，格式为username:password,例如zhijian.cao:<span class="number">111111</span></span><br></pre></td></tr></table></figure></p>
+<p>ssh服务器为了安全考虑发现客户端长时间闲置的话会主动断开ssh连接，如果不想ssh自动断开，ssh客户端需要打开TCPKeepAlive选项定时给服务器发TCP包来欺骗服务器，让ssh服务器感觉客户端还在“活动”中。同时ssh服务器端也需要打开TCPKeepAlive选项<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">cat</span> /etc/ssh/sshd_config|grep TCPKeepAlive</span><br><span class="line">TCPKeepAlive <span class="built_in">yes</span></span><br></pre></td></tr></table></figure></p>
+<p>到这里就已经配置完成了，可以使用ssh命令远程登录服务器愉快地玩耍了！</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/06/集群服务之lvs-dr类型的实现/" itemprop="url">
                 集群服务之lvs-dr类型的实现
               </a>
@@ -1284,96 +1374,13 @@ echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/n
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/25/Linux系统文件删除原理/" itemprop="url">
-                Linux系统文件删除原理
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-25T12:29:36+08:00" content="2015-10-25">
-            2015-10-25
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/学习笔记/" itemprop="url" rel="index">
-                  <span itemprop="name">学习笔记</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/10/25/Linux系统文件删除原理/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/25/Linux系统文件删除原理/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-
-    
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>原理如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/del01.png" alt="文件删除原理"></p>
-<p>Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。<br>i_link是文件的硬链接数（磁盘引用计数器）<br>i_count是文件被进程调用数（内存引用计数）<br>只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。</p>
-</span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+  </nav>
+
  </div>
 
         
@@ -1405,21 +1412,21 @@ echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/n
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
