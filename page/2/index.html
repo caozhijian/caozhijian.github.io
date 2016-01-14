@@ -211,6 +211,118 @@
           
           
             
+              <a class="post-title-link" href="/2015/10/25/Linux系统下svn的安装/" itemprop="url">
+                Linux系统下svn的安装
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-25T13:23:05+08:00" content="2015-10-25">
+            2015-10-25
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/10/25/Linux系统下svn的安装/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/25/Linux系统下svn的安装/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h1 id="简介">简介</h1><p>svn是一个跨平台的版本控制系统，它管理着随时间改变的各种数据，这些数据都是保存在中央资料档案库中的；svn会备份并记录每个文件的修改更新变动，这样就可以很方便地将文件恢复到任一时间点的版本。</p>
+<h1 id="安装配置Svn服务">安装配置Svn服务</h1><h2 id="准备操作系统并查看系统环境">准备操作系统并查看系统环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  cat /etc/redhat-release </span><br><span class="line">CentOS release <span class="number">5.10</span> (Final)</span><br><span class="line">➜  ~  uname -m</span><br><span class="line">x86_64</span><br><span class="line">➜  ~  uname -r</span><br><span class="line"><span class="number">2.6</span>.<span class="number">18</span>-<span class="number">371.11</span>.<span class="number">1</span>.el5</span><br></pre></td></tr></table></figure>
+<h2 id="安装svn">安装svn</h2><h3 id="首先检查svn是否已安装：">首先检查svn是否已安装：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  rpm -qa subversion</span><br><span class="line">subversion-<span class="number">1.6</span>.<span class="number">11</span>-<span class="number">12</span>.el5_10</span><br><span class="line">subversion-<span class="number">1.6</span>.<span class="number">11</span>-<span class="number">12</span>.el5_10</span><br></pre></td></tr></table></figure>
+<h3 id="若未安装则执行以下命令：">若未安装则执行以下命令：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  yum -y install subversion</span><br></pre></td></tr></table></figure>
+<h2 id="配置并启动svn">配置并启动svn</h2><h3 id="建立svn数据存储根目录（svndata）及用户、密码、权限目录（svnpasswd）">建立svn数据存储根目录（svndata）及用户、密码、权限目录（svnpasswd）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  mkdir -p /application/svndata</span><br><span class="line">➜  ~  mkdir -p /application/svnpasswd</span><br></pre></td></tr></table></figure>
+<h3 id="启动svn">启动svn</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  svnserve <span class="operator">-d</span> -r /application/svndata</span><br></pre></td></tr></table></figure>
+<h3 id="查看svn是否启动">查看svn是否启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  ps -ef|grep svn</span><br><span class="line">root     <span class="number">16969</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">13</span>:<span class="number">38</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> svnserve <span class="operator">-d</span> -r /application/svndata</span><br><span class="line">➜  ~  netstat -lntup | grep <span class="number">3690</span></span><br><span class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">3690</span>                <span class="number">0.0</span>.<span class="number">0.0</span>:*                   LISTEN      <span class="number">16969</span>/svnserve      </span><br><span class="line">➜  ~  lsof -i :<span class="number">3690</span></span><br><span class="line">COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</span><br><span class="line">svnserve <span class="number">16969</span> root    <span class="number">3</span>u  IPv4 <span class="number">147101</span>      <span class="number">0</span>t0  TCP *:svn (LISTEN)</span><br></pre></td></tr></table></figure>
+<h1 id="svn相关操作">svn相关操作</h1><h2 id="建立项目版本库">建立项目版本库</h2><p>以创建项目sadoc为例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  svnadmin create /application/svndata/sadoc</span><br></pre></td></tr></table></figure></p>
+<h2 id="调整svn配置文件及权限文件">调整svn配置文件及权限文件</h2><h3 id="配置允许用户andy读写访问">配置允许用户andy读写访问</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  ~  <span class="built_in">cd</span> /application/svndata/sadoc/conf</span><br><span class="line">➜  conf  cp svnserve.conf svnserve.conf.bak</span><br><span class="line">➜  conf  vim svnserve.conf</span><br></pre></td></tr></table></figure>
+<h4 id="修改如下内容：">修改如下内容：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">anon-access = none  &lt;--是否允许匿名访问</span><br><span class="line">auth-access = write &lt;--访问权限</span><br><span class="line">password-db = /application/svnpasswd/passwd  &lt;--此处一般无需修改，保持默认即可；在此为了方便统一管理于是做了相应修改</span><br><span class="line">authz-db = /application/svnpasswd/authz</span><br></pre></td></tr></table></figure>
+<h4 id="查看修改的内容：">查看修改的内容：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  diff svnserve.conf.bak svnserve.conf</span><br></pre></td></tr></table></figure>
+<h4 id="将密码认证文件模板拷贝到svnpasswd目录下">将密码认证文件模板拷贝到svnpasswd目录下</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  cp authz passwd /application/svnpasswd</span><br></pre></td></tr></table></figure>
+<h4 id="修改文件权限：">修改文件权限：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  conf  <span class="built_in">cd</span> /application/svnpasswd</span><br><span class="line">➜  svnpasswd  chmod <span class="number">700</span> *</span><br></pre></td></tr></table></figure>
+<h4 id="编辑配置passwd文件,在[users]下添加相关信息：">编辑配置passwd文件,在[users]下添加相关信息：</h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">andy </span>= <span class="keyword">andy123</span></span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ol>
+<li>等号前为svn账号，等号后为svn密码，密码是明文的，要注意密码权限</li>
+<li>更改svnserver.conf后需要重启svn，更改authz或passwd文件后则无需重启svn</li>
+</ol>
+<h4 id="编辑配置authz文件,在[groups]下添加相关信息：">编辑配置authz文件,在[groups]下添加相关信息：</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">[sadoc:/]</span></span><br><span class="line"><span class="setting">andy = <span class="value">rw</span></span></span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ol>
+<li>权限配置文件中出现的用户名必须已在用户配置文件中定义</li>
+<li>对权限配置文件的修改立即生效，不必重启svn</li>
+</ol>
+<p>格式说明：<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[groups]</span><br><span class="line"><span class="comment"># harry_and_sally = harry,sally</span></span><br><span class="line"><span class="comment"># harry_sally_and_joe = harry,sally,&amp;joe</span></span><br><span class="line"></span><br><span class="line">一个用户组可以包含一个或多个用户，用户间以逗号分隔。</span><br><span class="line"></span><br><span class="line"><span class="comment"># [repository:/baz/fuz]</span></span><br><span class="line"><span class="comment"># @harry_and_sally = rw</span></span><br><span class="line"><span class="comment"># * = r</span></span><br><span class="line">[sadoc:/]</span><br><span class="line">andy = rw</span><br><span class="line"></span><br><span class="line">[<span class="variable">&lt;版本库&gt;</span>：/项目/目录]</span><br><span class="line"><span class="comment">@&lt;用户组名&gt;=&lt;权限&gt;</span></span><br><span class="line"><span class="variable">&lt;用户名&gt;</span>=<span class="variable">&lt;权限&gt;</span></span><br><span class="line">其中方框内部可以有多种写法：</span><br><span class="line">[/]表示根目录及以下，根目录是svnserve启动时指定的，我们指定为/application/svndata，[/]就是表示对全部版本库设置权限</span><br><span class="line">[repos:/]表示对版本库repos设置权限</span><br><span class="line">[repos:/sadoc]表示对版本库repos中的sadoc项目设置权限</span><br><span class="line">[repos:/sadoc/andy]表示对版本库repos中的sadoc项目的andy目录设置权限</span><br><span class="line">权限主体可以是用户组、用户或<span class="keyword">*</span>，用户组在前面加<span class="comment">@，*表示全部用户</span></span><br><span class="line">权限可以是w、r、wr和空，空表示无任何权限</span><br><span class="line">authz中每个参数都要顶格写，开头不能有空格</span><br></pre></td></tr></table></figure></p>
+<h4 id="重启svn">重启svn</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  svnpasswd  pkill svnserve</span><br><span class="line">➜  svnpasswd  svnserve <span class="operator">-d</span> -r /application/svndata</span><br></pre></td></tr></table></figure>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/25/Linux系统文件删除原理/" itemprop="url">
                 Linux系统文件删除原理
               </a>
@@ -325,7 +437,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -339,7 +451,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
