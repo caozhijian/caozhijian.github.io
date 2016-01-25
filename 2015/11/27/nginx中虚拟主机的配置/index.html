@@ -37,14 +37,12 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程
-搭建基于域名的虚拟机主机1234➜  conf  pwd/application/nginx/conf➜  conf  egrep -v &quot;#|^$&quot; nginx.conf.default &amp;gt; nginx.conf➜">
+<meta name="description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx中虚拟主机的配置">
 <meta property="og:url" content="http://opscao.com/2015/11/27/nginx中虚拟主机的配置/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
-<meta property="og:description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程
-搭建基于域名的虚拟机主机1234➜  conf  pwd/application/nginx/conf➜  conf  egrep -v &quot;#|^$&quot; nginx.conf.default &amp;gt; nginx.conf➜">
+<meta property="og:description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx11.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/win1.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/win2.jpg">
@@ -54,11 +52,10 @@
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/bbs.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx12.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx13.png">
-<meta property="og:updated_time" content="2016-01-04T08:21:07.000Z">
+<meta property="og:updated_time" content="2016-01-25T14:16:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx中虚拟主机的配置">
-<meta name="twitter:description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程
-搭建基于域名的虚拟机主机1234➜  conf  pwd/application/nginx/conf➜  conf  egrep -v &quot;#|^$&quot; nginx.conf.default &amp;gt; nginx.conf➜">
+<meta name="twitter:description" content="在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -278,7 +275,7 @@
       
 
       
-        <span itemprop="articleBody"><p>在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程</p>
+        <span itemprop="articleBody"><p>在上篇博文中我们搭建了nginx平台，下面将进一步介绍，nginx中虚拟主机的配置,由于基于IP地址的虚拟主机很少用到，所以这里只介绍了基于域名和基于端口的虚拟主机的配置过程<br><a id="more"></a></p>
 <h2 id="搭建基于域名的虚拟机主机">搭建基于域名的虚拟机主机</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">pwd</span></span><br><span class="line">/application/nginx/<span class="keyword">conf</span></span><br><span class="line">➜  <span class="keyword">conf</span>  egrep -<span class="keyword">v</span> <span class="string">"#|^$"</span> nginx.<span class="keyword">conf</span>.default &gt; nginx.<span class="keyword">conf</span></span><br><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">vim</span> nginx.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
 <p>修改后内容如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/nginx11.png" alt=""></p>
 <p>创建站点目录及页面文件<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">mkdir</span> -p ../html/&#123;www,bbs&#125;</span><br><span class="line">➜  <span class="keyword">conf</span>  tree ../html</span><br><span class="line">../html</span><br><span class="line">├── 50x.html</span><br><span class="line">├── bbs</span><br><span class="line">├── index.html</span><br><span class="line">└── www</span><br><span class="line">➜  <span class="keyword">conf</span>  echo <span class="string">"www.magedu.org"</span> &gt; ../html/www/index.html</span><br><span class="line">➜  <span class="keyword">conf</span>  echo <span class="string">"bbs.magedu.org"</span> &gt; ../html/bbs/index.html</span><br><span class="line">➜  <span class="keyword">conf</span>  <span class="keyword">cat</span> ../html/&#123;www,bbs&#125;/index.html      </span><br><span class="line">www.magedu.org</span><br><span class="line">bbs.magedu.org</span><br></pre></td></tr></table></figure></p>

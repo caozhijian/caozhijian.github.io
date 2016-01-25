@@ -37,25 +37,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS
-LVS的类型lvs-nat  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发
-架构特性
-RS应该使用私有地址，">
+<meta name="description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lvs的类型以及调度方法">
 <meta property="og:url" content="http://opscao.com/2016/01/04/lvs的类型以及调度方法/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
-<meta property="og:description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS
-LVS的类型lvs-nat  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发
-架构特性
-RS应该使用私有地址，">
-<meta property="og:updated_time" content="2016-01-06T01:37:03.000Z">
+<meta property="og:description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS">
+<meta property="og:updated_time" content="2016-01-25T14:14:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lvs的类型以及调度方法">
-<meta name="twitter:description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS
-LVS的类型lvs-nat  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发
-架构特性
-RS应该使用私有地址，">
+<meta name="twitter:description" content="基本术语解释  客户端IP：CIP  调度器中面向客户端的IP叫做VIP  调度器直接与后端服务器通信的IP叫做DIP  后端提供服务的主机地址叫做RIP  后端提供服务的主机即Real Server简称RS">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -275,7 +266,7 @@ RS应该使用私有地址，">
       
 
       
-        <span itemprop="articleBody"><h2 id="基本术语解释">基本术语解释</h2><p>  客户端IP：CIP<br>  调度器中面向客户端的IP叫做VIP<br>  调度器直接与后端服务器通信的IP叫做DIP<br>  后端提供服务的主机地址叫做RIP<br>  后端提供服务的主机即Real Server简称RS</p>
+        <span itemprop="articleBody"><h2 id="基本术语解释">基本术语解释</h2><p>  客户端IP：CIP<br>  调度器中面向客户端的IP叫做VIP<br>  调度器直接与后端服务器通信的IP叫做DIP<br>  后端提供服务的主机地址叫做RIP<br>  后端提供服务的主机即Real Server简称RS<br><a id="more"></a></p>
 <h2 id="LVS的类型">LVS的类型</h2><h3 id="lvs-nat">lvs-nat</h3><p>  类似于DNAT，但支持多目标转发，它通过修改请求报文的目标地址为根据调度算法挑选出的某Real Server的RIP来进行转发</p>
 <h4 id="架构特性">架构特性</h4><ol>
 <li>RS应该使用私有地址，即RIP应该为私有地址；各RS的网关必须指向DIP</li>

@@ -50,7 +50,7 @@
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/AWS1.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/AWS2.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/nginx.png">
-<meta property="og:updated_time" content="2016-01-04T08:20:35.000Z">
+<meta property="og:updated_time" content="2016-01-25T14:16:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx的特性以及安装">
 <meta name="twitter:description" content="nginx的特性
@@ -280,10 +280,11 @@
 <li>高可靠性，它有一个主控进程（master），主控进程主要负责解析配置文件并启动多个子进程（worker），而worker进程才是真正响应用户请求的进程；</li>
 <li>低内存消耗，因为它是由一个线程响应n个请求，所以其内存消耗非常低；</li>
 <li>支持热部署，指的是不停机更新配置文件、日志文件的滚动或者升级程序版本；</li>
-<li>支持事件驱动机制、支持异步IO（AIO）、支持内存映射机制（mmap）。</li>
-</ul>
-<h2 id="nginx的基本功能">nginx的基本功能</h2><ul>
-<li>它是一个静态资源的web服务器，能缓存打开的文件描述符；</li>
+<li><p>支持事件驱动机制、支持异步IO（AIO）、支持内存映射机制（mmap）。</p>
+<a id="more"></a>
+<h2 id="nginx的基本功能">nginx的基本功能</h2></li>
+<li><p>它是一个静态资源的web服务器，能缓存打开的文件描述符；</p>
+</li>
 <li>它支持http、smtp、pop3协议的反向代理服务器；</li>
 <li>它支持缓存加速和负载均衡机制；</li>
 <li>它支持FastCGI、uWSGI等；</li>

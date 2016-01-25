@@ -38,27 +38,24 @@
 
 
 <meta name="description" content="lvs-nat原理图
-lvs-nat实验拓扑如上图所示，node11作为Director，node12与node13为两台RS
-配置步骤为node11添加一块网卡并将其类型设置为Vmnet2，这时会有两个网络接口，一个为桥接模式，一个为VMnet2；将node12与node13的网络连接方式设置为Vmnet2node111[root@node11 ~]# ifconfig eth1 192.168">
+lvs-nat实验拓扑如上图所示，node11作为Director，node12与node13为两台RS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="集群服务之lvs-nat类型的实现">
 <meta property="og:url" content="http://opscao.com/2016/01/05/集群服务之lvs-nat类型的实现/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
 <meta property="og:description" content="lvs-nat原理图
-lvs-nat实验拓扑如上图所示，node11作为Director，node12与node13为两台RS
-配置步骤为node11添加一块网卡并将其类型设置为Vmnet2，这时会有两个网络接口，一个为桥接模式，一个为VMnet2；将node12与node13的网络连接方式设置为Vmnet2node111[root@node11 ~]# ifconfig eth1 192.168">
+lvs-nat实验拓扑如上图所示，node11作为Director，node12与node13为两台RS">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat1.gif">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvsnat.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-node13.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-node12.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-rr.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat-wrr.png">
-<meta property="og:updated_time" content="2016-01-05T08:43:14.000Z">
+<meta property="og:updated_time" content="2016-01-25T14:17:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集群服务之lvs-nat类型的实现">
 <meta name="twitter:description" content="lvs-nat原理图
-lvs-nat实验拓扑如上图所示，node11作为Director，node12与node13为两台RS
-配置步骤为node11添加一块网卡并将其类型设置为Vmnet2，这时会有两个网络接口，一个为桥接模式，一个为VMnet2；将node12与node13的网络连接方式设置为Vmnet2node111[root@node11 ~]# ifconfig eth1 192.168">
+lvs-nat实验拓扑如上图所示，node11作为Director，node12与node13为两台RS">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -279,7 +276,7 @@ lvs-nat实验拓扑如上图所示，node11作为Director，node12与node13为�
 
       
         <span itemprop="articleBody"><h2 id="lvs-nat原理图">lvs-nat原理图</h2><p><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-nat1.gif" alt=""></p>
-<h2 id="lvs-nat实验拓扑">lvs-nat实验拓扑</h2><p><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvsnat.png" alt=""><br>如上图所示，node11作为Director，node12与node13为两台RS</p>
+<h2 id="lvs-nat实验拓扑">lvs-nat实验拓扑</h2><p><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvsnat.png" alt=""><br>如上图所示，node11作为Director，node12与node13为两台RS<br><a id="more"></a></p>
 <h2 id="配置步骤">配置步骤</h2><p>为node11添加一块网卡并将其类型设置为Vmnet2，这时会有两个网络接口，一个为桥接模式，一个为VMnet2；将node12与node13的网络连接方式设置为Vmnet2<br>node11<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ifconfig eth1 <span class="number">192.168</span><span class="number">.10</span><span class="number">.11</span>/<span class="number">24</span> up</span></span><br></pre></td></tr></table></figure></p>
 <p>node12<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node12 ~]<span class="preprocessor"># ifconfig eth0 <span class="number">192.168</span><span class="number">.10</span><span class="number">.12</span>/<span class="number">24</span> up</span></span><br></pre></td></tr></table></figure></p>
 <p>编辑测试页面<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node12</span> ~]<span class="preprocessor"># cat /var/www/html/index.html </span></span><br><span class="line">&lt;h1&gt;node12&lt;h1&gt;</span><br><span class="line">[root<span class="constant">@node12</span> ~]<span class="preprocessor"># service httpd start</span></span><br></pre></td></tr></table></figure></p>
