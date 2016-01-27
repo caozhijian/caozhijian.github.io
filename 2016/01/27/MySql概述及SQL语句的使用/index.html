@@ -44,7 +44,7 @@
 <meta property="og:site_name" content="曹芷健的技术博客">
 <meta property="og:description" content="本文主要对数据库的相关概念以及SQL进行讲述">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvm.png">
-<meta property="og:updated_time" content="2016-01-27T08:59:03.000Z">
+<meta property="og:updated_time" content="2016-01-27T09:01:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySql概述及SQL语句的使用">
 <meta name="twitter:description" content="本文主要对数据库的相关概念以及SQL进行讲述">
@@ -267,8 +267,7 @@
       
 
       
-        <span itemprop="articleBody"><p>本文主要对数据库的相关概念以及SQL进行讲述<br><a id="more"></a></p>
-<h2 id="概述">概述</h2><p>数据库管理系统简称DBMS，它本身并不是数据库，它是一个可以实现大量数据管理的程序，这些大量的数据通常为某一个项目或方案所使用，这些供某些项目或方案使用的数据集合就称为数据库。因此Mysql或MariaDB本身只是一个程序而非数据库。 </p>
+        <span itemprop="articleBody"><h2 id="概述">概述</h2><p>数据库管理系统简称DBMS，它本身并不是数据库，它是一个可以实现大量数据管理的程序，这些大量的数据通常为某一个项目或方案所使用，这些供某些项目或方案使用的数据集合就称为数据库。因此Mysql或MariaDB本身只是一个程序而非数据库。 </p>
 <h2 id="数据组织形式">数据组织形式</h2><p>根据数据组织机制的不同，主要分为以下流派</p>
 <h3 id="层次模型">层次模型</h3><p>所有数据组织是按照类似于文件系统自上而下组织的， 这种层次模型结构清晰但会牵一发而动全身，若要删除或修改一个节点就有可能影响整个分支。<br>层次模型专用于为某个项目应用而设计所以它与应用程序的耦合度非常高导致后期维护很难，并且它也不支持实体之间定义关联关系，由此就产生了后来的网状模型。</p>
 <h3 id="网状模型">网状模型</h3><p>网状模型中一个叶子节点可以有多个父节点，因此管理以及维护起来变得更加不方便。</p>
