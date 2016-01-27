@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://freeandyblogs.com/about/index.html</loc>
+    <lastmod>2016-01-27T09:50:22.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://freeandyblogs.com/2015/11/30/nginx%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD%E7%9A%84%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2016-01-27T09:42:44.000Z</lastmod>
   </url>
@@ -64,11 +69,6 @@
   <url>
     <loc>http://freeandyblogs.com/2016/01/27/MySql%E6%A6%82%E8%BF%B0%E5%8F%8ASQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2016-01-27T09:01:14.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://freeandyblogs.com/about/index.html</loc>
-    <lastmod>2016-01-25T01:24:11.000Z</lastmod>
   </url>
   
   <url>
