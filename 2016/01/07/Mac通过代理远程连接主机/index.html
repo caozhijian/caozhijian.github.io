@@ -37,16 +37,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="身为一名运维工程师，通过XSHELL等软件远程登录服务器进行操作已经成了家常便饭，当然在我的PC机上是装有XSHELL软件的，但是在苹果笔记本上就不知道怎样配置才能登录到代理服务器上，当时也在网上找了很多方法，但都没有成功，于是只能在移动硬盘上装了一台虚拟机；可是今天上班打开PC机，发现竟然不能上网了，移动硬盘又放在宿舍没有带来，还好我的MAC可以无线上网，于是就再次多方尝试使用笔记本连接到公司的">
+<meta name="description" content="介绍了corkscrew软件的使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac通过代理远程连接主机">
 <meta property="og:url" content="http://freeandyblogs.com/2016/01/07/Mac通过代理远程连接主机/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
-<meta property="og:description" content="身为一名运维工程师，通过XSHELL等软件远程登录服务器进行操作已经成了家常便饭，当然在我的PC机上是装有XSHELL软件的，但是在苹果笔记本上就不知道怎样配置才能登录到代理服务器上，当时也在网上找了很多方法，但都没有成功，于是只能在移动硬盘上装了一台虚拟机；可是今天上班打开PC机，发现竟然不能上网了，移动硬盘又放在宿舍没有带来，还好我的MAC可以无线上网，于是就再次多方尝试使用笔记本连接到公司的">
-<meta property="og:updated_time" content="2016-01-25T14:10:18.000Z">
+<meta property="og:description" content="介绍了corkscrew软件的使用">
+<meta property="og:updated_time" content="2016-01-27T09:16:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac通过代理远程连接主机">
-<meta name="twitter:description" content="身为一名运维工程师，通过XSHELL等软件远程登录服务器进行操作已经成了家常便饭，当然在我的PC机上是装有XSHELL软件的，但是在苹果笔记本上就不知道怎样配置才能登录到代理服务器上，当时也在网上找了很多方法，但都没有成功，于是只能在移动硬盘上装了一台虚拟机；可是今天上班打开PC机，发现竟然不能上网了，移动硬盘又放在宿舍没有带来，还好我的MAC可以无线上网，于是就再次多方尝试使用笔记本连接到公司的">
+<meta name="twitter:description" content="介绍了corkscrew软件的使用">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -266,7 +266,8 @@
       
 
       
-        <span itemprop="articleBody"><p>身为一名运维工程师，通过XSHELL等软件远程登录服务器进行操作已经成了家常便饭，当然在我的PC机上是装有XSHELL软件的，但是在苹果笔记本上就不知道怎样配置才能登录到代理服务器上，当时也在网上找了很多方法，但都没有成功，于是只能在移动硬盘上装了一台虚拟机；可是今天上班打开PC机，发现竟然不能上网了，移动硬盘又放在宿舍没有带来，还好我的MAC可以无线上网，于是就再次多方尝试使用笔记本连接到公司的服务器上，还好这一次总算是成功了，真可谓是一波三折啊，现在将我的配置过程分享出来，供各位朋友参考。<br><a id="more"></a><br>下载corkscrew<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//www.agroman.net/corkscrew/corkscrew-2.0.tar.gz</span></span><br><span class="line">tar xfz corkscrew-<span class="number">2.0</span><span class="class">.tar</span><span class="class">.gz</span></span><br><span class="line">cd corkscrew-<span class="number">2.0</span></span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+        <span itemprop="articleBody"><p>身为一名运维工程师，通过XSHELL等软件远程登录服务器进行操作已经成了家常便饭，当然在我的PC机上是装有XSHELL软件的，但是在苹果笔记本上就不知道怎样配置才能登录到代理服务器上，当时也在网上找了很多方法，但都没有成功，于是只能在移动硬盘上装了一台虚拟机；可是今天上班打开PC机，发现竟然不能上网了，移动硬盘又放在宿舍没有带来，还好我的MAC可以无线上网，于是就再次多方尝试使用笔记本连接到公司的服务器上，还好这一次总算是成功了，真可谓是一波三折啊，现在将我的配置过程分享出来，供各位朋友参考。</p>
+<p>下载corkscrew<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//www.agroman.net/corkscrew/corkscrew-2.0.tar.gz</span></span><br><span class="line">tar xfz corkscrew-<span class="number">2.0</span><span class="class">.tar</span><span class="class">.gz</span></span><br><span class="line">cd corkscrew-<span class="number">2.0</span></span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
 <p>编辑~/.ssh/config文件<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat  ~/.ssh/config</span><br><span class="line">Host app150   --&gt;别名，可以使用ssh app150进行登录</span><br><span class="line"></span><br><span class="line">HostName        	<span class="number">192.168</span><span class="number">.0</span><span class="number">.150</span>  --&gt;要登陆的服务器地址，可以有多个</span><br><span class="line">Port            	<span class="number">22</span></span><br><span class="line">User	                zhijian.cao  --&gt;用户名</span><br><span class="line">ServerAliveInterval 	<span class="number">30</span> </span><br><span class="line">TCPKeepAlive            yes</span><br><span class="line">ControlPersist          <span class="number">4</span>h</span><br><span class="line">IdentityFile            ~/.ssh/caozhijian  --&gt;这是我之前用XSHELL生成的私钥文件</span><br><span class="line">ProxyCommand    	/usr/local/bin/corkscrew IP PORT %h %p ~/.corkscrew-auth --&gt;IP与PORT分别为代理服务器地址与端口号，corkscrew-auth文件记录了代理服务器使用的用户名与密码，格式为username:password,例如zhijian.cao:<span class="number">111111</span></span><br></pre></td></tr></table></figure></p>
 <p>ssh服务器为了安全考虑发现客户端长时间闲置的话会主动断开ssh连接，如果不想ssh自动断开，ssh客户端需要打开TCPKeepAlive选项定时给服务器发TCP包来欺骗服务器，让ssh服务器感觉客户端还在“活动”中。同时ssh服务器端也需要打开TCPKeepAlive选项<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">cat</span> /etc/ssh/sshd_config|grep TCPKeepAlive</span><br><span class="line">TCPKeepAlive <span class="built_in">yes</span></span><br></pre></td></tr></table></figure></p>
 <p>到这里就已经配置完成了，可以使用ssh命令远程登录服务器愉快地玩耍了！</p>
