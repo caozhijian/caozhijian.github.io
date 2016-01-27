@@ -4,6 +4,30 @@
 
     
   <url>
+    <loc>http://freeandyblogs.com/2016/01/14/http%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B9%8Bhaproxy%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/</loc>
+    <lastmod>2016-01-27T09:10:31.000Z</lastmod>
+    <data>
+        <display>
+        <title>http反向代理之haproxy简要介绍</title>
+        <pubTime>2016-01-14T02:57:21.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>haproxy</tag>
+         
+        <tag>反向代理</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习笔记" url="http://freeandyblogs.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://freeandyblogs.com/2016/01/27/MySql%E6%A6%82%E8%BF%B0%E5%8F%8ASQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2016-01-27T09:01:14.000Z</lastmod>
     <data>
@@ -163,30 +187,6 @@
         <title>ipvsadm命令的用法</title>
         <pubTime>2016-01-05T03:55:08.000Z</pubTime>
         
-         
-           
-             
-              <breadCrumb title="学习笔记" url="http://freeandyblogs.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://freeandyblogs.com/2016/01/14/http%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B9%8Bhaproxy%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/</loc>
-    <lastmod>2016-01-25T14:13:37.000Z</lastmod>
-    <data>
-        <display>
-        <title>http反向代理之haproxy简要介绍</title>
-        <pubTime>2016-01-14T02:57:21.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>haproxy</tag>
-         
-        <tag>反向代理</tag>
-         
          
            
              

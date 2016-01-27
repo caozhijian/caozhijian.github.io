@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://freeandyblogs.com/2016/01/14/http%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B9%8Bhaproxy%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/</loc>
+    <lastmod>2016-01-27T09:10:31.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://freeandyblogs.com/2016/01/27/MySql%E6%A6%82%E8%BF%B0%E5%8F%8ASQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2016-01-27T09:01:14.000Z</lastmod>
   </url>
@@ -39,11 +44,6 @@
   <url>
     <loc>http://freeandyblogs.com/2016/01/05/ipvsadm%E5%91%BD%E4%BB%A4%E7%9A%84%E7%94%A8%E6%B3%95/</loc>
     <lastmod>2016-01-25T14:14:07.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://freeandyblogs.com/2016/01/14/http%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B9%8Bhaproxy%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/</loc>
-    <lastmod>2016-01-25T14:13:37.000Z</lastmod>
   </url>
   
   <url>
