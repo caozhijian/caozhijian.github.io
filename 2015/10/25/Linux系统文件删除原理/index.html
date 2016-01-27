@@ -37,20 +37,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
+<meta name="description" content="使用图示的方式简述了文件删除的原理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux系统文件删除原理">
 <meta property="og:url" content="http://freeandyblogs.com/2015/10/25/Linux系统文件删除原理/index.html">
 <meta property="og:site_name" content="曹芷健的技术博客">
-<meta property="og:description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
+<meta property="og:description" content="使用图示的方式简述了文件删除的原理">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/del01.png">
-<meta property="og:updated_time" content="2016-01-04T08:19:33.000Z">
+<meta property="og:updated_time" content="2016-01-27T09:29:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系统文件删除原理">
-<meta name="twitter:description" content="原理如下图所示：
-Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。i_link是文件的硬链接数（磁盘引用计数器）i_count是文件被进程调用数（内存引用计数）只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。">
+<meta name="twitter:description" content="使用图示的方式简述了文件删除的原理">
 
 
 <script type="text/javascript" id="hexo.configuration">

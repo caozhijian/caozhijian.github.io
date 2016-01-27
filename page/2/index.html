@@ -361,9 +361,9 @@
 
       
         
-          <h1 id="简介">简介</h1><p>svn是一个跨平台的版本控制系统，它管理着随时间改变的各种数据，这些数据都是保存在中央资料档案库中的；svn会备份并记录每个文件的修改更新变动，这样就可以很方便地将文件恢复到任一时间点的版本。<br>
+          <span itemprop="description">简要介绍了svn的搭建以及相关的各项操作</span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/25/Linux系统下svn的安装/#more" rel="contents">
+            <a class="btn" href="/2015/10/25/Linux系统下svn的安装/">
               阅读全文 &raquo;
             </a>
           </div>
@@ -451,9 +451,12 @@
 
       
         
-          <span itemprop="articleBody"><p>原理如下图所示：<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/del01.png" alt="文件删除原理"></p>
-<p>Linux是通过link的数量来控制文件删除的；一般来说，每个文件都有2个link计数器：i_link和i_count。<br>i_link是文件的硬链接数（磁盘引用计数器）<br>i_count是文件被进程调用数（内存引用计数）<br>只有当i_link和i_count都为0时，文件才是真正地被删除了；rm命令删除的只是文件的i_link数。</p>
-</span>
+          <span itemprop="description">使用图示的方式简述了文件删除的原理</span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/10/25/Linux系统文件删除原理/">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
