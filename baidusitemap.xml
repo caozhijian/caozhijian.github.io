@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://freeandyblogs.com/2016/01/04/lvs%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%BB%A5%E5%8F%8A%E8%B0%83%E5%BA%A6%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2016-01-27T09:25:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>lvs的类型以及调度方法</title>
+        <pubTime>2016-01-04T07:59:50.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>lvs</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习笔记" url="http://freeandyblogs.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://freeandyblogs.com/2016/01/05/ipvsadm%E5%91%BD%E4%BB%A4%E7%9A%84%E7%94%A8%E6%B3%95/</loc>
     <lastmod>2016-01-27T09:22:07.000Z</lastmod>
     <data>
@@ -186,28 +208,6 @@
         <tag>Linux</tag>
          
         <tag>nginx</tag>
-         
-         
-           
-             
-              <breadCrumb title="学习笔记" url="http://freeandyblogs.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://freeandyblogs.com/2016/01/04/lvs%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%BB%A5%E5%8F%8A%E8%B0%83%E5%BA%A6%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2016-01-25T14:14:39.000Z</lastmod>
-    <data>
-        <display>
-        <title>lvs的类型以及调度方法</title>
-        <pubTime>2016-01-04T07:59:50.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>lvs</tag>
          
          
            
