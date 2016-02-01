@@ -1,0 +1,738 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="Linux,MySQl," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="介绍了MySQL中事务的概念并通过实例演示了四种事务隔离级别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL中的事务简介">
+<meta property="og:url" content="http://freeandyblogs.com/2016/02/01/MySQL中的事务简介/index.html">
+<meta property="og:site_name" content="曹芷健的技术博客">
+<meta property="og:description" content="介绍了MySQL中事务的概念并通过实例演示了四种事务隔离级别">
+<meta property="og:updated_time" content="2016-02-01T02:18:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL中的事务简介">
+<meta name="twitter:description" content="介绍了MySQL中事务的概念并通过实例演示了四种事务隔离级别">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> MySQL中的事务简介 | 曹芷健的技术博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">曹芷健的技术博客</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tools">
+          <a href="/tools" rel="section">
+            <i class="menu-item-icon icon-next-tools"></i> <br />
+            工具
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'n5rGUMer12GgpqkeHHwz','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              MySQL中的事务简介
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-02-01T10:10:40+08:00" content="2016-02-01">
+            2016-02-01
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/02/01/MySQL中的事务简介/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/01/MySQL中的事务简介/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+    <span>&nbsp; | &nbsp;
+    <span id="busuanzi_value_page_pv" ></span>次阅读
+    </span>    
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="概述及相关操作">概述及相关操作</h2><p>事务是一组原子性的SQL查询或者说是一个独立的工作单元；一个支持事务的引擎或关系型数据库必然是能够满足ACID测试的，所谓ACID测试指的是</p>
+<ul>
+<li>A（原子性）：整个事务中的所有操作要么全部成功执行，要么全部失败后回滚</li>
+<li>C（一致性）：数据库总是从一个一致性状态转换为另一个一致性状态</li>
+<li>I（隔离性）：一个事务所做出的操作在提交之前，是不能为其它事务所见的；隔离有多种隔离级别</li>
+<li>D（持久性）：一旦事务提交，其所做的修改会永久保存于数据库中</li>
+</ul>
+<p>若要启动事务需要使用<code>START TRANSACTION</code>,结束事务有两种方式，一种是<code>COMMIT</code>（提交），一种是<code>ROLLBACK</code>（回滚）；只有事务型存储引擎才能支持此类操作。</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@mariadb <span class="typedef"><span class="keyword">data</span>]# wget http://7xq2gf.com1.z0.glb.clouddn.com/hellodb.sql  <span class="comment">--&gt;下载sql文件</span></span></span><br><span class="line">[root@mariadb <span class="typedef"><span class="keyword">data</span>]# sed -i 's@<span class="type">ENGINE</span>=<span class="type">MyISAM</span>@<span class="type">ENGINE</span>=<span class="type">InnoDB</span>@ig' hellodb.sql  <span class="comment">--&gt;更改数据库引擎</span></span></span><br><span class="line">[root@mariadb <span class="typedef"><span class="keyword">data</span>]# mysql &lt; hellodb.sql  <span class="comment">--&gt; 导入数据库 </span></span></span><br><span class="line"><span class="type">MariaDB</span> [hellodb]&gt; <span class="type">SHOW</span> <span class="type">TABLE</span> <span class="type">STATUS</span>\<span class="type">G</span>; <span class="comment">--&gt; 确保存储引擎为InnoDB</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; SHOW GLOBAL VARIABLES LIKE <span class="emphasis">'%autocommit%'</span>;</span><br><span class="line"><span class="code">+---------------+</span>-------+</span><br><span class="line"><span class="header">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span></span><br><span class="line"><span class="header">| autocommit    | ON    |</span><br><span class="line">+---------------+-------+</span></span><br></pre></td></tr></table></figure>
+<p>由查询结果可知，默认是启动了自动提交功能的，由于每一次提交都会因此磁盘IO操作，因此建议显式请求和提交事务，而不要使用“自动提交功能”<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; SET SESSION autocommit=0;  --&gt;关闭自动提交功能</span><br><span class="line">MariaDB [hellodb]&gt; SHOW VARIABLES LIKE <span class="emphasis">'%autocommit%'</span>;</span><br><span class="line"><span class="code">+---------------+</span>-------+</span><br><span class="line"><span class="header">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span></span><br><span class="line"><span class="header">| autocommit    | OFF   |</span><br><span class="line">+---------------+-------+</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; --&gt;启动事务</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT <span class="keyword">*</span> FROM students WHERE StuID IN(18,23);</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string"> StuID </span>|<span class="string"> Name     </span>|<span class="string"> Age </span>|<span class="string"> Gender </span>|<span class="string"> ClassID </span>|<span class="string"> TeacherID </span>|</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string">    18 </span>|<span class="string"> Hua Rong </span>|<span class="string">  23 </span>|<span class="string"> M      </span>|<span class="string">       7 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    23 </span>|<span class="string"> Ma Chao  </span>|<span class="string">  23 </span>|<span class="string"> M      </span>|<span class="string">       4 </span>|<span class="string">      NULL </span>|</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; DELETE FROM students WHERE StuID IN(18,23);</span><br><span class="line">MariaDB [hellodb]&gt; SELECT <span class="keyword">*</span> FROM students WHERE StuID IN(18,23);</span><br><span class="line">Empty set (0.00 sec)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; ROLLBACK; --&gt;做回滚操作</span><br><span class="line">MariaDB [hellodb]&gt; SELECT <span class="keyword">*</span> FROM students WHERE StuID IN(18,23);  --&gt;数据尽然神奇地回来了</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string"> StuID </span>|<span class="string"> Name     </span>|<span class="string"> Age </span>|<span class="string"> Gender </span>|<span class="string"> ClassID </span>|<span class="string"> TeacherID </span>|</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string">    18 </span>|<span class="string"> Hua Rong </span>|<span class="string">  23 </span>|<span class="string"> M      </span>|<span class="string">       7 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    23 </span>|<span class="string"> Ma Chao  </span>|<span class="string">  23 </span>|<span class="string"> M      </span>|<span class="string">       4 </span>|<span class="string">      NULL </span>|</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span><br></pre></td></tr></table></figure>
+<p>事务还支持savepoint(保存点),可以指定回滚操作只回到之前的某一个状态（以标识符标记），这跟在游戏中存档读档的概念是差不多的，朋友们可以认真领会。<br>语法格式如下<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SAVEPOINT</span> identifier</span><br><span class="line"><span class="keyword">ROLLBACK</span> [<span class="keyword">WORK</span>] <span class="keyword">TO</span> [<span class="keyword">SAVEPOINT</span>] identifier</span><br><span class="line"><span class="keyword">RELEASE</span> <span class="keyword">SAVEPOINT</span> identifier</span></span><br></pre></td></tr></table></figure></p>
+<p>例如<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; START TRANSACTION;</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=18;</span><br><span class="line"><span class="code">+-------+</span>----------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name     | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    18 | Hua Rong |  23 | M      |       7 |      NULL |</span><br><span class="line">+-------+----------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; DELETE FROM students WHERE StuID=18;</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SAVEPOINT s1; --&gt;创建保存点，并将其标识为s1</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; INSERT INTO students (Name,Age,Gender) VALUEs(<span class="emphasis">'Jinjiao King'</span>,100,<span class="emphasis">'M'</span>);</span><br><span class="line">MariaDB [hellodb]&gt; SAVEPOINT s2;</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=13;</span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    13 | Tian Boguang |  33 | M      |       2 |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; UPDATE students SET Age=43 WHERE StuID=13; </span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID IN(18,13) OR Name=<span class="emphasis">'Jinjiao King'</span>;</span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line">|    13 | Tian Boguang |  43 | M      |       2 |      NULL |</span><br><span class="line"><span class="header">|    26 | Jinjiao King | 100 | M      |    NULL |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br></pre></td></tr></table></figure></p>
+<p>若此时发现修改的不正确，要回滚到修改数据之前，可以使用如下命令<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; ROLLBACK TO s2;</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT <span class="keyword">*</span> FROM students WHERE StuID IN(18,13) OR Name='Jinjiao King';</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string"> StuID </span>|<span class="string"> Name         </span>|<span class="string"> Age </span>|<span class="string"> Gender </span>|<span class="string"> ClassID </span>|<span class="string"> TeacherID </span>|</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string">    13 </span>|<span class="string"> Tian Boguang </span>|<span class="string">  33 </span>|<span class="string"> M      </span>|<span class="string">       2 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    26 </span>|<span class="string"> Jinjiao King </span>|<span class="string"> 100 </span>|<span class="string"> M      </span>|<span class="string">    NULL </span>|<span class="string">      NULL </span>|</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="事务隔离级别">事务隔离级别</h2><p>在SQL标准中定义了四种隔离级别，每一种级别都规定了一个事务中所做的修改，哪些在事务内和事物间是可见的，哪些是不可见的。较低级别的隔离通常可以执行更高的并发，系统的开销也更低；但是事务隔离级别越低其产生问题的可能性越大；一般而言主要存在以下问题</p>
+<ul>
+<li>脏读：事务可以读取未提交的数据</li>
+<li>不可重复读：一个事务从开始直到提交之前，所做的任何修改对其它事务都是不可见的</li>
+<li>幻读：当某个事务在提取某个范围内的记录时，另外一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围内的记录时，会产生幻行</li>
+<li>加锁读：会在读取的每一行数据上都加锁</li>
+</ul>
+<p>下面将使用两个会话来进行演示四个隔离级别，首先两个会话都需要关闭自动提交功能<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; SHOW PROCESSLIST; --&gt;可以看到有两个会话</span><br><span class="line"><span class="code">+----+</span>------<span class="code">+-----------+</span>---------<span class="code">+---------+</span>------<span class="code">+-------+</span>------------------<span class="code">+----------+</span></span><br><span class="line"><span class="header">| Id | User | Host      | db      | Command | Time | State | Info             | Progress |</span><br><span class="line">+----+------+-----------+---------+---------+------+-------+------------------+----------+</span></span><br><span class="line">|  8 | root | localhost | hellodb | Sleep   | 1295 |       | NULL             |    0.000 |</span><br><span class="line"><span class="header">|  9 | root | localhost | hellodb | Query   |    0 | NULL  | SHOW PROCESSLIST |    0.000 |</span><br><span class="line">+----+------+-----------+---------+---------+------+-------+------------------+----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SHOW GLOBAL VARIABLES LIKE <span class="emphasis">'%isola%'</span>;</span><br><span class="line"><span class="code">+---------------+</span>-----------------+</span><br><span class="line"><span class="header">| Variable_name | Value           |</span><br><span class="line">+---------------+-----------------+</span></span><br><span class="line"><span class="header">| tx_isolation  | REPEATABLE-READ |</span><br><span class="line">+---------------+-----------------+</span></span><br></pre></td></tr></table></figure></p>
+<p><code>tx_isolation</code>是服务器变量，用来定义隔离级别，默认为<code>REPEATABLE-READ</code>，可在SESSION级进行修改</p>
+<h3 id="READ_UNCOMMITTED（读未提交）">READ UNCOMMITTED（读未提交）</h3><p>在此级别事务中的修改，即使没有提交，对其它事务也都是可见的，会有脏读，不可重复读，幻读的问题；在实际应用中很少使用，演示过程如下</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; SET tx<span class="emphasis">_isolation='READ-UNCOMMITTED'; --&gt;会话1 </span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; </span><br><span class="line"></span><br><span class="line"></span>MariaDB [hellodb]&gt; SET tx<span class="emphasis">_isolation='READ-UNCOMMITTED';--&gt;会话2</span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; </span><br><span class="line"></span><br><span class="line"></span>MariaDB [hellodb]&gt; UPDATE students SET Age=40 WHERE StuID=13;  --&gt;会话1 </span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=13; </span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    13 | Tian Boguang |  40 | M      |       2 |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=13;  --&gt;会话2; </span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    13 | Tian Boguang |  40 | M      |       2 |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; ROLLBACK; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=13;</span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    13 | Tian Boguang |  33 | M      |       2 |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=13;--&gt;会话2;两次读到的数据不一样，即不可重复读</span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    13 | Tian Boguang |  33 | M      |       2 |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line">MariaDB [hellodb]&gt; ROLLBACK; --&gt; 会话2</span><br></pre></td></tr></table></figure>
+<h3 id="READ_COMMITED（读提交）">READ COMMITED（读提交）</h3><p>这是大多数数据库系统默认的隔离级别（但MySQL不是）；一个事务从开始一直到提交之前所做的任何修改对其它事物都是不可见的。此级别存在不可重复读与幻读的问题。<br>演示过程如下<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; SET tx<span class="emphasis">_isolation='READ-COMMITTED'; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION;</span><br><span class="line"></span><br><span class="line"></span>MariaDB [hellodb]&gt; SET tx<span class="emphasis">_isolation='READ-COMMITTED'; --&gt;会话2</span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; </span><br><span class="line"></span><br><span class="line"></span>MariaDB [hellodb]&gt; INSERT INTO students (Name,Age,Gender) VALUEs(<span class="emphasis">'Jinjiao King'</span>,100,<span class="emphasis">'M'</span>); --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE Name=<span class="emphasis">'Jinjiao King'</span>; </span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    27 | Jinjiao King | 100 | M      |    NULL |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt;  SELECT * FROM students WHERE Name=<span class="emphasis">'Jinjiao King'</span>; --&gt;会话2，没有找到相应字段</span><br><span class="line">Empty set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; DELETE FROM students WHERE StuID=1; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=1; </span><br><span class="line">Empty set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=1;--&gt;会话2</span><br><span class="line"><span class="code">+-------+</span>-------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name        | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+-------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|     1 | Shi Zhongyu |  22 | M      |       2 |         3 |</span><br><span class="line">+-------+-------------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; COMMIT; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=1; --&gt;会话2</span><br><span class="line">Empty set (0.00 sec)</span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE Name=<span class="emphasis">'Jinjiao King'</span>; </span><br><span class="line"><span class="code">+-------+</span>--------------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name         | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|    28 | Jinjiao King | 100 | M      |    NULL |      NULL |</span><br><span class="line">+-------+--------------+-----+--------+---------+-----------+</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="REPEATABLE_READ">REPEATABLE READ</h3><p>它是MySQL的默认事务隔离级别，该级别保证了在同一个事务中多次读取同样记录其结果是一致的，但是仍然会存在幻读的问题。<br>演示过程如下<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; SET tx<span class="emphasis">_isolation='REPEATABLE-READ'; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; </span><br><span class="line"></span><br><span class="line"></span>MariaDB [hellodb]&gt; SET tx<span class="emphasis">_isolation='REPEATABLE-READ'; --&gt;会话2</span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; </span><br><span class="line"></span><br><span class="line"></span>MariaDB [hellodb]&gt; DELETE FROM students WHERE StuID=3; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=3;</span><br><span class="line">Empty set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=3;  --&gt;会话2</span><br><span class="line"><span class="code">+-------+</span>-----------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name      | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+-----------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|     3 | Xie Yanke |  53 | M      |       2 |        16 |</span><br><span class="line">+-------+-----------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; COMMIT;--&gt;会话1</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=3;  --&gt;会话2；数据依然存在，出现了幻读</span><br><span class="line"><span class="code">+-------+</span>-----------<span class="code">+-----+</span>--------<span class="code">+---------+</span>-----------+</span><br><span class="line"><span class="header">| StuID | Name      | Age | Gender | ClassID | TeacherID |</span><br><span class="line">+-------+-----------+-----+--------+---------+-----------+</span></span><br><span class="line"><span class="header">|     3 | Xie Yanke |  53 | M      |       2 |        16 |</span><br><span class="line">+-------+-----------+-----+--------+---------+-----------+</span></span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; COMMIT; --&gt;会话2</span><br><span class="line">MariaDB [hellodb]&gt; SELECT * FROM students WHERE StuID=3;</span><br><span class="line">Empty set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<h4 id="SERIALIZABLE">SERIALIZABLE</h4><p>它是最高的隔离级别。它通过强制事务串行执行，避免了脏读，不可重复读和幻读的问题，但是又导致了加锁读的新问题，这样就可能导致大量的超时和锁争用的问题；实际应用中很少用到此隔离级别，只有在非常需要确保数据的一致性而且可以接收没有并发的情况下，才考虑采用该级别。<br>演示过程如下：<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [hellodb]&gt; SET tx_isolation='SERIALIZABLE'; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; </span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SET tx_isolation='SERIALIZABLE'; --&gt;会话2</span><br><span class="line">MariaDB [hellodb]&gt; START TRANSACTION; </span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; SELECT <span class="keyword">*</span> FROM students WHERE Name='Duan Yu';--&gt;会话1</span><br><span class="line">+-------+---------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string"> StuID </span>|<span class="string"> Name    </span>|<span class="string"> Age </span>|<span class="string"> Gender </span>|<span class="string"> ClassID </span>|<span class="string"> TeacherID </span>|</span><br><span class="line">+-------+---------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string">    15 </span>|<span class="string"> Duan Yu </span>|<span class="string">  19 </span>|<span class="string"> M      </span>|<span class="string">       4 </span>|<span class="string">      NULL </span>|</span><br><span class="line">+-------+---------+-----+--------+---------+-----------+</span><br><span class="line">MariaDB [hellodb]&gt; SELECT <span class="keyword">*</span> FROM students WHERE Age&gt;22;</span><br><span class="line">+-------+---------------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string"> StuID </span>|<span class="string"> Name          </span>|<span class="string"> Age </span>|<span class="string"> Gender </span>|<span class="string"> ClassID </span>|<span class="string"> TeacherID </span>|</span><br><span class="line">+-------+---------------+-----+--------+---------+-----------+</span><br><span class="line">|<span class="string">     4 </span>|<span class="string"> Ding Dian     </span>|<span class="string">  32 </span>|<span class="string"> M      </span>|<span class="string">       4 </span>|<span class="string">         4 </span>|</span><br><span class="line">|<span class="string">     5 </span>|<span class="string"> Yu Yutong     </span>|<span class="string">  26 </span>|<span class="string"> M      </span>|<span class="string">       3 </span>|<span class="string">         1 </span>|</span><br><span class="line">|<span class="string">     6 </span>|<span class="string"> Shi Qing      </span>|<span class="string">  46 </span>|<span class="string"> M      </span>|<span class="string">       5 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    11 </span>|<span class="string"> Yuan Chengzhi </span>|<span class="string">  23 </span>|<span class="string"> M      </span>|<span class="string">       6 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    13 </span>|<span class="string"> Tian Boguang  </span>|<span class="string">  33 </span>|<span class="string"> M      </span>|<span class="string">       2 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    17 </span>|<span class="string"> Lin Chong     </span>|<span class="string">  25 </span>|<span class="string"> M      </span>|<span class="string">       4 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    18 </span>|<span class="string"> Hua Rong      </span>|<span class="string">  23 </span>|<span class="string"> M      </span>|<span class="string">       7 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    23 </span>|<span class="string"> Ma Chao       </span>|<span class="string">  23 </span>|<span class="string"> M      </span>|<span class="string">       4 </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    24 </span>|<span class="string"> Xu Xian       </span>|<span class="string">  27 </span>|<span class="string"> M      </span>|<span class="string">    NULL </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    25 </span>|<span class="string"> Sun Dasheng   </span>|<span class="string"> 100 </span>|<span class="string"> M      </span>|<span class="string">    NULL </span>|<span class="string">      NULL </span>|</span><br><span class="line">|<span class="string">    28 </span>|<span class="string"> Jinjiao King  </span>|<span class="string"> 100 </span>|<span class="string"> M      </span>|<span class="string">    NULL </span>|<span class="string">      NULL </span>|</span><br><span class="line">+-------+---------------+-----+--------+---------+-----------+</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; UPDATE students SET Age=25 WHERE StuID=15; --&gt;操作被阻塞</span><br><span class="line">ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction</span><br><span class="line"></span><br><span class="line">MariaDB [hellodb]&gt; COMMIT; --&gt;会话1</span><br><span class="line">MariaDB [hellodb]&gt; UPDATE students SET Age=25 WHERE StuID=15;--&gt;会话2</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br></pre></td></tr></table></figure></p>
+<p>在mysql内部广泛存在着各式各样的锁操作，它们通过锁来解决资源竞争问题；但是有了锁以后难免会造成死锁的问题，所谓死锁指的是两个或多个事务在同一资源上相互征用，并请求锁定对方占用的资源的状态，死锁会导致出现非常慢的查询。为了避免死锁问题，数据库系统实现了各种死锁检测和死锁超时机制，例如InnoDB就能检测到死锁的循环依赖，并立即返回一个错误。</p>
+<h2 id="事务日志">事务日志</h2><p>事务日志是保证数据持久以及回滚相当重要的一个工具。每一次事务提交时，此事务的所有修改操作不会立即写入到数据文件中而是先写事务日志，事务日志在磁盘上是一段连续的磁盘空间，它的写入类型为“追加”，因此其操作为“顺序IO”；它操作的是内存中的缓冲区而不是磁盘上的原文件，此日志通常也被称为“预写式日志”；万一数据库崩溃了，由于操作已经写入事务日志而不是数据文件中，这样在数据库重新启动时加载数据文件之后得到的只能是过期的数据，这就需要数据库在重启以后有一个崩溃后恢复的操作也就是将事务日志中的操作同步到数据文件中，崩溃后恢复的时间取决于事务日志的大小和其中所存储的事务日志的数量。<br>事务日志一般是两个文件，第一个写满了然后写第二个并将第一个文件中的操作同步到数据文件中然后将第一个事务日志文件中的内容清空。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@mariadb ~]<span class="preprocessor"># cd /mydata/data/</span></span><br><span class="line">[root@mariadb data]<span class="preprocessor"># ll</span></span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">5.0</span>M Jan <span class="number">28</span> <span class="number">18</span>:<span class="number">04</span> ib_logfile0  --&gt;InnoDB事务日志文件，默认大小<span class="number">5</span>M</span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">5.0</span>M Dec <span class="number">23</span> <span class="number">23</span>:<span class="number">36</span> ib_logfile1</span><br></pre></td></tr></table></figure></p>
+<p>事务日志的大小以及存放位置等是可以自定义的<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; SHOW GLOBAL VARIABLES LIKE '%innodb_log%';</span><br><span class="line">+---------------------------+---------+</span><br><span class="line">|<span class="string"> Variable_name             </span>|<span class="string"> Value   </span>|</span><br><span class="line">+---------------------------+---------+</span><br><span class="line">|<span class="string"> innodb_log_block_size     </span>|<span class="string"> 512     </span>|</span><br><span class="line">|<span class="string"> innodb_log_buffer_size    </span>|<span class="string"> 8388608 </span>|</span><br><span class="line">|<span class="string"> innodb_log_file_size      </span>|<span class="string"> 5242880 </span>|</span><br><span class="line">|<span class="string"> innodb_log_files_in_group </span>|<span class="string"> 2       </span>|</span><br><span class="line">|<span class="string"> innodb_log_group_home_dir </span>|<span class="string"> ./      </span>|</span><br><span class="line">+---------------------------+---------+</span><br></pre></td></tr></table></figure></p>
+<p>参数不支持运行时修改，需要修改配置文件重启服务才能生效；建议不要使用太大的事务日志，否则在崩溃恢复时就需要花费很长时间。</p>
+<p>MySQL中事务的相关知识就先介绍到这里，希望朋友们可以有所收获；下一篇博文将会介绍MySQL中的用户权限管理及查询缓存。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/MySQl/" rel="tag">#MySQl</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/28/MySQL中的存储引擎/" rel="next">MySQL中的存储引擎</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/02/01/MySQL中的事务简介/"
+                   data-title="MySQL中的事务简介" data-url="http://freeandyblogs.com/2016/02/01/MySQL中的事务简介/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://7xnir6.com1.z0.glb.clouddn.com/zhijian3.JPG" alt="曹芷健" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">曹芷健</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/caozhijian" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://segmentfault.com/u/caozhijian" target="_blank">SegmentFault</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/0fefe8f816d2/" target="_blank">简书</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述及相关操作"><span class="nav-number">1.</span> <span class="nav-text">概述及相关操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.</span> <span class="nav-text">事务隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#READ_UNCOMMITTED（读未提交）"><span class="nav-number">2.1.</span> <span class="nav-text">READ UNCOMMITTED（读未提交）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#READ_COMMITED（读提交）"><span class="nav-number">2.2.</span> <span class="nav-text">READ COMMITED（读提交）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REPEATABLE_READ"><span class="nav-number">2.3.</span> <span class="nav-text">REPEATABLE READ</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SERIALIZABLE"><span class="nav-number">2.3.1.</span> <span class="nav-text">SERIALIZABLE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务日志"><span class="nav-number">3.</span> <span class="nav-text">事务日志</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">曹芷健</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"freeandy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
