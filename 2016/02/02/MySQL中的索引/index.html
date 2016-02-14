@@ -45,7 +45,7 @@
 <meta property="og:url" content="http://freeandyblogs.com/2016/02/02/MySQL中的索引/index.html">
 <meta property="og:site_name" content="日拱一卒">
 <meta property="og:description" content="本文主要讲解了MySQL中索引的类型以及如何使用EXPLAIN来分析索引的有效性">
-<meta property="og:updated_time" content="2016-02-14T06:01:11.000Z">
+<meta property="og:updated_time" content="2016-02-14T06:15:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL中的索引">
 <meta name="twitter:description" content="本文主要讲解了MySQL中索引的类型以及如何使用EXPLAIN来分析索引的有效性">
@@ -318,7 +318,8 @@ Extra表示额外信息；
   “Using where”表示MySQL服务器将在存储引擎检索后，再进行一次过滤；
   “Using temporary”表示MySQL对结果排序时会使用临时表；
   “Using filesort”表示MySQL将会对结果使用一个外部索引排序
-</code></pre><p>type性能自上而下，性能越来越好，最起码应该将其保持在range上，若其为index或ALL则意味着全表扫描，性能会非常差，这时就需要改进索引或语句了。<br>MySQL中的索引就先介绍到这里，希望对大家有所帮助。</p>
+</code></pre><p>type性能自上而下，性能越来越好，最起码应该将其保持在range上，若其为index或ALL则意味着全表扫描，性能会非常差，这时就需要改进索引或语句了。</p>
+<p>MySQL中的索引就先介绍到这里，希望对大家有所帮助。</p>
 </span>
       
     </div>
