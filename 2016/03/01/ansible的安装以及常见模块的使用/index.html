@@ -1,0 +1,707 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="曹芷健的技术博客" />
+
+
+
+  <meta name="keywords" content="ansible," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="主要介绍了ansible主要模块的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ansible的安装以及常见模块的使用">
+<meta property="og:url" content="http://freeandyblogs.com/2016/03/01/ansible的安装以及常见模块的使用/index.html">
+<meta property="og:site_name" content="日拱一卒">
+<meta property="og:description" content="主要介绍了ansible主要模块的使用">
+<meta property="og:updated_time" content="2016-03-01T10:05:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ansible的安装以及常见模块的使用">
+<meta name="twitter:description" content="主要介绍了ansible主要模块的使用">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> ansible的安装以及常见模块的使用 | 日拱一卒 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">日拱一卒</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              ansible的安装以及常见模块的使用
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-03-01T17:52:56+08:00" content="2016-03-01">
+            2016-03-01
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/运维自动化/" itemprop="url" rel="index">
+                  <span itemprop="name">运维自动化</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/03/01/ansible的安装以及常见模块的使用/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/01/ansible的安装以及常见模块的使用/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+    <span>&nbsp; | &nbsp;
+    <span id="busuanzi_value_page_pv" ></span>次阅读
+    </span>    
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="安装ansible(安装前要配置好epel源)">安装ansible(安装前要配置好epel源)</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># yum -y install ansible</span></span><br></pre></td></tr></table></figure>
+<p>查看安装完成后生成的文件<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># rpm -ql ansible</span></span><br><span class="line">...</span><br><span class="line">/etc/ansible/ansible.cfg -&gt;主配置文件</span><br><span class="line">/etc/ansible/hosts -&gt;invertory文件，用于定义被管理主机</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>编辑配置文件<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># vim /etc/ansible/hosts</span></span><br><span class="line"></span><br><span class="line">[websrvs]</span><br><span class="line"><span class="number">172.20</span><span class="number">.2</span><span class="number">.115</span>  --&gt;node12</span><br><span class="line"><span class="number">172.20</span><span class="number">.2</span><span class="number">.198</span>  --&gt;node13</span><br><span class="line"></span><br><span class="line">[dbsrvs]</span><br><span class="line"><span class="number">172.20</span><span class="number">.2</span><span class="number">.159</span>  --&gt;node14</span><br></pre></td></tr></table></figure></p>
+<p>基于密钥方式认证<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="preprocessor"># ssh-keygen -t rsa</span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@<span class="number">172.20</span><span class="number">.2</span><span class="number">.115</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@<span class="number">172.20</span><span class="number">.2</span><span class="number">.198</span></span></span><br><span class="line">[root@node11 ~]<span class="preprocessor"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@<span class="number">172.20</span><span class="number">.2</span><span class="number">.159</span></span></span><br></pre></td></tr></table></figure></p>
+<p>查看模块帮助<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible-doc -l -&gt;查看有哪些模块</span></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible-doc -s MODULE_NAME -&gt;查看特定模块</span></span><br></pre></td></tr></table></figure></p>
+<p>ansible命令应用基础<br>语法<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ansible &lt;host-pattern&gt; [-f forks] [-m module_name] [-a args]</span><br><span class="line"></span><br><span class="line">-<span class="ruby">f forks：启动的并发线程数</span><br><span class="line"></span>-<span class="ruby">m module_name：要是用的模块</span><br><span class="line"></span>-<span class="ruby">a args：模块特有的参数</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="常见模块">常见模块</h2><h3 id="command模块">command模块</h3><p>用于在远程执行命令，它是ansible的默认模块</p>
+<p>示例<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible 172.20.2.115 -a 'date'</span></span><br><span class="line"><span class="prompt">172.20.2.115 | success | rc=0 &gt;</span>&gt;</span><br><span class="line"><span class="constant">Mon</span> <span class="constant">Feb</span> <span class="number">29</span> <span class="number">23</span><span class="symbol">:</span><span class="number">14</span><span class="symbol">:</span><span class="number">45</span> <span class="constant">PST</span> <span class="number">2016</span></span><br><span class="line">---</span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible websrvs -a 'date'</span></span><br><span class="line"><span class="prompt">172.20.2.115 | success | rc=0 &gt;</span>&gt;</span><br><span class="line"><span class="constant">Mon</span> <span class="constant">Feb</span> <span class="number">29</span> <span class="number">23</span><span class="symbol">:</span><span class="number">15</span><span class="symbol">:</span><span class="number">43</span> <span class="constant">PST</span> <span class="number">2016</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.198 | success | rc=0 &gt;</span>&gt;</span><br><span class="line"><span class="constant">Mon</span> <span class="constant">Feb</span> <span class="number">29</span> <span class="number">23</span><span class="symbol">:</span><span class="number">16</span><span class="symbol">:</span><span class="number">11</span> <span class="constant">PST</span> <span class="number">2016</span></span><br><span class="line">---</span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible all -a 'date'</span></span><br><span class="line"><span class="prompt">172.20.2.159 | success | rc=0 &gt;</span>&gt;</span><br><span class="line"><span class="constant">Mon</span> <span class="constant">Feb</span> <span class="number">29</span> <span class="number">23</span><span class="symbol">:</span><span class="number">16</span><span class="symbol">:</span><span class="number">47</span> <span class="constant">PST</span> <span class="number">2016</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.198 | success | rc=0 &gt;</span>&gt;</span><br><span class="line"><span class="constant">Mon</span> <span class="constant">Feb</span> <span class="number">29</span> <span class="number">23</span><span class="symbol">:</span><span class="number">16</span><span class="symbol">:</span><span class="number">47</span> <span class="constant">PST</span> <span class="number">2016</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.115 | success | rc=0 &gt;</span>&gt;</span><br><span class="line"><span class="constant">Mon</span> <span class="constant">Feb</span> <span class="number">29</span> <span class="number">23</span><span class="symbol">:</span><span class="number">16</span><span class="symbol">:</span><span class="number">57</span> <span class="constant">PST</span> <span class="number">2016</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="cron模块">cron模块</h3><p>用于设置定时任务；state用于安装（present）或移除（absent）命令</p>
+<p>示例<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible websrvs -m cron -a <span class="string">'minute="*/10" job="/bin/echo hello" name="test cron job"'</span></span></span><br><span class="line"></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible websrvs -a <span class="string">'crontab -l'</span></span></span><br><span class="line"><span class="number">172.20</span><span class="number">.2</span><span class="number">.115</span> | success | rc=<span class="number">0</span> &gt;&gt;</span><br><span class="line"><span class="preprocessor">#Ansible: test cron job</span></span><br><span class="line">*/<span class="number">10</span> * * * * /bin/echo hello</span><br><span class="line"></span><br><span class="line"><span class="number">172.20</span><span class="number">.2</span><span class="number">.198</span> | success | rc=<span class="number">0</span> &gt;&gt;</span><br><span class="line"><span class="preprocessor">#Ansible: test cron job</span></span><br><span class="line">*/<span class="number">10</span> * * * * /bin/echo hello</span><br><span class="line"></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible websrvs -m cron -a <span class="string">'name="test cron job" state=absent'</span> --&gt;移除定时任务</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="user模块">user模块</h3><p>用于管理用户账户，用name指明创建的用户名</p>
+<p>示例<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]# ansible <span class="keyword">all</span> -m user -a <span class="attribute">'name</span>=<span class="string">"user1"</span>' <span class="comment">--&gt;在所有主机上创建user1用户</span></span><br><span class="line">[root@node11 ~]# ansible <span class="keyword">all</span> -m user -a <span class="attribute">'name</span>=<span class="string">"user1"</span> state=absent' <span class="comment">--&gt;删除用户</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="group模块">group模块</h3><p>用于实现组管理</p>
+<p>示例<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible websrvs -m group -a <span class="string">'name=mysql gid=306 system=yes'</span></span></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible websrvs -m user -a <span class="string">'name=mysql uid=306 system=yes group=mysql'</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="copy模块">copy模块</h3><p>用于实现文件复制;src指明本地源文件路径，dest指明远程目标文件路径，content可以取代src，表示直接用此处指定的信息生成为目标文件内容</p>
+<p>示例<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]# ansible all -m copy -a <span class="emphasis">'src=/etc/fstab dest=/tmp/fstab.ansible owner=root mode=640'</span></span><br><span class="line"></span><br><span class="line">[root@node12 ~]# ll /tmp/fstab.ansible</span><br><span class="line"><span class="header">-rw-r----- 1 root root 805 Mar  1 00:11 /tmp/fstab.ansible</span><br><span class="line">---</span></span><br><span class="line">ansible all -m copy -a <span class="emphasis">'content="Hello Ansible\nHi FreeAndy" dest=/tmp/test.ansible'</span></span><br><span class="line"></span><br><span class="line">[root@node12 ~]# cat /tmp/test.ansible</span><br><span class="line">Hello Ansible</span><br><span class="line">Hi FreeAndy</span><br></pre></td></tr></table></figure></p>
+<h3 id="file模块">file模块</h3><p>用于设置文件属性；path指明文件路径，可以使用name或dest替代；创建文件链接可以使用src指定源文件，path指明符号链接文件路径</p>
+<p>示例<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible all -m file -a 'owner=mysql group=mysql mode=644 path=/tmp/fstab.ansible'</span></span><br><span class="line">[root<span class="variable">@node12</span> ~]<span class="comment"># ls -l /tmp</span></span><br><span class="line">-rw-r--r--  <span class="number">1</span> mysql   mysql    <span class="number">805</span> <span class="constant">Mar </span> <span class="number">1</span> <span class="number">00</span><span class="symbol">:</span><span class="number">11</span> fstab.ansible</span><br><span class="line">---</span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible all -m file -a 'path=/tmp/fstab.link src=/tmp/fstab.ansible state=link' --&gt;创建符号链接文件</span></span><br><span class="line">[root<span class="variable">@node12</span> ~]<span class="comment"># ls -l /tmp</span></span><br><span class="line">lrwxrwxrwx  <span class="number">1</span> root    root      <span class="number">18</span> <span class="constant">Mar </span> <span class="number">1</span> <span class="number">00</span><span class="symbol">:</span><span class="number">28</span> fstab.link -&gt; /tmp/fstab.ansible</span><br></pre></td></tr></table></figure></p>
+<h3 id="ping模块">ping模块</h3><p>用于测试远程主机是否能连通</p>
+<p>示例<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor">#  ansible all -m ping</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="service模块">service模块</h3><p>指定运行状态；enabled设置是否开机自启动，取值为true或false；name指明服务名称；state指明状态，取值有started,stopped,restarted</p>
+<p>示例<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible websrvs -a 'service httpd status'</span></span><br><span class="line"><span class="prompt">172.20.2.115 | FAILED | rc=3 &gt;</span>&gt;</span><br><span class="line">httpd is stopped</span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.198 | FAILED | rc=3 &gt;</span>&gt;</span><br><span class="line">httpd is stopped</span><br><span class="line"></span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible websrvs -a 'chkconfig --list httpd'</span></span><br><span class="line"><span class="prompt">172.20.2.198 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">httpd          	<span class="number">0</span><span class="symbol">:off</span>	<span class="number">1</span><span class="symbol">:off</span>	<span class="number">2</span><span class="symbol">:off</span>	<span class="number">3</span><span class="symbol">:off</span>	<span class="number">4</span><span class="symbol">:off</span>	<span class="number">5</span><span class="symbol">:off</span>	<span class="number">6</span><span class="symbol">:off</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.115 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">httpd          	<span class="number">0</span><span class="symbol">:off</span>	<span class="number">1</span><span class="symbol">:off</span>	<span class="number">2</span><span class="symbol">:off</span>	<span class="number">3</span><span class="symbol">:off</span>	<span class="number">4</span><span class="symbol">:off</span>	<span class="number">5</span><span class="symbol">:off</span>	<span class="number">6</span><span class="symbol">:off</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible websrvs -m service -a 'enabled=true name=httpd state=started'</span></span><br><span class="line"></span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible websrvs -a 'service httpd status'</span></span><br><span class="line"><span class="prompt">172.20.2.115 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">httpd (pid  <span class="number">3621</span>) is running...</span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.198 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">httpd (pid  <span class="number">3504</span>) is running...</span><br><span class="line"></span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible websrvs -a 'chkconfig --list httpd'</span></span><br><span class="line"><span class="prompt">172.20.2.115 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">httpd          	<span class="number">0</span><span class="symbol">:off</span>	<span class="number">1</span><span class="symbol">:off</span>	<span class="number">2</span><span class="symbol">:on</span>	<span class="number">3</span><span class="symbol">:on</span>	<span class="number">4</span><span class="symbol">:on</span>	<span class="number">5</span><span class="symbol">:on</span>	<span class="number">6</span><span class="symbol">:off</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.198 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">httpd          	<span class="number">0</span><span class="symbol">:off</span>	<span class="number">1</span><span class="symbol">:off</span>	<span class="number">2</span><span class="symbol">:on</span>	<span class="number">3</span><span class="symbol">:on</span>	<span class="number">4</span><span class="symbol">:on</span>	<span class="number">5</span><span class="symbol">:on</span>	<span class="number">6</span><span class="symbol">:off</span></span><br></pre></td></tr></table></figure>
+<h3 id="shell模块">shell模块</h3><p>用于在远程主机上运行命令，尤其是用到管道等功能的复杂命令时建议使用shell模块</p>
+<p>示例<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible all -m user -a <span class="string">'name=user1'</span></span></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible all -m shell -a <span class="string">'echo freeandy|passwd --stdin user1'</span></span></span><br><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible websrvs -m shell -a <span class="string">'ss -tnl|grep 80'</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="script模块">script模块</h3><p>用于将本地脚本复制到远程主机并运行，注意要使用相对路径指明脚本</p>
+<p>示例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]<span class="comment"># cat test.sh </span></span><br><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"hello ansible from script"</span> &gt; /tmp/script.ansible</span><br><span class="line">useradd user2</span><br><span class="line"></span><br><span class="line">[root@node11 ~]<span class="comment"># ansible all -m script -a "test.sh"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="yum模块">yum模块</h3><p>用于安装程序包；name指明要安装的程序包，可以带版本号，默认安装最新版本；state取值为present或latest表示安装，取值为absent表示卸载</p>
+<p>示例<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible all -m yum -a "name=zsh" --&gt;安装程序包</span></span><br><span class="line"></span><br><span class="line">[root<span class="variable">@node11</span> ~]<span class="comment"># ansible all -a 'rpm -q zsh' </span></span><br><span class="line"><span class="prompt">172.20.2.115 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">zsh-<span class="number">4.3</span>.<span class="number">11</span>-<span class="number">4</span>.el6.centos.<span class="number">1</span>.x86_64</span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.198 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">zsh-<span class="number">4.3</span>.<span class="number">11</span>-<span class="number">4</span>.el6.centos.<span class="number">1</span>.x86_64</span><br><span class="line"></span><br><span class="line"><span class="prompt">172.20.2.159 | success | rc=0 &gt;</span>&gt;</span><br><span class="line">zsh-<span class="number">4.3</span>.<span class="number">11</span>-<span class="number">4</span>.el6.centos.<span class="number">1</span>.x86_64</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@node11 ~]# ansible <span class="keyword">all</span> -m yum -a <span class="string">"name=zsh state=absent"</span> <span class="comment">--&gt;卸载程序包</span></span><br><span class="line"></span><br><span class="line">[root@node11 ~]# ansible <span class="keyword">all</span> -a <span class="attribute">'rpm</span> -q zsh'</span><br><span class="line"><span class="number">172.20</span>.<span class="number">2.159</span> | FAILED | rc=<span class="number">1</span> &gt;&gt;</span><br><span class="line"><span class="keyword">package</span> zsh <span class="keyword">is</span> <span class="keyword">not</span> installed</span><br><span class="line"></span><br><span class="line"><span class="number">172.20</span>.<span class="number">2.198</span> | FAILED | rc=<span class="number">1</span> &gt;&gt;</span><br><span class="line"><span class="keyword">package</span> zsh <span class="keyword">is</span> <span class="keyword">not</span> installed</span><br><span class="line"></span><br><span class="line"><span class="number">172.20</span>.<span class="number">2.115</span> | FAILED | rc=<span class="number">1</span> &gt;&gt;</span><br><span class="line"><span class="keyword">package</span> zsh <span class="keyword">is</span> <span class="keyword">not</span> installed</span><br></pre></td></tr></table></figure>
+<h3 id="setup模块">setup模块</h3><p>用于收集远程主机的facts；每个被管理节点在接收并运行管理命令之前，会将自己主机的相关信息，如操作系统版本，IP地址等报告给远程的ansible主机</p>
+<p>示例<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="constant">@node11</span> ~]<span class="preprocessor"># ansible all -m setup</span></span><br></pre></td></tr></table></figure></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ansible/" rel="tag">#ansible</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/02/MySQL中的索引/" rel="next">MySQL中的索引</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/03/01/ansible的安装以及常见模块的使用/"
+                   data-title="ansible的安装以及常见模块的使用" data-url="http://freeandyblogs.com/2016/03/01/ansible的安装以及常见模块的使用/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://7xnir6.com1.z0.glb.clouddn.com/zhijian3.JPG" alt="曹芷健" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">曹芷健</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">曹芷健的技术博客</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/caozhijian" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://segmentfault.com/u/caozhijian" target="_blank">SegmentFault</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/0fefe8f816d2/" target="_blank">简书</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装ansible(安装前要配置好epel源)"><span class="nav-number">1.</span> <span class="nav-text">安装ansible(安装前要配置好epel源)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见模块"><span class="nav-number">2.</span> <span class="nav-text">常见模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#command模块"><span class="nav-number">2.1.</span> <span class="nav-text">command模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cron模块"><span class="nav-number">2.2.</span> <span class="nav-text">cron模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user模块"><span class="nav-number">2.3.</span> <span class="nav-text">user模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#group模块"><span class="nav-number">2.4.</span> <span class="nav-text">group模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy模块"><span class="nav-number">2.5.</span> <span class="nav-text">copy模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#file模块"><span class="nav-number">2.6.</span> <span class="nav-text">file模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ping模块"><span class="nav-number">2.7.</span> <span class="nav-text">ping模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#service模块"><span class="nav-number">2.8.</span> <span class="nav-text">service模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell模块"><span class="nav-number">2.9.</span> <span class="nav-text">shell模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#script模块"><span class="nav-number">2.10.</span> <span class="nav-text">script模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yum模块"><span class="nav-number">2.11.</span> <span class="nav-text">yum模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setup模块"><span class="nav-number">2.12.</span> <span class="nav-text">setup模块</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">曹芷健</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"freeandy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
