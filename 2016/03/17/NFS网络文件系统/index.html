@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="文件系统 NFS," />
+  <meta name="keywords" content="NFS,文件系统," />
 
 
 
@@ -45,7 +45,7 @@
 <meta property="og:url" content="http://freeandyblogs.com/2016/03/17/NFS网络文件系统/index.html">
 <meta property="og:site_name" content="日拱一卒">
 <meta property="og:description" content="介绍了NFS相关的知识">
-<meta property="og:updated_time" content="2016-03-17T01:00:35.000Z">
+<meta property="og:updated_time" content="2016-03-17T01:12:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFS网络文件系统">
 <meta name="twitter:description" content="介绍了NFS相关的知识">
@@ -239,8 +239,8 @@
       
 
       
-        <span itemprop="articleBody"><p>#简介<br>NFS是Network File System的缩写，它的主要功能是通过网络可以使不同主机系统之间共享文件。</p>
-<p>#RPC<br>由于NFS支持的功能比较多，每启用一个功能都会随机启动一个未被占用的端口来作为传输；NFS客户端必须要确定NFS服务器端的端口才能正常传输数据，而端口又是随机的，这样就会造成NFS客户端与服务器端的通讯障碍，恰好RPC服务（即远程过程调用）就很好地解决了这个问题。<br>RPC的作用就是记录每一个NFS功能所对应的端口号…（待续）</p>
+        <span itemprop="articleBody"><h1 id="简介">简介</h1><p>NFS是Network File System的缩写，它的主要功能是通过网络可以使不同主机系统之间共享文件。</p>
+<h1 id="RPC">RPC</h1><p>由于NFS支持的功能比较多，每启用一个功能都会随机启动一个未被占用的端口来作为传输；NFS客户端必须要确定NFS服务器端的端口才能正常传输数据，而端口又是随机的，这样就会造成NFS客户端与服务器端的通讯障碍，恰好RPC服务（即远程过程调用）就很好地解决了这个问题。<br>RPC的作用就是记录每一个NFS功能所对应的端口号…（待续）</p>
 <hr>
 <p>NFS软件<br>要部署NFS服务，需要安装下面的软件包：</p>
 <ol>
@@ -337,7 +337,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/文件系统-NFS/" rel="tag">#文件系统 NFS</a>
+            <a href="/tags/NFS/" rel="tag">#NFS</a>
+          
+            <a href="/tags/文件系统/" rel="tag">#文件系统</a>
           
         </div>
       
@@ -430,7 +432,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -478,7 +480,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装nfs"><span class="nav-number">1.</span> <span class="nav-text">安装nfs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">1.1.</span> <span class="nav-text">服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">1.2.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">1.3.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS服务的相关功能组件"><span class="nav-number">2.</span> <span class="nav-text">NFS服务的相关功能组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS配置文件权限参数简要说明"><span class="nav-number">3.</span> <span class="nav-text">NFS配置文件权限参数简要说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产环境中配置NFS的重要技巧"><span class="nav-number">4.</span> <span class="nav-text">生产环境中配置NFS的重要技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS客户端mount挂载优化"><span class="nav-number">5.</span> <span class="nav-text">NFS客户端mount挂载优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS网络文件系统优化挂载的参数建议"><span class="nav-number">5.1.</span> <span class="nav-text">NFS网络文件系统优化挂载的参数建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关命令介绍"><span class="nav-number">6.</span> <span class="nav-text">相关命令介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#showmount命令"><span class="nav-number">6.1.</span> <span class="nav-text">showmount命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exportfs命令"><span class="nav-number">6.2.</span> <span class="nav-text">exportfs命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpcinfo_命令"><span class="nav-number">6.3.</span> <span class="nav-text">rpcinfo 命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS的状态信息"><span class="nav-number">7.</span> <span class="nav-text">NFS的状态信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS服务生产场景应用说明"><span class="nav-number">8.</span> <span class="nav-text">NFS服务生产场景应用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">8.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS的优点"><span class="nav-number">8.2.</span> <span class="nav-text">NFS的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS的局限"><span class="nav-number">8.3.</span> <span class="nav-text">NFS的局限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生产应用场景"><span class="nav-number">8.4.</span> <span class="nav-text">生产应用场景</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RPC"><span class="nav-number">2.</span> <span class="nav-text">RPC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装nfs"><span class="nav-number">2.1.</span> <span class="nav-text">安装nfs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">2.1.1.</span> <span class="nav-text">服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">2.1.2.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">2.1.3.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS服务的相关功能组件"><span class="nav-number">2.2.</span> <span class="nav-text">NFS服务的相关功能组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS配置文件权限参数简要说明"><span class="nav-number">2.3.</span> <span class="nav-text">NFS配置文件权限参数简要说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产环境中配置NFS的重要技巧"><span class="nav-number">2.4.</span> <span class="nav-text">生产环境中配置NFS的重要技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS客户端mount挂载优化"><span class="nav-number">2.5.</span> <span class="nav-text">NFS客户端mount挂载优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS网络文件系统优化挂载的参数建议"><span class="nav-number">2.5.1.</span> <span class="nav-text">NFS网络文件系统优化挂载的参数建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关命令介绍"><span class="nav-number">2.6.</span> <span class="nav-text">相关命令介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#showmount命令"><span class="nav-number">2.6.1.</span> <span class="nav-text">showmount命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exportfs命令"><span class="nav-number">2.6.2.</span> <span class="nav-text">exportfs命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpcinfo_命令"><span class="nav-number">2.6.3.</span> <span class="nav-text">rpcinfo 命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS的状态信息"><span class="nav-number">2.7.</span> <span class="nav-text">NFS的状态信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS服务生产场景应用说明"><span class="nav-number">2.8.</span> <span class="nav-text">NFS服务生产场景应用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">2.8.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS的优点"><span class="nav-number">2.8.2.</span> <span class="nav-text">NFS的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS的局限"><span class="nav-number">2.8.3.</span> <span class="nav-text">NFS的局限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生产应用场景"><span class="nav-number">2.8.4.</span> <span class="nav-text">生产应用场景</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
