@@ -1,0 +1,765 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="曹芷健的技术博客" />
+
+
+
+  <meta name="keywords" content="文件系统 NFS," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="介绍了NFS相关的知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NFS网络文件系统">
+<meta property="og:url" content="http://freeandyblogs.com/2016/03/17/NFS网络文件系统/index.html">
+<meta property="og:site_name" content="日拱一卒">
+<meta property="og:description" content="介绍了NFS相关的知识">
+<meta property="og:updated_time" content="2016-03-17T01:00:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NFS网络文件系统">
+<meta name="twitter:description" content="介绍了NFS相关的知识">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> NFS网络文件系统 | 日拱一卒 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">日拱一卒</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              NFS网络文件系统
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-03-17T08:56:01+08:00" content="2016-03-17">
+            2016-03-17
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                  <span itemprop="name">学习笔记</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/03/17/NFS网络文件系统/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/17/NFS网络文件系统/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+    <span>&nbsp; | &nbsp;
+    <span id="busuanzi_value_page_pv" ></span>次阅读
+    </span>    
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>#简介<br>NFS是Network File System的缩写，它的主要功能是通过网络可以使不同主机系统之间共享文件。</p>
+<p>#RPC<br>由于NFS支持的功能比较多，每启用一个功能都会随机启动一个未被占用的端口来作为传输；NFS客户端必须要确定NFS服务器端的端口才能正常传输数据，而端口又是随机的，这样就会造成NFS客户端与服务器端的通讯障碍，恰好RPC服务（即远程过程调用）就很好地解决了这个问题。<br>RPC的作用就是记录每一个NFS功能所对应的端口号…（待续）</p>
+<hr>
+<p>NFS软件<br>要部署NFS服务，需要安装下面的软件包：</p>
+<ol>
+<li>nfs-utils：这是NFS服务的主程序，包括rpc.nfsd,rpc.mountd两个daemons和相关文档说明与执行命令文件等。</li>
+<li>portmap：Centos5下面RPC的主程序（Centos6下则为rpcbind）<br>NFS可以被视为一个RPC程序，在启动任何一个RPC程序之前，需要做好端口和功能的映射工作，这个映射工作就是由portmap或rpcbind服务来完成的。因此，在提供NFS服务之前必须先启动portmap或rpcbind服务。</li>
+</ol>
+<h2 id="安装nfs">安装nfs</h2><p>查看NFS软件的安装情况：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~]<span class="comment"># rpm -qa nfs-utils portmap rpcbind</span></span><br></pre></td></tr></table></figure></p>
+<p>修改主机名：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># hostname nfsserver</span></span><br><span class="line">[root@node2 ~]<span class="comment"># hostname nfsclient</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># yum -y install nfs-utils rpcbind</span></span><br><span class="line">[root@nfsclient ~]<span class="comment"># yum -y install nfs-utils rpcbind</span></span><br></pre></td></tr></table></figure>
+<h3 id="服务端">服务端</h3><p>启动RPC服务：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~]<span class="comment"># /etc/init.d/rpcbind start</span></span><br><span class="line">~]<span class="comment"># ps -ef | grep rpc</span></span><br></pre></td></tr></table></figure></p>
+<p> rpc对外使用111端口：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># rpcinfo -p localhost</span></span><br><span class="line">  program vers proto   port  service</span><br><span class="line">   <span class="number">100000</span>    <span class="number">4</span>   tcp    <span class="number">111</span>  portmapper</span><br><span class="line">   <span class="number">100000</span>    <span class="number">3</span>   tcp    <span class="number">111</span>  portmapper</span><br><span class="line">   <span class="number">100000</span>    <span class="number">2</span>   tcp    <span class="number">111</span>  portmapper</span><br><span class="line">   <span class="number">100000</span>    <span class="number">4</span>   udp    <span class="number">111</span>  portmapper</span><br><span class="line">   <span class="number">100000</span>    <span class="number">3</span>   udp    <span class="number">111</span>  portmapper</span><br><span class="line">   <span class="number">100000</span>    <span class="number">2</span>   udp    <span class="number">111</span>  portmapper</span><br></pre></td></tr></table></figure></p>
+<p>由于RPC服务未启动而产生的报错信息如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># rpcinfo -p localhost</span></span><br><span class="line">rpcinfo: can<span class="string">'t contact portmapper: RPC: Remote system error - Connection refused</span></span><br></pre></td></tr></table></figure></p>
+<p>启动nfs服务：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">~]<span class="comment"># /etc/init.d/nfs start</span></span><br><span class="line">[root@nfsserver ~]<span class="comment"># rpcinfo -p localhost</span></span><br><span class="line">   program vers proto   port  service</span><br><span class="line">    <span class="number">100000</span>    <span class="number">4</span>   tcp    <span class="number">111</span>  portmapper</span><br><span class="line">    <span class="number">100000</span>    <span class="number">3</span>   tcp    <span class="number">111</span>  portmapper</span><br><span class="line">    <span class="number">100000</span>    <span class="number">2</span>   tcp    <span class="number">111</span>  portmapper</span><br><span class="line">    <span class="number">100000</span>    <span class="number">4</span>   udp    <span class="number">111</span>  portmapper</span><br><span class="line">    <span class="number">100000</span>    <span class="number">3</span>   udp    <span class="number">111</span>  portmapper</span><br><span class="line">    <span class="number">100000</span>    <span class="number">2</span>   udp    <span class="number">111</span>  portmapper</span><br><span class="line">    <span class="number">100011</span>    <span class="number">1</span>   udp    <span class="number">875</span>  rquotad</span><br><span class="line">    <span class="number">100011</span>    <span class="number">2</span>   udp    <span class="number">875</span>  rquotad</span><br><span class="line">    <span class="number">100011</span>    <span class="number">1</span>   tcp    <span class="number">875</span>  rquotad</span><br><span class="line">    <span class="number">100011</span>    <span class="number">2</span>   tcp    <span class="number">875</span>  rquotad</span><br><span class="line">    <span class="number">100005</span>    <span class="number">1</span>   udp  <span class="number">47297</span>  mountd</span><br><span class="line">    <span class="number">100005</span>    <span class="number">1</span>   tcp  <span class="number">52644</span>  mountd</span><br><span class="line">    <span class="number">100005</span>    <span class="number">2</span>   udp  <span class="number">50758</span>  mountd</span><br><span class="line">    <span class="number">100005</span>    <span class="number">2</span>   tcp  <span class="number">33739</span>  mountd</span><br><span class="line">    <span class="number">100005</span>    <span class="number">3</span>   udp  <span class="number">50248</span>  mountd</span><br><span class="line">    <span class="number">100005</span>    <span class="number">3</span>   tcp  <span class="number">36239</span>  mountd</span><br><span class="line">    <span class="number">100003</span>    <span class="number">2</span>   tcp   <span class="number">2049</span>  nfs</span><br><span class="line">    <span class="number">100003</span>    <span class="number">3</span>   tcp   <span class="number">2049</span>  nfs</span><br><span class="line">    <span class="number">100003</span>    <span class="number">4</span>   tcp   <span class="number">2049</span>  nfs</span><br><span class="line">    <span class="number">100227</span>    <span class="number">2</span>   tcp   <span class="number">2049</span>  nfs_acl</span><br><span class="line">    <span class="number">100227</span>    <span class="number">3</span>   tcp   <span class="number">2049</span>  nfs_acl</span><br><span class="line">    <span class="number">100003</span>    <span class="number">2</span>   udp   <span class="number">2049</span>  nfs</span><br><span class="line">    <span class="number">100003</span>    <span class="number">3</span>   udp   <span class="number">2049</span>  nfs</span><br><span class="line">    <span class="number">100003</span>    <span class="number">4</span>   udp   <span class="number">2049</span>  nfs</span><br><span class="line">    <span class="number">100227</span>    <span class="number">2</span>   udp   <span class="number">2049</span>  nfs_acl</span><br><span class="line">    <span class="number">100227</span>    <span class="number">3</span>   udp   <span class="number">2049</span>  nfs_acl</span><br><span class="line">    <span class="number">100021</span>    <span class="number">1</span>   udp  <span class="number">40433</span>  nlockmgr</span><br><span class="line">    <span class="number">100021</span>    <span class="number">3</span>   udp  <span class="number">40433</span>  nlockmgr</span><br><span class="line">    <span class="number">100021</span>    <span class="number">4</span>   udp  <span class="number">40433</span>  nlockmgr</span><br><span class="line">    <span class="number">100021</span>    <span class="number">1</span>   tcp  <span class="number">53532</span>  nlockmgr</span><br><span class="line">    <span class="number">100021</span>    <span class="number">3</span>   tcp  <span class="number">53532</span>  nlockmgr</span><br><span class="line">    <span class="number">100021</span>    <span class="number">4</span>   tcp  <span class="number">53532</span>  nlockmgr</span><br></pre></td></tr></table></figure></p>
+<p>设置开机自启动：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ~]<span class="comment"># chkconfig nfs on</span></span><br><span class="line"> ~]<span class="comment"># chkconfig rpcbind on</span></span><br><span class="line"> ~]<span class="comment"># chkconfig --list nfs</span></span><br><span class="line">nfs            	<span class="number">0</span>:off	<span class="number">1</span>:off	<span class="number">2</span>:on	<span class="number">3</span>:on	<span class="number">4</span>:on	<span class="number">5</span>:on	<span class="number">6</span>:off</span><br><span class="line"> ~]<span class="comment"># chkconfig --list rpcbind</span></span><br><span class="line">rpcbind        	<span class="number">0</span>:off	<span class="number">1</span>:off	<span class="number">2</span>:on	<span class="number">3</span>:on	<span class="number">4</span>:on	<span class="number">5</span>:on	<span class="number">6</span>:off</span><br></pre></td></tr></table></figure></p>
+<h3 id="客户端">客户端</h3><p>启动RPC服务并设置开机自启动：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~]<span class="comment"># /etc/init.d/rpcbind start</span></span><br><span class="line">~]<span class="comment"># chkconfig rpcbind on</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="配置">配置</h3><p>NFS的配置文件为<code>/etc/exports</code><br>设置共享目录<code>/data</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># mkdir /data</span></span><br></pre></td></tr></table></figure></p>
+<p>编辑配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># vim /etc/exports</span></span><br><span class="line"></span><br><span class="line">写入如下内容：</span><br><span class="line"><span class="comment">#shared data for bbs by andy at 20151101</span></span><br><span class="line">/data <span class="number">172.20</span>.<span class="number">2.0</span>/<span class="number">24</span>(rw,sync)</span><br><span class="line">其中，/dat为要共享的目录，<span class="number">172.20</span>.<span class="number">2.0</span>/<span class="number">24</span>为允许访问的网段（也可为*或可解析的主机名或域名），rw为读写权限，sync表示同步到磁盘</span><br><span class="line"></span><br><span class="line">重启NFS服务</span><br><span class="line">[root@nfsserver ~]<span class="comment"># /etc/init.d/nfs reload</span></span><br></pre></td></tr></table></figure></p>
+<p>自检能否共享：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># showmount -e localhost</span></span><br><span class="line">Export list <span class="keyword">for</span> localhost:</span><br><span class="line">/data <span class="number">172.20</span>.<span class="number">2.0</span>/<span class="number">24</span></span><br><span class="line"></span><br><span class="line">[root@nfsclient ~]<span class="comment"># showmount -e 172.20.2.200（客户端地址）</span></span><br><span class="line">Export list <span class="keyword">for</span> <span class="number">172.20</span>.<span class="number">2.200</span>:</span><br><span class="line">/data <span class="number">172.20</span>.<span class="number">2.0</span>/<span class="number">24</span></span><br><span class="line"></span><br><span class="line">若出现错误信息：`clnt_create: RPC: Port mapper failure - Unable to receive: errno <span class="number">113</span> (No route to host)`关闭服务端与客户端iptables即可。</span><br></pre></td></tr></table></figure></p>
+<p>挂载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsclient ~]<span class="comment"># mount -t nfs 172.20.2.200:/data /mnt</span></span><br><span class="line">[root@nfsclient ~]<span class="comment"># df -h</span></span><br><span class="line">Filesystem          Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/sda2            <span class="number">18</span>G  <span class="number">2.5</span>G   <span class="number">15</span>G  <span class="number">15</span>% /</span><br><span class="line">tmpfs               <span class="number">242</span>M   <span class="number">84</span>K  <span class="number">242</span>M   <span class="number">1</span>% /dev/shm</span><br><span class="line">/dev/sda1           <span class="number">283</span>M   <span class="number">28</span>M  <span class="number">240</span>M  <span class="number">11</span>% /boot</span><br><span class="line"><span class="number">172.20</span>.<span class="number">2.200</span>:/data   <span class="number">18</span>G  <span class="number">2.6</span>G   <span class="number">14</span>G  <span class="number">16</span>% /mnt</span><br><span class="line"></span><br><span class="line">配置开机挂载：</span><br><span class="line">[root@nfsclient ~]<span class="comment"># vim /etc/rc.local</span></span><br><span class="line">添加如下信息：</span><br><span class="line">/bin/mount -t nfs <span class="number">172.20</span>.<span class="number">2.200</span>:/data /mnt</span><br></pre></td></tr></table></figure></p>
+<p>测试：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsclient mnt]<span class="comment"># touch hello.txt</span></span><br><span class="line">touch: cannot touch `hello.txt<span class="string">': Permission denied</span></span><br></pre></td></tr></table></figure></p>
+<p>可以读，但是无法创建文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># ls -ld /data</span></span><br><span class="line">drwxr-xr-x <span class="number">2</span> root root <span class="number">4096</span> Nov  <span class="number">1</span> <span class="number">19</span>:<span class="number">08</span> /data</span><br><span class="line"></span><br><span class="line">[root@nfsserver ~]<span class="comment"># chmod -R 777 /data</span></span><br><span class="line"></span><br><span class="line">[root@nfsclient mnt]<span class="comment"># touch hello.txt</span></span><br><span class="line"></span><br><span class="line">[root@nfsclient mnt]<span class="comment"># ll hello.txt </span></span><br><span class="line">-rw-r--r-- <span class="number">1</span> nfsnobody nfsnobody <span class="number">0</span> Nov  <span class="number">1</span> <span class="number">19</span>:<span class="number">43</span> hello.txt</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># cat /var/lib/nfs/etab </span></span><br><span class="line">/data	<span class="number">172.20</span>.<span class="number">2.0</span>/<span class="number">24</span>(rw,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=<span class="number">65534</span>,anongid=<span class="number">65534</span>,sec=sys,rw,root_squash,no_all_squash)</span><br><span class="line"></span><br><span class="line">[root@nfsserver ~]<span class="comment"># grep 65534 /etc/passwd</span></span><br><span class="line">nfsnobody:x:<span class="number">65534</span>:<span class="number">65534</span>:Anonymous NFS User:/var/lib/nfs:/sbin/nologin</span><br></pre></td></tr></table></figure>
+<p>解决方案：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># chmod 755 /data</span></span><br><span class="line">[root@nfsserver ~]<span class="comment"># chown -R nfsnobody.nfsnobody /data</span></span><br><span class="line"></span><br><span class="line">[root@nfsserver ~]<span class="comment"># ls -ld /data</span></span><br><span class="line">drwxr-xr-x <span class="number">2</span> nfsnobody nfsnobody <span class="number">4096</span> Nov  <span class="number">1</span> <span class="number">19</span>:<span class="number">43</span> /data</span><br></pre></td></tr></table></figure></p>
+<p>注意：如果需要读写共享，一定要让本地目录可以被NFS客户端的用户（nfsnobody）进行读写操作。</p>
+<h2 id="NFS服务的相关功能组件">NFS服务的相关功能组件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># ps -ef|grep -E "rpc|nfs"</span></span><br><span class="line">rpc      <span class="number">25375</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">40</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> rpcbind  --&gt;rpc服务</span><br><span class="line">root     <span class="number">25409</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [rpciod/<span class="number">0</span>]</span><br><span class="line">root     <span class="number">25418</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> rpc.rquotad  --&gt;磁盘配额进程</span><br><span class="line">root     <span class="number">25423</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> rpc.mountd  --&gt;权限管理进程</span><br><span class="line">root     <span class="number">25430</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd4]</span><br><span class="line">root     <span class="number">25431</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd4_callbacks]</span><br><span class="line">root     <span class="number">25432</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]  --&gt;nfs主进程</span><br><span class="line">root     <span class="number">25433</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]</span><br><span class="line">root     <span class="number">25434</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]</span><br><span class="line">root     <span class="number">25435</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]</span><br><span class="line">root     <span class="number">25436</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]</span><br><span class="line">root     <span class="number">25437</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]</span><br><span class="line">root     <span class="number">25438</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]</span><br><span class="line">root     <span class="number">25439</span>     <span class="number">2</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> [nfsd]</span><br><span class="line">root     <span class="number">25466</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">18</span>:<span class="number">41</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> rpc.idmapd</span><br></pre></td></tr></table></figure>
+<p>以上的进程查看均可以执行<code>man 进程名</code>来查看进程的功能细节<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@nfsserver ~]<span class="comment"># man rpc.statd|...</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="NFS配置文件权限参数简要说明">NFS配置文件权限参数简要说明</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">参数用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">rw</td>
+<td style="text-align:left">表示可读可写权限</td>
+</tr>
+<tr>
+<td style="text-align:left">sync</td>
+<td style="text-align:left">请求或写入数据时，数据同步写入到NFS Server的硬盘后才会返回</td>
+</tr>
+<tr>
+<td style="text-align:left">all_squash</td>
+<td style="text-align:left">不管访问NFS Server共享目录的用户身份如何，它的权限都将被压缩成匿名用户，同时它的UID和GID都会变成nobody或nfsnobody账号身份；在多个NFS客户端同时读写NFS Server数据时，这个参数很有用</td>
+</tr>
+<tr>
+<td style="text-align:left">anonuid</td>
+<td style="text-align:left">参数以anon*开头即指anonymous匿名用户，这个用户的UID设置值通常为nobody或nfsnobody的UID值，当然此UID值也是可以自行设置的；但是UID必须存在于/etc/passwd中，在多NFS Clients时，如多台web server共享一个NFS目录时，通过此参数可以使得不同的NFS Clients写入的数据对所有NFS Clients保持同样的用户权限，亦即配置的匿名UID对应的用户权限</td>
+</tr>
+<tr>
+<td style="text-align:left">anongid</td>
+<td style="text-align:left">同anonuid，区别就是把UID换成GID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="生产环境中配置NFS的重要技巧">生产环境中配置NFS的重要技巧</h2><ol>
+<li>确保所有服务器对NFS共享目录具有相同权限，可通过以下方式实现：<ul>
+<li>添加all_squash参数把所有客户端都压缩成匿名用户</li>
+<li>通过anonuid与anongid指定的UID和GID用户</li>
+</ul>
+</li>
+<li>所有的客户端和服务端都需要有一个相同的UID和GID的用户，即nfsnobody（UID必须相同）</li>
+</ol>
+<h2 id="NFS客户端mount挂载优化">NFS客户端mount挂载优化</h2><p>安全优化参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t nfs -o nosuid,noexec,rw <span class="number">172.20</span>.<span class="number">2.190</span>:/data /mnt</span><br></pre></td></tr></table></figure></p>
+<p>客户端性能优化参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node2 mnt]<span class="comment"># cat /proc/mounts |grep mnt</span></span><br><span class="line"><span class="number">172.20</span>.<span class="number">2.190</span>:/data/ /mnt nfs4 rw,nosuid,nodev,noexec,relatime,vers=<span class="number">4</span>,rsize=<span class="number">65536</span>,wsize=<span class="number">65536</span>,namlen=<span class="number">255</span>,hard,proto=tcp,port=<span class="number">0</span>,timeo=<span class="number">600</span>,retrans=<span class="number">2</span>,sec=sys,clientaddr=<span class="number">172.20</span>.<span class="number">2.195</span>,minorversion=<span class="number">0</span>,<span class="built_in">local</span>_lock=none,addr=<span class="number">172.20</span>.<span class="number">2.190</span> <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>需要主要关注<code>rsize</code>与<code>wsize</code>两个参数；它们设定了NFS Server和NFS Client之间往来数据块的大小，它们的大小最好是1024的倍数，如果在客户端挂载时使用了这两个参数，可以让客户端读取和写入数据数据时一次性读写更多的数据包，因此可以提升访问性能和效率。<br>另外还有<code>noatime</code>与<code>nodiratime</code>选项可以实现在读写磁盘时不更新文件和目录的时间戳（即不更新文件系统中文件对应的inode信息），这样就可以减少和磁盘系统的交互，提升磁盘读写效率。</p>
+<p>挂载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t nfs -o nosuid,noexec,rsize=<span class="number">1024</span>,wsize=<span class="number">1024</span>,rw <span class="number">172.20</span>.<span class="number">2.190</span>:/data /mnt</span><br></pre></td></tr></table></figure></p>
+<p>测试单个文件写入速度:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">time dd <span class="keyword">if</span>=/dev/zero of=/mnt/testfile bs=<span class="number">9</span>k count=<span class="number">20000</span></span><br><span class="line"><span class="number">20000</span>+<span class="number">0</span> records <span class="keyword">in</span></span><br><span class="line"><span class="number">20000</span>+<span class="number">0</span> records out</span><br><span class="line"><span class="number">184320000</span> bytes (<span class="number">184</span> MB) copied, <span class="number">24.3848</span> s, <span class="number">7.6</span> MB/s</span><br><span class="line"></span><br><span class="line">real	<span class="number">0</span>m24.<span class="number">443</span>s</span><br><span class="line">user	<span class="number">0</span>m0.<span class="number">009</span>s</span><br><span class="line">sys	<span class="number">0</span>m3.<span class="number">918</span>s</span><br></pre></td></tr></table></figure></p>
+<p>卸载并重新挂载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">umount -lf /mnt</span><br><span class="line">mount -t nfs -o nosuid,noexec,rw <span class="number">172.20</span>.<span class="number">2.190</span>:/data /mnt</span><br></pre></td></tr></table></figure></p>
+<p>测试单个文件写入速度:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">time dd <span class="keyword">if</span>=/dev/zero of=/mnt/testfile2 bs=<span class="number">9</span>k count=<span class="number">20000</span></span><br><span class="line"><span class="number">20000</span>+<span class="number">0</span> records <span class="keyword">in</span></span><br><span class="line"><span class="number">20000</span>+<span class="number">0</span> records out</span><br><span class="line"><span class="number">184320000</span> bytes (<span class="number">184</span> MB) copied, <span class="number">17.0386</span> s, <span class="number">10.8</span> MB/s</span><br><span class="line"></span><br><span class="line">real	<span class="number">0</span>m17.<span class="number">093</span>s</span><br><span class="line">user	<span class="number">0</span>m0.<span class="number">005</span>s</span><br><span class="line">sys	<span class="number">0</span>m0.<span class="number">769</span>s</span><br></pre></td></tr></table></figure></p>
+<h3 id="NFS网络文件系统优化挂载的参数建议">NFS网络文件系统优化挂载的参数建议</h3><p>Centos5.8 x86_64服务器端和客户端环境<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t nfs -o noatime,nodiratime,nosuid,noexec,soft,rsize=<span class="number">32768</span>,wsize=<span class="number">32768</span>,rw <span class="number">172.20</span>.<span class="number">2.190</span>:/data /mnt</span><br></pre></td></tr></table></figure></p>
+<p>Centos6.5 x86_64服务器端和客户端环境<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t nfs -o noatime,nodiratime,rsize=<span class="number">131072</span>,wsize=<span class="number">131072</span> <span class="number">172.20</span>.<span class="number">2.190</span>:/data /mnt</span><br></pre></td></tr></table></figure></p>
+<p>强制卸载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@node2 mnt]<span class="comment"># umount /mnt</span></span><br><span class="line">umount.nfs: /mnt: device is busy</span><br><span class="line">umount.nfs: /mnt: device is busy</span><br><span class="line">[root@node2 mnt]<span class="comment"># umount -lf /mnt</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="相关命令介绍">相关命令介绍</h2><h3 id="showmount命令">showmount命令</h3><h3 id="exportfs命令">exportfs命令</h3><p><code>exportfs -rv</code>等同于<code>/etc/init.d/nfs reload</code>加载配置生效</p>
+<h3 id="rpcinfo_命令">rpcinfo 命令</h3><p><code>rpcinfo -p [主机/localhost]</code></p>
+<h2 id="NFS的状态信息">NFS的状态信息</h2><p>查看NFS服务器配置的参数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~]<span class="comment"># cat /var/lib/nfs/etab </span></span><br><span class="line"> /data	<span class="number">172.20</span>.<span class="number">2.0</span>/<span class="number">24</span>(rw,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_c  heck,secure_locks,acl,anonuid=<span class="number">65534</span>,anongid=<span class="number">65534</span>,sec=sys,rw,root_squash,no_all_squash)</span><br></pre></td></tr></table></figure></p>
+<h2 id="NFS服务生产场景应用说明">NFS服务生产场景应用说明</h2><h3 id="作用">作用</h3><p>NFS服务可以让不同的客户端挂载使用同一目录，作为共享存储使用，这样可以保证不同节点客户端数据的一致性，在集群架构环境中经常会用到</p>
+<h3 id="NFS的优点">NFS的优点</h3><ol>
+<li>简单：容易上手，容易掌握，数据是在文件系统之上的</li>
+<li>方便：部署快速，维护简单</li>
+<li>可靠：从软件层面上看，数据可靠性高，经久耐用，数据是在文件系统之上的</li>
+<li>稳定<h3 id="NFS的局限">NFS的局限</h3>1.局限性是存在单点故障，如果NFS Server宕机了，则所有客户端都不能访问共享目录，可以通过负载均衡及高可用方案弥补</li>
+<li>在高并发的场合，NFS效率或性能有限（一般几千万以下PV的网站不是瓶颈，除非网站架构太差）</li>
+<li>客户端认证是基于ip和主机名的，权限根据ID识别，安全性一般（用于内网则问题不大）</li>
+<li>NFS数据是明文的，NFS对数据完整性不作验证</li>
+<li>多台客户机器挂载NFS服务器时，连接管理维护麻烦。尤其NFS服务端出问题后，所有NFS客户端都挂掉状态（测试环境可使用autofs自动挂载解决）<h3 id="生产应用场景">生产应用场景</h3>大中小型网站（2000万PV以下）线上应用，都有用武之地。</li>
+</ol>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文件系统-NFS/" rel="tag">#文件系统 NFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/02/ansible-playbook使用示例/" rel="next">ansible playbook使用示例</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/03/17/NFS网络文件系统/"
+                   data-title="NFS网络文件系统" data-url="http://freeandyblogs.com/2016/03/17/NFS网络文件系统/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://7xnir6.com1.z0.glb.clouddn.com/zhijian3.JPG" alt="曹芷健" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">曹芷健</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">曹芷健的技术博客</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/caozhijian" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://segmentfault.com/u/caozhijian" target="_blank">SegmentFault</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/0fefe8f816d2/" target="_blank">简书</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装nfs"><span class="nav-number">1.</span> <span class="nav-text">安装nfs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">1.1.</span> <span class="nav-text">服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">1.2.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">1.3.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS服务的相关功能组件"><span class="nav-number">2.</span> <span class="nav-text">NFS服务的相关功能组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS配置文件权限参数简要说明"><span class="nav-number">3.</span> <span class="nav-text">NFS配置文件权限参数简要说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产环境中配置NFS的重要技巧"><span class="nav-number">4.</span> <span class="nav-text">生产环境中配置NFS的重要技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS客户端mount挂载优化"><span class="nav-number">5.</span> <span class="nav-text">NFS客户端mount挂载优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS网络文件系统优化挂载的参数建议"><span class="nav-number">5.1.</span> <span class="nav-text">NFS网络文件系统优化挂载的参数建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关命令介绍"><span class="nav-number">6.</span> <span class="nav-text">相关命令介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#showmount命令"><span class="nav-number">6.1.</span> <span class="nav-text">showmount命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exportfs命令"><span class="nav-number">6.2.</span> <span class="nav-text">exportfs命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpcinfo_命令"><span class="nav-number">6.3.</span> <span class="nav-text">rpcinfo 命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS的状态信息"><span class="nav-number">7.</span> <span class="nav-text">NFS的状态信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS服务生产场景应用说明"><span class="nav-number">8.</span> <span class="nav-text">NFS服务生产场景应用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">8.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS的优点"><span class="nav-number">8.2.</span> <span class="nav-text">NFS的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS的局限"><span class="nav-number">8.3.</span> <span class="nav-text">NFS的局限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生产应用场景"><span class="nav-number">8.4.</span> <span class="nav-text">生产应用场景</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">曹芷健</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"freeandy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
