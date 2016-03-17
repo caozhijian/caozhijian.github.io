@@ -45,7 +45,7 @@
 <meta property="og:url" content="http://freeandyblogs.com/2016/03/17/NFS网络文件系统/index.html">
 <meta property="og:site_name" content="日拱一卒">
 <meta property="og:description" content="介绍了NFS相关的知识">
-<meta property="og:updated_time" content="2016-03-17T01:14:30.000Z">
+<meta property="og:updated_time" content="2016-03-17T01:16:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFS网络文件系统">
 <meta name="twitter:description" content="介绍了NFS相关的知识">
@@ -240,7 +240,7 @@
 
       
         <span itemprop="articleBody"><h1 id="简介">简介</h1><p>NFS是Network File System的缩写，它的主要功能是通过网络可以使不同主机系统之间共享文件。</p>
-<h1 id="RPC">RPC</h1><p>由于NFS支持的功能比较多，每启用一个功能都会随机启动一个未被占用的端口来作为传输；NFS客户端必须要确定NFS服务器端的端口才能正常传输数据，而端口又是随机的，这样就会造成NFS客户端与服务器端的通讯障碍，恰好RPC服务（即远程过程调用）就很好地解决了这个问题。<br>RPC的作用就是记录每一个NFS功能所对应的端口号…（待续）</p>
+<h1 id="RPC">RPC</h1><p>由于NFS支持的功能比较多，每启用一个功能都会随机启动一个未被占用的端口来作为传输；NFS客户端必须要确定NFS服务器端的端口才能正常传输数据，而端口又是随机的，这样就会造成NFS客户端与服务器端的通讯障碍，恰好RPC服务（即远程过程调用）就很好地解决了这个问题。<br>RPC的作用就是记录每一个NFS功能所对应的端口号。</p>
 <hr>
 <h1 id="NFS软件">NFS软件</h1><p>要部署NFS服务，需要安装下面的软件包：</p>
 <ol>
