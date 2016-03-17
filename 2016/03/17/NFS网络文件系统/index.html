@@ -45,7 +45,7 @@
 <meta property="og:url" content="http://freeandyblogs.com/2016/03/17/NFS网络文件系统/index.html">
 <meta property="og:site_name" content="日拱一卒">
 <meta property="og:description" content="介绍了NFS相关的知识">
-<meta property="og:updated_time" content="2016-03-17T01:16:17.000Z">
+<meta property="og:updated_time" content="2016-03-17T01:19:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFS网络文件系统">
 <meta name="twitter:description" content="介绍了NFS相关的知识">
@@ -323,7 +323,10 @@
 <li>简单：容易上手，容易掌握，数据是在文件系统之上的</li>
 <li>方便：部署快速，维护简单</li>
 <li>可靠：从软件层面上看，数据可靠性高，经久耐用，数据是在文件系统之上的</li>
-<li>稳定<h3 id="NFS的局限">NFS的局限</h3>1.局限性是存在单点故障，如果NFS Server宕机了，则所有客户端都不能访问共享目录，可以通过负载均衡及高可用方案弥补</li>
+<li>稳定</li>
+</ol>
+<h3 id="NFS的局限">NFS的局限</h3><ol>
+<li>局限性是存在单点故障，如果NFS Server宕机了，则所有客户端都不能访问共享目录，可以通过负载均衡及高可用方案弥补</li>
 <li>在高并发的场合，NFS效率或性能有限（一般几千万以下PV的网站不是瓶颈，除非网站架构太差）</li>
 <li>客户端认证是基于ip和主机名的，权限根据ID识别，安全性一般（用于内网则问题不大）</li>
 <li>NFS数据是明文的，NFS对数据完整性不作验证</li>
