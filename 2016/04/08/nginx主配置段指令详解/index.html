@@ -45,7 +45,7 @@
 <meta property="og:url" content="http://freeandyblogs.com/2016/04/08/nginx主配置段指令详解/index.html">
 <meta property="og:site_name" content="功不唐捐">
 <meta property="og:description" content="介绍了nginx配置文件中main配置段的相关指令">
-<meta property="og:updated_time" content="2016-04-08T03:17:29.000Z">
+<meta property="og:updated_time" content="2016-04-08T03:21:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx主配置段(main)指令详解">
 <meta name="twitter:description" content="介绍了nginx配置文件中main配置段的相关指令">
@@ -253,7 +253,7 @@
 <li>daemon on|off; 是否以守护进程方式来运行nginx；调试时应设置为off,其它情况下要设置为on</li>
 <li>master_process on|off; 是否以master/worker模型来运行nginx，调试时可以设置为off。</li>
 </ul>
-<p>经常需要进行调整的参数主要有worker_processes,worker_connections,worker_cpu_affinity,worker_priority。</p>
+<p>需要经常进行调整的参数主要有worker_processes,worker_connections,worker_cpu_affinity,worker_priority。</p>
 <p>修改配置完成后需使用<code>/usr/local/nginx/sbin/nginx -s reload</code>命令使新配置生效。</p>
 </span>
       
