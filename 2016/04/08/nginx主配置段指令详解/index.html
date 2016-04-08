@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="mysql," />
+  <meta name="keywords" content="Linux,nginx," />
 
 
 
@@ -39,16 +39,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="主要介绍了MySQL主流存储引擎InnoDB与MyISAM的特性">
+<meta name="description" content="介绍了nginx配置文件中main配置段的相关指令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL中的存储引擎">
-<meta property="og:url" content="http://freeandyblogs.com/2016/01/28/MySQL中的存储引擎/index.html">
+<meta property="og:title" content="nginx主配置段(main)指令详解">
+<meta property="og:url" content="http://freeandyblogs.com/2016/04/08/nginx主配置段指令详解/index.html">
 <meta property="og:site_name" content="功不唐捐">
-<meta property="og:description" content="主要介绍了MySQL主流存储引擎InnoDB与MyISAM的特性">
-<meta property="og:updated_time" content="2016-02-05T08:27:10.000Z">
+<meta property="og:description" content="介绍了nginx配置文件中main配置段的相关指令">
+<meta property="og:updated_time" content="2016-04-08T03:17:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL中的存储引擎">
-<meta name="twitter:description" content="主要介绍了MySQL主流存储引擎InnoDB与MyISAM的特性">
+<meta name="twitter:title" content="nginx主配置段(main)指令详解">
+<meta name="twitter:description" content="介绍了nginx配置文件中main配置段的相关指令">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -58,7 +58,7 @@
   };
 </script>
 
-  <title> MySQL中的存储引擎 | 功不唐捐 </title>
+  <title> nginx主配置段(main)指令详解 | 功不唐捐 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -175,7 +175,7 @@
           
           
             
-              MySQL中的存储引擎
+              nginx主配置段(main)指令详解
             
           
         </h1>
@@ -184,8 +184,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2016-01-28T11:54:06+08:00" content="2016-01-28">
-            2016-01-28
+          <time itemprop="dateCreated" datetime="2016-04-08T11:06:44+08:00" content="2016-04-08">
+            2016-04-08
           </time>
         </span>
 
@@ -194,8 +194,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/MySQL系列/" itemprop="url" rel="index">
-                  <span itemprop="name">MySQL系列</span>
+                <a href="/categories/应用服务器系列/" itemprop="url" rel="index">
+                  <span itemprop="name">应用服务器系列</span>
                 </a>
               </span>
 
@@ -210,8 +210,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2016/01/28/MySQL中的存储引擎/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/28/MySQL中的存储引擎/" itemprop="commentsCount"></span>
+              <a href="/2016/04/08/nginx主配置段指令详解/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/08/nginx主配置段指令详解/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -231,40 +231,30 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="MySql主流存储引擎">MySql主流存储引擎</h2><h3 id="InnoDB">InnoDB</h3><p>InnoDB既是目前Mysql默认的存储引擎也是Mysql默认的事务型存储引擎，它的设计目标是用来处理大量短期事务；它的数据是存储在“表空间（table spcae）”中。<br>InnoDB存储引擎使用“表空间”的方式有以下两种</p>
-<ol>
-<li>把所有InnoDB表的数据和索引放置在同一个“表空间”中；即便这些表属于不同的数据库也依然可以放置在同一个“表空间”中，此时表空间文件位于datadir定义的目录下，名称为ibdata1，ibdata2…</li>
-<li>每个表单独使用一个“表空间”存储表的数据和索引，在mysql配置文件中设置<code>innodb_file_per_table=ON</code>即可实现此功能;此时数据文件（存储数据和索引）表现为table_name.ibd,而table_name.frm则为表格式定义文件；例如创建了一张名为t1的表，则其数据文件在datadir目录下的名称为t1.ibd</li>
-</ol>
-<p>InnoDB基于MVCC（多版本并发控制）机制来支持较高并支持所有的事务隔离级别，默认级别为“可重读”，并且通过间隙锁策略防止幻读的出现；更详细的内容可以参看我的下一篇博文。<br>InnoDB表使用聚集索引，支持自适应哈希索引；支持行级锁，即一旦两个线程征用同一个资源时，就需要对数据进行加锁，而加锁的粒度就有行级锁与表级锁。</p>
-<p>特性总结</p>
-<ul>
-<li>数据存储：基于表空间实现</li>
-<li>并发：通过MVCC以及间隙锁来实现</li>
-<li>索引：聚集索引，额外可以使用辅助索引，所有的辅助索引都指向聚集索引</li>
-<li>性能：通过预读操作、自适应哈希索引以及插入缓冲区等来提升其性能</li>
-<li>备份：支持热备</li>
+        <span itemprop="articleBody"><h2 id="正常运行的必备配置">正常运行的必备配置</h2><ul>
+<li>user USERNAME [GROUPNAME];：指定以哪个用户或组的身份运行worker进程</li>
+<li>pid /path/to/pid_file; 指定nginx守护进程的pid文件 </li>
+<li>worker_rlimit-nofile <em>number</em>;：指定所有worker进程所能够打开的最大文件句柄数</li>
 </ul>
-<h3 id="MyISAM">MyISAM</h3><p>MyISAM支持全文索引，而InnoDB是不支持全文索引的；支持对表数据进行压缩；支持空间函数；不支持事务且为表级锁；不支持崩溃后安全恢复，若想要在mariadb中使用全文索引以及安全恢复机制可以采用MyISAM的升级版本Aria存储引擎</p>
-<p>适用场景：只读（或者写较少）、表较小（可以接受长时间进行修复操作）</p>
-<p>对于MyISAM来讲每一张表都有三个文件table_name.frm（表格式定义文件）,table_name.MYI（索引文件）,table_name.MYD（数据文件）</p>
-<p>特性总结</p>
-<ul>
-<li>加锁和并发：只支持表级锁</li>
-<li>修复：需要手工或自动进行修复但有可能丢失数据</li>
-<li>索引：非聚集索引</li>
-<li>支持延迟更新索引键</li>
-<li>支持压缩表：将表压缩以后进行存放</li>
+<h2 id="性能优化相关的配置">性能优化相关的配置</h2><ul>
+<li>worker_processes <em>number</em>;：指明打开worker进程的个数，通常应略少于CPU物理核心数</li>
+<li>worker_cpu_affinity <em>cpumask …</em>;：提升缓存的命中率但无法避免context swich对CPU带来的不必要消耗</li>
+<li>timer_resolution：计时器解析度，降低此值可减少gettimeofday()系统调用的次数</li>
+<li>worker_priority <em>number</em>;：指明worker进程的nice值（nice值范围从-20到19，数字越小优先级越高）</li>
 </ul>
-<h2 id="其它存储引擎">其它存储引擎</h2><h3 id="CSV">CSV</h3><p>将普通的CSV格式文件（字段通过逗号分隔）作为MySQL表使用；此种表不支持索引，但是它可以在数据库运行过程当中可以copy文件也可以将EXCEL表存储为CSV格式以后导入到MySQL中，因此它可以在不同的数据库管理软件之间对数据进行导入导出操作</p>
-<h3 id="MRG_MYISAM">MRG_MYISAM</h3><p>将多个MyISAM表合并为一个虚拟表，在分表以后在实现整表数据查询时比较方便</p>
-<h3 id="BLACKHOLE">BLACKHOLE</h3><p>没有实现任何存储机制，类似于<code>/dev/null</code>，如果将某张表定义为BLACKHOLE存储引擎，则往表中插入的所有数据都会悄悄丢弃，可以用于实现多级级联复制</p>
-<h3 id="MEMORY">MEMORY</h3><p>所有数据都保存于内存中，不需要磁盘IO，但是重启后数据会丢失，通常当做临时表使用；若需要快速访问数据且数据很少修改并且数据丢失对于业务没有影响的情况下可以使用；它也是唯一一个支持哈希索引的表，且其为表级锁。<br>注意：MySQL为了避免临时表占用过多内存空间，定义了临时表最多能够使用多少内存，若超出此上限值则会将临时表存放在磁盘上，这样就会造成较慢的性能表现。</p>
-<h3 id="PERFORMANCE_SCHEMA">PERFORMANCE_SCHEMA</h3><p>伪存储引擎，其内部数据只有在MySQL启动起来以后才会存在，若MySQL关闭数据则会消失</p>
-<h3 id="ARCHIVE">ARCHIVE</h3><p>通常用于数据归档，仅支持<code>SELECT</code>和<code>INSERT</code>操作，不支持事务但支持行级锁和专用缓存区，若将来做数据仓库则可以选择MyISAM或ARCHIVE</p>
-<h3 id="FEDERATED">FEDERATED</h3><p>用于访问其它远程MySQL服务器的一个代理，它通过创建一个到远程MySQL服务器的客户端连接，并将查询传输到远程服务器执行，而后完成数据存取</p>
-<p>MariaDB支持的社区存储引擎还有很多，例如OQGraph，SphinxSE，ToKuaDB等，在这里就不作介绍了，有兴趣的朋友可以自行查询了解。</p>
-<p>关于MySQL的存储引擎就先介绍到这里，希望朋友们能有所收获，下一篇博文我们将进一步了解MySQL中事务的相关知识，敬请期待！</p>
+<h2 id="事件相关的配置">事件相关的配置</h2><ul>
+<li>accept_mutex on|off; master调度用户至各worker进程时使用的负载均衡锁； on表示能让多个worker轮流地、序列化地去响应新请求</li>
+<li>lock_file <em>file</em>; accept_mutex用到的锁文件路径</li>
+<li>use <em>method</em>; 此处的<em>method</em>可选值有epoll,rtsig,select与poll，指明使用的事件模型，建议让Nginx自行选择</li>
+<li>worker_connections <em>number</em>;设定单个worker进程所能够处理的最大并发连接数量</li>
+</ul>
+<h2 id="用于调试、定位问题的相关配置">用于调试、定位问题的相关配置</h2><p>前提：要启用调试功能需要在编译安装时提供–with-debug选项才可以。</p>
+<ul>
+<li>daemon on|off; 是否以守护进程方式来运行nginx；调试时应设置为off,其它情况下要设置为on</li>
+<li>master_process on|off; 是否以master/worker模型来运行nginx，调试时可以设置为off。</li>
+</ul>
+<p>经常需要进行调整的参数主要有worker_processes,worker_connections,worker_cpu_affinity,worker_priority。</p>
+<p>修改配置完成后需使用<code>/usr/local/nginx/sbin/nginx -s reload</code>命令使新配置生效。</p>
 </span>
       
     </div>
@@ -273,7 +263,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag">#mysql</a>
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/nginx/" rel="tag">#nginx</a>
           
         </div>
       
@@ -282,13 +274,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/02/01/MySQL中的事务简介/" rel="prev">MySQL中的事务简介</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/27/MySQL概述及SQL语句的使用/" rel="next">MySQL概述及SQL语句的使用</a>
+              <a href="/2016/03/17/NFS网络文件系统/" rel="next">NFS网络文件系统</a>
             
           </div>
         </div>
@@ -313,8 +303,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/01/28/MySQL中的存储引擎/"
-                   data-title="MySQL中的存储引擎" data-url="http://freeandyblogs.com/2016/01/28/MySQL中的存储引擎/">
+              <div class="ds-thread" data-thread-key="2016/04/08/nginx主配置段指令详解/"
+                   data-title="nginx主配置段(main)指令详解" data-url="http://freeandyblogs.com/2016/04/08/nginx主配置段指令详解/">
               </div>
             
           </div>
@@ -416,7 +406,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySql主流存储引擎"><span class="nav-number">1.</span> <span class="nav-text">MySql主流存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InnoDB"><span class="nav-number">1.1.</span> <span class="nav-text">InnoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM"><span class="nav-number">1.2.</span> <span class="nav-text">MyISAM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它存储引擎"><span class="nav-number">2.</span> <span class="nav-text">其它存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSV"><span class="nav-number">2.1.</span> <span class="nav-text">CSV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MRG_MYISAM"><span class="nav-number">2.2.</span> <span class="nav-text">MRG_MYISAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BLACKHOLE"><span class="nav-number">2.3.</span> <span class="nav-text">BLACKHOLE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MEMORY"><span class="nav-number">2.4.</span> <span class="nav-text">MEMORY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PERFORMANCE_SCHEMA"><span class="nav-number">2.5.</span> <span class="nav-text">PERFORMANCE_SCHEMA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARCHIVE"><span class="nav-number">2.6.</span> <span class="nav-text">ARCHIVE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FEDERATED"><span class="nav-number">2.7.</span> <span class="nav-text">FEDERATED</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正常运行的必备配置"><span class="nav-number">1.</span> <span class="nav-text">正常运行的必备配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能优化相关的配置"><span class="nav-number">2.</span> <span class="nav-text">性能优化相关的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件相关的配置"><span class="nav-number">3.</span> <span class="nav-text">事件相关的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于调试、定位问题的相关配置"><span class="nav-number">4.</span> <span class="nav-text">用于调试、定位问题的相关配置</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
