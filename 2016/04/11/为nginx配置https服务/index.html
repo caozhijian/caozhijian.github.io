@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Linux,lvs," />
+  <meta name="keywords" content="https,nginx," />
 
 
 
@@ -39,19 +39,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="lvs-dr类型的实现方式以及应该注意的点">
+<meta name="description" content="为nginx配置ssl">
 <meta property="og:type" content="article">
-<meta property="og:title" content="集群服务之lvs-dr类型的实现">
-<meta property="og:url" content="http://freeandyblogs.com/2016/01/06/集群服务之lvs-dr类型的实现/index.html">
+<meta property="og:title" content="为nginx配置https服务">
+<meta property="og:url" content="http://freeandyblogs.com/2016/04/11/为nginx配置https服务/index.html">
 <meta property="og:site_name" content="功不唐捐">
-<meta property="og:description" content="lvs-dr类型的实现方式以及应该注意的点">
-<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr.png">
-<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node13.png">
-<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node12.png">
-<meta property="og:updated_time" content="2016-02-02T07:11:15.000Z">
+<meta property="og:description" content="为nginx配置ssl">
+<meta property="og:updated_time" content="2016-04-11T02:37:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="集群服务之lvs-dr类型的实现">
-<meta name="twitter:description" content="lvs-dr类型的实现方式以及应该注意的点">
+<meta name="twitter:title" content="为nginx配置https服务">
+<meta name="twitter:description" content="为nginx配置ssl">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -61,7 +58,7 @@
   };
 </script>
 
-  <title> 集群服务之lvs-dr类型的实现 | 功不唐捐 </title>
+  <title> 为nginx配置https服务 | 功不唐捐 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -178,7 +175,7 @@
           
           
             
-              集群服务之lvs-dr类型的实现
+              为nginx配置https服务
             
           
         </h1>
@@ -187,8 +184,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2016-01-06T14:49:06+08:00" content="2016-01-06">
-            2016-01-06
+          <time itemprop="dateCreated" datetime="2016-04-11T10:34:07+08:00" content="2016-04-11">
+            2016-04-11
           </time>
         </span>
 
@@ -197,8 +194,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/集群与存储系列/" itemprop="url" rel="index">
-                  <span itemprop="name">集群与存储系列</span>
+                <a href="/categories/应用服务器系列/" itemprop="url" rel="index">
+                  <span itemprop="name">应用服务器系列</span>
                 </a>
               </span>
 
@@ -213,8 +210,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2016/01/06/集群服务之lvs-dr类型的实现/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/06/集群服务之lvs-dr类型的实现/" itemprop="commentsCount"></span>
+              <a href="/2016/04/11/为nginx配置https服务/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/11/为nginx配置https服务/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -234,69 +231,11 @@
       
 
       
-        <span itemprop="articleBody"><h3 id="实验拓扑图">实验拓扑图</h3><p>实验拓扑如下图所示<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr.png" alt=""></p>
-<h3 id="要点">要点</h3><ol>
-<li>各RS要直接响应Client，因此各RS均需配置VIP；但仅能够让Director上的VIP能够与本地路由进行通信；</li>
-<li>Director不会拆除或修改请求报文的IP首部，而是通过封装新的帧首部（源MAC为Director的MAC地址，目标MAC为挑选出的RS的MAC地址）完成调度</li>
-</ol>
-<p>为了保证RS上的VIP不会对ARP广播报文进行响应可以有三种实现方式</p>
-<ol>
-<li>在前端路由器上静态指定</li>
-<li>通过arptables</li>
-<li>通过修改内核参数来限制arp通告和响应级别</li>
-</ol>
-<p>这里采用第三种方式,有关arp的相关内容可参考本文末尾给出的链接</p>
-<h3 id="配置过程">配置过程</h3><h4 id="修改内核参数">修改内核参数</h4><p>node12</p>
-<pre><code>[root@node12 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore 
-[root@node12 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore 
-[root@node12 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce 
-[root@node12 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce 
-</code></pre><p>node13</p>
-<pre><code>[root@node13 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore 
-[root@node13 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_ignore 
-[root@node13 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_announce 
-[root@node13 ~]# <span class="keyword">echo</span> <span class="number">2</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">lo</span>/arp_announce 
-</code></pre><h4 id="设置VIP">设置VIP</h4><p>node11</p>
-<pre><code>[root@node11 ~]<span class="preprocessor"># ifconfig eth0:<span class="number">0</span> <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> broadcast <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> up</span>
-</code></pre><p>node12</p>
-<pre><code>[root@node12 ~]<span class="preprocessor"># ifconfig lo:<span class="number">0</span> <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> broadcast <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> up</span>
-</code></pre><p>node13</p>
-<pre><code>[root@node13 ~]<span class="preprocessor"># ifconfig lo:<span class="number">0</span> <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> broadcast <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> up</span>
-</code></pre><h4 id="定义集群服务">定义集群服务</h4><p>node12</p>
-<pre><code>[root@node12 ~]<span class="preprocessor"># route add -host <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> dev lo:<span class="number">0</span></span>
-</code></pre><p>node13</p>
-<pre><code>[root@node13 ~]<span class="preprocessor"># route add -host <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> dev lo:<span class="number">0</span></span>
-</code></pre><p>node11</p>
-<pre><code>[root@node11 ~]<span class="preprocessor"># route add -host <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span> dev eth0:<span class="number">0</span></span>
-[root@node11 ~]<span class="preprocessor"># sysctl -a|grep ip_forward</span>
-net.ipv4.ip_forward = <span class="number">1</span>
-[root@node11 ~]<span class="preprocessor"># ipvsadm -C</span>
-[root@node11 ~]<span class="preprocessor"># iptables -F</span>
-[root@node11 ~]<span class="preprocessor"># ipvsadm -A -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span>:<span class="number">80</span> -s rr</span>
-[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span>:<span class="number">80</span> -r <span class="number">172.20</span><span class="number">.2</span><span class="number">.115</span> -g -w <span class="number">1</span></span>
-[root@node11 ~]<span class="preprocessor"># ipvsadm -a -t <span class="number">172.20</span><span class="number">.2</span><span class="number">.145</span>:<span class="number">80</span> -r <span class="number">172.20</span><span class="number">.2</span><span class="number">.104</span> -g -w <span class="number">3</span></span>
-</code></pre><p>测试<br>通过物理机访问VIP地址，效果如下图所示<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node13.png" alt=""></p>
-<p>刷新以后<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node12.png" alt=""></p>
-<h4 id="配置过程总结">配置过程总结</h4><p>对于Director而言</p>
-<ol>
-<li>VIP配置在物理接口的别名上<pre><code>ifconfig INTERFACE:ALIAS <span class="variable">$vip</span> netmask <span class="number">255.255</span>.<span class="number">255.255</span> broadcast <span class="variable">$vip</span>
-</code></pre></li>
-<li>配置路由信息<pre><code>route add -host <span class="variable">$vip</span> dev INTERFACE:ALIAS
-</code></pre></li>
-</ol>
-<p>对于各RS而言</p>
-<ol>
-<li>先修改内核参数<pre><code>echo <span class="number">1</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_ignore
-echo <span class="number">1</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_ignore 
-echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_announce 
-echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_announce
-</code></pre></li>
-<li>VIP配置在lo的别名上<pre><code>ifconfig lo:<span class="number">0</span> <span class="variable">$vip</span> netmask <span class="number">255.255</span>.<span class="number">255.255</span> broadcast <span class="variable">$vip</span>
-</code></pre></li>
-<li>配置路由信息<pre><code>route add -host <span class="variable">$vip</span> dev lo:<span class="number">0</span>
-</code></pre></li>
-</ol>
-<p><a href="http://kb.linuxvirtualserver.org/wiki/Using_arp_announce/arp_ignore_to_disable_ARP" target="_blank" rel="external">关于arp_announce与arp_ignore</a></p>
+        <span itemprop="articleBody"><p>配置过程如下</p>
+<p>生成私钥，生成证书签署请求并获得证书<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">~]<span class="comment"># cd /etc/pki/CA/</span></span><br><span class="line"></span><br><span class="line">CA]<span class="comment"># (umask 077;openssl genrsa -out private/cakey.pem 2048)</span></span><br><span class="line"></span><br><span class="line">CA]<span class="comment"># openssl req -new -x509 -key private/cakey.pem -out cacert.pem -days 3655</span></span><br><span class="line">You are <span class="keyword">about</span> <span class="keyword">to</span> be asked <span class="keyword">to</span> enter information <span class="keyword">that</span> will be incorporated</span><br><span class="line"><span class="keyword">into</span> your certificate request.</span><br><span class="line">What you are <span class="keyword">about</span> <span class="keyword">to</span> enter <span class="keyword">is</span> what <span class="keyword">is</span> called a Distinguished Name <span class="keyword">or</span> a DN.</span><br><span class="line">There are quite a few fields <span class="keyword">but</span> you can leave <span class="keyword">some</span> blank</span><br><span class="line">For <span class="keyword">some</span> fields there will be a default value,</span><br><span class="line">If you enter '.', <span class="keyword">the</span> field will be left blank.</span><br><span class="line"><span class="comment">-----</span></span><br><span class="line">Country Name (<span class="number">2</span> letter code) [XX]:CN</span><br><span class="line">State <span class="keyword">or</span> Province Name (full <span class="property">name</span>) []:HA</span><br><span class="line">Locality Name (eg, city) [Default City]:ZZ</span><br><span class="line">Organization Name (eg, company) [Default Company Ltd]:MageEdu</span><br><span class="line">Organizational Unit Name (eg, section) []:Ops</span><br><span class="line">Common Name (eg, your <span class="property">name</span> <span class="keyword">or</span> your server's hostname) []:ca.magedu.com</span><br><span class="line">Email Address []:caadmin@magedu.com</span><br><span class="line"></span><br><span class="line">CA]<span class="comment"># touch serial index.txt</span></span><br><span class="line"></span><br><span class="line">CA]<span class="comment"># echo 01 &gt; serial</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CA]<span class="comment"># cd /application/nginx</span></span><br><span class="line"></span><br><span class="line">nginx]<span class="comment"># mldir ssl</span></span><br><span class="line"></span><br><span class="line">ssl]<span class="comment"># (umask 077;openssl genrsa -out nginx.key 1024)</span></span><br><span class="line"></span><br><span class="line"> ssl]<span class="comment"># openssl req -new -key nginx.key -out nginx.csr </span></span><br><span class="line">You are <span class="keyword">about</span> <span class="keyword">to</span> be asked <span class="keyword">to</span> enter information <span class="keyword">that</span> will be incorporated</span><br><span class="line"><span class="keyword">into</span> your certificate request.</span><br><span class="line">What you are <span class="keyword">about</span> <span class="keyword">to</span> enter <span class="keyword">is</span> what <span class="keyword">is</span> called a Distinguished Name <span class="keyword">or</span> a DN.</span><br><span class="line">There are quite a few fields <span class="keyword">but</span> you can leave <span class="keyword">some</span> blank</span><br><span class="line">For <span class="keyword">some</span> fields there will be a default value,</span><br><span class="line">If you enter '.', <span class="keyword">the</span> field will be left blank.</span><br><span class="line"><span class="comment">-----</span></span><br><span class="line">Country Name (<span class="number">2</span> letter code) [XX]:CN</span><br><span class="line">State <span class="keyword">or</span> Province Name (full <span class="property">name</span>) []:HA</span><br><span class="line">Locality Name (eg, city) [Default City]:ZZ</span><br><span class="line">Organization Name (eg, company) [Default Company Ltd]:MageEdu</span><br><span class="line">Organizational Unit Name (eg, section) []:Ops</span><br><span class="line">Common Name (eg, your <span class="property">name</span> <span class="keyword">or</span> your server's hostname) []:www.magedu.com</span><br><span class="line">Email Address []:webadmin@magedu.com</span><br><span class="line"></span><br><span class="line">Please enter <span class="keyword">the</span> following 'extra' attributes</span><br><span class="line"><span class="keyword">to</span> be sent <span class="keyword">with</span> your certificate request</span><br><span class="line">A challenge password []:</span><br><span class="line">An optional company <span class="property">name</span> []:</span><br></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssl]# openssl <span class="keyword">ca</span> -<span class="keyword">in</span> nginx.csr -<span class="keyword">out</span> nginx.crt -days 3655</span><br></pre></td></tr></table></figure>
+<p>编辑配置文件<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">server</span> &#123;</span><br><span class="line">        <span class="title">listen</span>       <span class="number">443</span> ssl;</span><br><span class="line">        <span class="title">server_name</span>  www.magedu.com;</span><br><span class="line"></span><br><span class="line">        <span class="title">ssl_certificate</span>      /application/nginx/ssl/nginx.crt;</span><br><span class="line">        <span class="title">ssl_certificate_key</span>  /application/nginx/ssl/nginx.key;</span><br><span class="line"></span><br><span class="line">        <span class="title">ssl_session_cache</span>    shared:SSL:<span class="number">1m</span>;</span><br><span class="line">        <span class="title">ssl_session_timeout</span>  <span class="number">5m</span>;</span><br><span class="line"></span><br><span class="line">        <span class="title">ssl_ciphers</span>  HIGH:!aNULL:!MD5;</span><br><span class="line">        <span class="title">ssl_prefer_server_ciphers</span>  <span class="built_in">on</span>;</span><br><span class="line"></span><br><span class="line">        <span class="title">location</span> / &#123;</span><br><span class="line">            <span class="title">root</span>   /web/host;</span><br><span class="line">            <span class="title">index</span>  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -305,9 +244,9 @@ echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/n
       
         <div class="post-tags">
           
-            <a href="/tags/Linux/" rel="tag">#Linux</a>
+            <a href="/tags/https/" rel="tag">#https</a>
           
-            <a href="/tags/lvs/" rel="tag">#lvs</a>
+            <a href="/tags/nginx/" rel="tag">#nginx</a>
           
         </div>
       
@@ -316,13 +255,11 @@ echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/n
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/07/Mac通过代理远程连接主机/" rel="prev">Mac通过代理远程连接主机</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/05/集群服务之lvs-nat类型的实现/" rel="next">集群服务之lvs-nat类型的实现</a>
+              <a href="/2016/04/11/nginx中配置基于用户的访问控制/" rel="next">nginx中配置基于用户的访问控制</a>
             
           </div>
         </div>
@@ -347,8 +284,8 @@ echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/n
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/01/06/集群服务之lvs-dr类型的实现/"
-                   data-title="集群服务之lvs-dr类型的实现" data-url="http://freeandyblogs.com/2016/01/06/集群服务之lvs-dr类型的实现/">
+              <div class="ds-thread" data-thread-key="2016/04/11/为nginx配置https服务/"
+                   data-title="为nginx配置https服务" data-url="http://freeandyblogs.com/2016/04/11/为nginx配置https服务/">
               </div>
             
           </div>
@@ -450,7 +387,7 @@ echo <span class="number">2</span> &gt; /<span class="keyword">proc</span>/sys/n
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验拓扑图"><span class="nav-number">1.</span> <span class="nav-text">实验拓扑图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#要点"><span class="nav-number">2.</span> <span class="nav-text">要点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置过程"><span class="nav-number">3.</span> <span class="nav-text">配置过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改内核参数"><span class="nav-number">3.1.</span> <span class="nav-text">修改内核参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置VIP"><span class="nav-number">3.2.</span> <span class="nav-text">设置VIP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义集群服务"><span class="nav-number">3.3.</span> <span class="nav-text">定义集群服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置过程总结"><span class="nav-number">3.4.</span> <span class="nav-text">配置过程总结</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
