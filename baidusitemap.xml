@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://freeandyblogs.com/2016/04/11/nginx%E4%B8%ADrewrite%E8%A7%84%E5%88%99%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2016-04-11T03:43:45.000Z</lastmod>
+    <data>
+        <display>
+        <title>nginx中rewrite规则解析</title>
+        <pubTime>2016-04-11T03:40:24.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+        <tag>rewrite</tag>
+         
+         
+           
+             
+              <breadCrumb title="应用服务器系列" url="http://freeandyblogs.com/categories/%E5%BA%94%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://freeandyblogs.com/2016/04/11/%E5%9C%A8nginx%E4%B8%AD%E5%BC%80%E5%90%AF%E7%8A%B6%E6%80%81%E9%A1%B5/</loc>
     <lastmod>2016-04-11T03:14:10.000Z</lastmod>
     <data>

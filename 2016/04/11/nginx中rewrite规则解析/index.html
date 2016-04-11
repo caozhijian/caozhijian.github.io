@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="nginx," />
+  <meta name="keywords" content="nginx,rewrite," />
 
 
 
@@ -39,17 +39,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="nginx中状态显示页的配置以及显示结果的含义">
+<meta name="description" content="对URL重写进行简单解析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在nginx中开启状态页">
-<meta property="og:url" content="http://freeandyblogs.com/2016/04/11/在nginx中开启状态页/index.html">
+<meta property="og:title" content="nginx中rewrite规则解析">
+<meta property="og:url" content="http://freeandyblogs.com/2016/04/11/nginx中rewrite规则解析/index.html">
 <meta property="og:site_name" content="功不唐捐">
-<meta property="og:description" content="nginx中状态显示页的配置以及显示结果的含义">
-<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/QQ%E5%9B%BE%E7%89%8720160411105113.png">
-<meta property="og:updated_time" content="2016-04-11T03:14:10.000Z">
+<meta property="og:description" content="对URL重写进行简单解析">
+<meta property="og:updated_time" content="2016-04-11T03:43:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在nginx中开启状态页">
-<meta name="twitter:description" content="nginx中状态显示页的配置以及显示结果的含义">
+<meta name="twitter:title" content="nginx中rewrite规则解析">
+<meta name="twitter:description" content="对URL重写进行简单解析">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -59,7 +58,7 @@
   };
 </script>
 
-  <title> 在nginx中开启状态页 | 功不唐捐 </title>
+  <title> nginx中rewrite规则解析 | 功不唐捐 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -176,7 +175,7 @@
           
           
             
-              在nginx中开启状态页
+              nginx中rewrite规则解析
             
           
         </h1>
@@ -185,7 +184,7 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2016-04-11T11:06:19+08:00" content="2016-04-11">
+          <time itemprop="dateCreated" datetime="2016-04-11T11:40:24+08:00" content="2016-04-11">
             2016-04-11
           </time>
         </span>
@@ -211,8 +210,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2016/04/11/在nginx中开启状态页/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/11/在nginx中开启状态页/" itemprop="commentsCount"></span>
+              <a href="/2016/04/11/nginx中rewrite规则解析/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/11/nginx中rewrite规则解析/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -232,19 +231,10 @@
       
 
       
-        <span itemprop="articleBody"><p>语法</p>
-<pre><code>stub_status{<span class="function_start"><span class="keyword">on</span></span>|off}
-其仅能用于location上下文
-</code></pre><p>编辑配置文件，添加如下配置</p>
-<pre><code><span class="title">location</span> /status{
-          <span class="title">stub_status</span> <span class="built_in">on</span>; 
-          <span class="title">allow</span> <span class="number">172.20.2.0</span>/<span class="number">24</span>;
-          <span class="title">deny</span> all;
-          }   
-</code></pre><p>重新加载配置文件后，访问status页面，如下图所示<br><img src="http://7xnir6.com1.z0.glb.clouddn.com/QQ%E5%9B%BE%E7%89%8720160411105113.png" alt=""></p>
-<p>各字段含义如下<br>Active connections: 1  表示当前所有处于打开状态的连接数</p>
-<p>server accepts handled requests<br>28 28 35<br>第一个数字表示已经接受的连接，第二个数字表示已经处理过的连接，第三个表示已经处理过的请求数，在“保持连接”模式下，请求数量可能会多余连接数量</p>
-<p>Reading: 0 Writing: 1 Waiting: 0<br>Reading表示正处于接收请求状态的连接数；Writing表示请求已经接收完成，正处于处理请求或发送响应的过程中的连接数；Waiting表示保持连接模式且处于活动状态的连接数</p>
+        <span itemprop="articleBody"><p>语法<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rewrite regex replacement flag<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>例如<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rewrite ^/images/(.*\.jpg)$ /imgs/<span class="variable">$1</span> break;</span><br></pre></td></tr></table></figure></p>
+<p>作用：假如用户访问的网址为<code>http://www.magedu.com/images/a/b/c/1.jpg</code>,则路径会自动转换为<code>http://www.magedu.com/imgs/a/b/c/1.jpg</code>；$1会引用前面括号中的内容</p>
+<p>常用flag（标志位）有<code>last</code>,<code>break</code>,<code>redirect</code>,<code>permanent</code><br><code>last</code>：一旦此rewrite规则重写完成后，就不再被后面其它的rewrite规则进行处理，而是由User Agent重新对重写后的URL再一次发起请求，并从头开始执行类似的过程<br><code>break</code>：一旦此rewrite规则重写完成后，由User Agent对新的URL重新发起请求，且不再会被当前location内的任何rewrite规则所检查<br><code>redirect</code>：以302响应吗（临时重定向）返回新的URL<br><code>permanent</code>：以301响应码（永久重定向）返回新的URL</p>
 </span>
       
     </div>
@@ -255,6 +245,8 @@
           
             <a href="/tags/nginx/" rel="tag">#nginx</a>
           
+            <a href="/tags/rewrite/" rel="tag">#rewrite</a>
+          
         </div>
       
 
@@ -262,13 +254,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/11/nginx中rewrite规则解析/" rel="prev">nginx中rewrite规则解析</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/11/为nginx配置https服务/" rel="next">为nginx配置https服务</a>
+              <a href="/2016/04/11/在nginx中开启状态页/" rel="next">在nginx中开启状态页</a>
             
           </div>
         </div>
@@ -293,8 +283,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/04/11/在nginx中开启状态页/"
-                   data-title="在nginx中开启状态页" data-url="http://freeandyblogs.com/2016/04/11/在nginx中开启状态页/">
+              <div class="ds-thread" data-thread-key="2016/04/11/nginx中rewrite规则解析/"
+                   data-title="nginx中rewrite规则解析" data-url="http://freeandyblogs.com/2016/04/11/nginx中rewrite规则解析/">
               </div>
             
           </div>
