@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="Linux,git," />
 
 
 
@@ -39,15 +39,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="来日方长">
-<meta property="og:type" content="website">
-<meta property="og:title" content="运维小站">
-<meta property="og:url" content="http://freeandyblogs.com/archives/2016/page/2/index.html">
+<meta name="description" content="解决git clone过程中出现“The remote end hung up unexpectedly”的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统上线故障之git">
+<meta property="og:url" content="http://freeandyblogs.com/2016/06/23/系统上线故障之git/index.html">
 <meta property="og:site_name" content="运维小站">
-<meta property="og:description" content="来日方长">
+<meta property="og:description" content="解决git clone过程中出现“The remote end hung up unexpectedly”的问题">
+<meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/git.png">
+<meta property="og:updated_time" content="2016-06-23T08:19:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="运维小站">
-<meta name="twitter:description" content="来日方长">
+<meta name="twitter:title" content="系统上线故障之git">
+<meta name="twitter:description" content="解决git clone过程中出现“The remote end hung up unexpectedly”的问题">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -57,7 +59,7 @@
   };
 </script>
 
-  <title> 归档 | 运维小站 </title>
+  <title> 系统上线故障之git | 运维小站 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -85,7 +87,7 @@
 
 
 
-  <div class="container one-column  page-archive ">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -162,347 +164,132 @@
       <div class="main-inner">
         <div id="content" class="content"> 
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 28 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
       
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              系统上线故障之git
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-06-23T16:00:47+08:00" content="2016-06-23">
+            2016-06-23
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/工作日志/" itemprop="url" rel="index">
+                  <span itemprop="name">工作日志</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/06/23/系统上线故障之git/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/23/系统上线故障之git/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+
+    
+    <span>&nbsp; | &nbsp;
+    <span id="busuanzi_value_page_pv" ></span>次阅读
+    </span>    
+    
+      </div>
+    </header>
+
+    <div class="post-body">
+
       
       
 
       
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
+        <span itemprop="articleBody"><p>今天公司新系统上线，在执行上线脚本的时候，卡在了git这一步，出错信息如下图所示</p>
+<p><img src="http://7xnir6.com1.z0.glb.clouddn.com/git.png" alt="问题描述"></p>
+<p>当时以为是公司网络的问题，但是排查网络没有发现任何问题，于是就上Google上查找解决方案，万幸还是找到了，具体解决方法如下</p>
+<pre><code>git config --global http<span class="class">.postBuffer</span> <span class="number">524288000</span>
+</code></pre><p>再次执行git push就可以顺利通过了</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/git/" rel="tag">#git</a>
+          
         </div>
       
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/11/nginx中rewrite规则解析/" rel="next">nginx中rewrite规则解析</a>
+            
+          </div>
+        </div>
       
 
       
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/03/01/ansible的安装以及常见模块的使用/" itemprop="url">
-              <span itemprop="name">ansible的安装以及常见模块的使用</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-03-01T09:52:56.000Z" itemprop="dateCreated" content="2016-03-01"> 03-01 </time>
-      </div>
-
-    </header>
+      
+    </footer>
   </article>
 
 
 
-    
-
+    <div class="post-spread">
       
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/02/02/MySQL中的索引/" itemprop="url">
-              <span itemprop="name">MySQL中的索引</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-02-02T06:33:14.000Z" itemprop="dateCreated" content="2016-02-02"> 02-02 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/02/02/MySQL用户权限管理/" itemprop="url">
-              <span itemprop="name">MySQL用户权限管理</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-02-02T06:09:46.000Z" itemprop="dateCreated" content="2016-02-02"> 02-02 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/02/01/MySQL中的事务简介/" itemprop="url">
-              <span itemprop="name">MySQL中的事务简介</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-02-01T02:10:40.000Z" itemprop="dateCreated" content="2016-02-01"> 02-01 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/01/28/MySQL中的存储引擎/" itemprop="url">
-              <span itemprop="name">MySQL中的存储引擎</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-01-28T03:54:06.000Z" itemprop="dateCreated" content="2016-01-28"> 01-28 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/01/27/MySQL概述及SQL语句的使用/" itemprop="url">
-              <span itemprop="name">MySQL概述及SQL语句的使用</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-01-27T08:26:07.000Z" itemprop="dateCreated" content="2016-01-27"> 01-27 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/01/14/http反向代理之haproxy简要介绍/" itemprop="url">
-              <span itemprop="name">http反向代理之haproxy简要介绍</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-01-14T02:57:21.000Z" itemprop="dateCreated" content="2016-01-14"> 01-14 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/01/07/Mac通过代理远程连接主机/" itemprop="url">
-              <span itemprop="name">Mac通过代理远程连接主机</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-01-07T06:16:40.000Z" itemprop="dateCreated" content="2016-01-07"> 01-07 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/01/06/集群服务之lvs-dr类型的实现/" itemprop="url">
-              <span itemprop="name">集群服务之lvs-dr类型的实现</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-01-06T06:49:06.000Z" itemprop="dateCreated" content="2016-01-06"> 01-06 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal"itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/01/05/集群服务之lvs-nat类型的实现/" itemprop="url">
-              <span itemprop="name">集群服务之lvs-nat类型的实现</span>
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" datetime="2016-01-05T08:38:16.000Z" itemprop="dateCreated" content="2016-01-05"> 01-05 </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2016/">&laquo;</a><a class="page-number" href="/archives/2016/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2016/page/3/">3</a><a class="extend next" rel="next" href="/archives/2016/page/3/">&raquo;</a>
-  </nav>
-
+    </div>
+  </div>
 
  </div>
 
         
 
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/06/23/系统上线故障之git/"
+                   data-title="系统上线故障之git" data-url="http://freeandyblogs.com/2016/06/23/系统上线故障之git/">
+              </div>
+            
+          </div>
         
       </div>
 
@@ -519,6 +306,15 @@
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <section class="site-overview">
@@ -587,6 +383,17 @@
       </section>
 
       
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
 
     </div>
   </aside>
@@ -623,12 +430,6 @@
 
   
   
-  
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
   
     
 
@@ -676,10 +477,163 @@
 
   
   
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
 
 
   <script type="text/javascript">
