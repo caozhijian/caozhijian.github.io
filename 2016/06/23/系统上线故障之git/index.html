@@ -46,7 +46,7 @@
 <meta property="og:site_name" content="运维小站">
 <meta property="og:description" content="解决git clone过程中出现“The remote end hung up unexpectedly”的问题">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/git.png">
-<meta property="og:updated_time" content="2016-06-23T08:19:36.000Z">
+<meta property="og:updated_time" content="2016-06-23T08:45:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统上线故障之git">
 <meta name="twitter:description" content="解决git clone过程中出现“The remote end hung up unexpectedly”的问题">
@@ -236,7 +236,7 @@
 <p><img src="http://7xnir6.com1.z0.glb.clouddn.com/git.png" alt="问题描述"></p>
 <p>当时以为是公司网络的问题，但是排查网络没有发现任何问题，于是就上Google上查找解决方案，万幸还是找到了，具体解决方法如下</p>
 <pre><code>git config --global http<span class="class">.postBuffer</span> <span class="number">524288000</span>
-</code></pre><p>再次执行git push就可以顺利通过了</p>
+</code></pre><p>再次执行git clone就可以顺利通过了</p>
 </span>
       
     </div>
