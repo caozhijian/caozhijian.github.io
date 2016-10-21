@@ -48,7 +48,7 @@
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node13.png">
 <meta property="og:image" content="http://7xnir6.com1.z0.glb.clouddn.com/lvs-dr-node12.png">
-<meta property="og:updated_time" content="2016-02-02T07:11:15.000Z">
+<meta property="og:updated_time" content="2016-10-21T02:23:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集群服务之lvs-dr类型的实现">
 <meta name="twitter:description" content="lvs-dr类型的实现方式以及应该注意的点">
@@ -245,6 +245,22 @@
 <li>通过arptables</li>
 <li>通过修改内核参数来限制arp通告和响应级别</li>
 </ol>
+<p>修改内核参数：</p>
+<ul>
+<li><p>arp_ignore：定义接收到ARP请求时的响应级别</p>
+<ul>
+<li>0：只要本地配置有响应地址，就给与响应</li>
+<li>1：仅在请求的目标地址配置请i去到达的接口上的时候，才进行响应</li>
+</ul>
+</li>
+<li><p>arp_announce：定义主机将自己的地址想外通告时的通告级别</p>
+<ul>
+<li>0：将本地任何接口上的任何地址向外通告</li>
+<li>1：向目标网络通告与其网络匹配的地址</li>
+<li>2：仅向本地接口上匹配的网络进行通告</li>
+</ul>
+</li>
+</ul>
 <p>这里采用第三种方式,有关arp的相关内容可参考本文末尾给出的链接</p>
 <h3 id="配置过程">配置过程</h3><h4 id="修改内核参数">修改内核参数</h4><p>node12</p>
 <pre><code>[root@node12 ~]# <span class="keyword">echo</span> <span class="number">1</span> &gt; /proc/sys/net/ipv4/<span class="keyword">conf</span>/<span class="keyword">all</span>/arp_ignore 
